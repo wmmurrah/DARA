@@ -1,0 +1,43 @@
+---
+title: "R Markdown Tutorial"
+author: "William Murrah"
+date: "02/13/2015"
+output: pdf_document
+csl: apa.csl
+bibliography: bibfile.bib
+---
+
+This tutorial was developed to introduce DARA Team members to R Markdown. It focuses on topics relevant to what we do in the FOCAL lab, emphasizing the skills we will need to generate reports. I will not go over the basics of the `Markdown` markup language. That is covered well in the help files, which can be accessed by clikcin the '?' in the menu of an R Markdown document. 
+
+```{r opts, echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(dplyr)
+library(data.table)
+library(tables)
+opts_knit$set(root.dir='../../')
+opts_chunk$set(warning=FALSE, message=FALSE, echo=FALSE)              
+```
+
+
+```{r data}
+# getwd()
+mtcars <- read.csv(file ="data/mtcars.csv", header = TRUE)
+```
+
+
+```{r ,results='asis'}
+latex(
+tabular(Factor(cyl) ~ Factor(gear), data=mtcars)
+)
+```
+
+I read this really cool article the other day [@kim2014psychometric].
+
+@cameron2012fine said some cool stuff.
+
+```{r scatterplot}
+plot(mpg ~ wt, data=mtcars, pch=20, col="blue")
+```
+
+
+# References

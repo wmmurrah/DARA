@@ -1,0 +1,169 @@
+---
+title: "Introduction to Functions in R"
+author: "William Murrah"
+date: "11/16/2014"
+output: ioslides_presentation
+bibliography: bibfile.bib
+---
+
+## Anatomy of an R Function
+
+```{r eval=FALSE}
+
+FunctionName <- function(arguments){ 
+  statements that do stuff,
+  these are R code
+}
+  
+```
+
+see [@gcode] for conventions on how to name functions. Function names should be verbs that describe what the function does. They should be capitalized and use *camel case*.
+
+## A Basic Example: Creating an `Add` Function
+
+>
+```{r}
+Add <- function(x, y) {
+  x + y
+}
+```
+
+>
+```{r}
+Add(3, 4)
+```
+
+
+## Create a `Division` function
+
+```{r}
+Division <- function(numerator, denominator=2) {
+  numerator/denominator
+}
+```
+
+## `Division` Examples
+
+```{r}
+Division(1, 2)
+Division(1)
+Division(2)
+
+```
+
+## `Division` Examples
+```{r}
+Division(2, 4)
+Division(numerator=2, denominator=4)
+Division(denominator=4, numerator=2)
+Division(4, 2)
+```
+
+## Creating the `Average` Function
+
+```{r }
+Average <- function(x) {
+sum(x)/length(x)
+}
+```
+
+
+```{r}
+vec <- 0:100
+Average(vec)
+```
+
+## `for` Loops
+
+```{r}
+x  <- c(1, 4, NA, 1, 1)
+
+```
+
+## `for` Loops
+
+```{r}
+x  <- c(1, 4, 3, 1, 1)
+N <- 0
+
+```
+
+## `for` Loops
+
+```{r}
+x  <- c(1, 4, 3, 1, 1)
+N <- 0
+  for (i in 1:5){
+    N  <- N + x[i]
+    }
+
+```
+
+
+
+## `for` Loops
+
+```{r}
+x  <- c(1, 4, 3, 1, 1)
+N <- 0
+  for (i in 1:5){
+    N  <- N + x[i]
+    }
+N
+```
+
+
+## `Average` Revisited | with `for` loop
+
+```{r}
+Average <- function(x) {
+  N <- 0
+  for (i in 1:length(x)){
+    N  <- N + x[i]
+    }
+  avg <- N/length(x)
+  return(avg)
+}
+
+```
+
+## `Average` Revisited | with `for` loop
+
+```{r}
+Average <- function(x) {
+  N <- 0
+  for (i in 1:length(x)){
+    N  <- N + x[i]
+    }
+  avg <- N/length(x)
+  return(avg)
+}
+
+```
+
+## `Average` Function Compared to `base::mean` Function
+
+```{r}
+x <- 0:100
+Average(x)
+mean(x)
+```
+
+
+
+## `Average` returing list
+```{r}
+Average <- function(x) {
+  N <- 0
+  for (i in 1:length(x)){
+    N  <- N + x[i]
+    }
+  avg <- N/length(x)
+  
+  return(list(sum.x=N, average=avg))
+}
+
+Average(x)
+```
+
+## References

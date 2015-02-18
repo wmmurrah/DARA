@@ -1,0 +1,33 @@
+---
+title: "Example R Markdown"
+author: "William Murrah"
+date: "02/16/2015"
+output: html_document
+---
+
+# Level 1 Heading
+
+## Level 2 Heading
+
+```{r opts, echo=FALSE, }
+library(knitr)
+library(texreg)
+opts_knit$set(root.dir="../../../")
+opts_chunk$set(echo=FALSE, comment = NULL, warning=FALSE)
+```
+
+```{r data, echo=TRUE}
+ cars <- read.csv(file="data/mtcars.csv", header = TRUE)
+ head(cars)
+```
+
+```{r scatterplot}
+plot(mpg ~ wt, cars, col="blue", pch=20,
+     main="Title")
+```
+
+```{r }
+mod <- lm(mpg ~ wt, cars)
+screenreg(mod)
+```
+

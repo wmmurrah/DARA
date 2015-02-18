@@ -1,0 +1,17 @@
+{
+    "contents" : "---\ntitle: \"R Markdown Tutorial\"\nauthor: \"William Murrah\"\ndate: \"02/13/2015\"\noutput: pdf_document\ncsl: apa.csl\nbibliography: bibfile.bib\n---\n\nThis tutorial was developed to introduce DARA Team members to R Markdown. It focuses on topics relevant to what we do in the FOCAL lab, emphasizing the skills we will need to generate reports. I will not go over the basics of the `Markdown` markup language. That is covered well in the help files, which can be accessed by clikcin the '?' in the menu of an R Markdown document. \n\n```{r opts, echo=FALSE, warning=FALSE, message=FALSE}\nlibrary(knitr)\nlibrary(dplyr)\nlibrary(data.table)\nlibrary(tables)\nopts_knit$set(root.dir='../../')\nopts_chunk$set(warning=FALSE, message=FALSE, echo=FALSE)              \n```\n\n\n```{r data}\n# getwd()\nmtcars <- read.csv(file =\"data/mtcars.csv\", header = TRUE)\n```\n\n\n```{r ,results='asis'}\nlatex(\ntabular(Factor(cyl) ~ Factor(gear), data=mtcars)\n)\n```\n\nI read this really cool article the other day [@kim2014psychometric].\n\n@cameron2012fine said some cool stuff.\n\n```{r scatterplot}\nplot(mpg ~ wt, data=mtcars, pch=20, col=\"blue\")\n```\n\n\n# References",
+    "created" : 1423855479218.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1852297620",
+    "id" : "F05EFB92",
+    "lastKnownWriteTime" : 1424102855,
+    "path" : "~/Dropbox/1_Projects/DARA/Tutorials/R_Markdown/R_MarkdownTutorial.Rmd",
+    "project_path" : "Tutorials/R_Markdown/R_MarkdownTutorial.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}

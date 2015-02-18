@@ -1,0 +1,16 @@
+{
+    "contents" : "---\ntitle: \"Instrumental Variables\"\nauthor: \"William M. Murrah\"\ndate: \"Monday, January 26, 2015\"\noutput: slidy_presentation\n---\n\n#\n\n<img src=\"figures/01_itt.jpg\" height=\"600px\" width=\"800px\" />\n\n\n#\n\n<img src=\"figures/02_delta.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/03_mediation.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/04_ide_gammaDelta.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/05_Beta_DeltaGamma.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/06_solveDelta1.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/07_solveDelta2.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/08_solveDelta3.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/09_GammaNEzero.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/10_ate.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/11_groups.jpg\" height=\"600px\" width=\"800px\" />\n\n#\n\n<img src=\"figures/12_overview.jpg\" height=\"600px\" width=\"800px\" />",
+    "created" : 1422297332689.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1222945799",
+    "id" : "114D6E4E",
+    "lastKnownWriteTime" : 1422297334,
+    "path" : "~/Dropbox/1_Projects/DARA/Tutorials/IV_TSLS/IVtutorial.Rmd",
+    "project_path" : "Tutorials/IV_TSLS/IVtutorial.Rmd",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}

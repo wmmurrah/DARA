@@ -1,0 +1,16 @@
+{
+    "contents" : "Mean1 <- function(x){\n  sum(x)*(1/length(x))\n}\n\nMean2 <- function(x){\n  sum(x)/length(x)\n}\n\nMean3 <- function(x){\n  sumx <- 0\n  for(i in 1:length(x)){\n    sumx <- sumx + x[i]\n  }\n  meanx <- sumx/length(x)\n  return(meanx)\n}\n\n\nx  <- round(rnorm(25, 10,5))\nx\nmean(x)\nMean1(x)\nMean2(x)\n\n\n\nMean3(x)\n",
+    "created" : 1423855430541.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "134041951",
+    "id" : "DFA667D",
+    "lastKnownWriteTime" : 1415643971,
+    "path" : "~/Dropbox/1_Projects/DARA/Mean.R",
+    "project_path" : "Mean.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

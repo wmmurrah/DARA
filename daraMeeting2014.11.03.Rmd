@@ -1,0 +1,46 @@
+---
+title: "Dara Meeting Agenda"
+date: "Monday, November 03, 2014"
+output: html_document
+---
+
+### Agenda
+
+1. Discussion of materials to be sent out with data, to document user decisions.
+2. Classroom IDs: status check (Chelsea)
+3. DARA agenda: how to link to wikispaces?
+4. All DARA members should be able to edit calendar.
+5. Check in on WEAC meeting projects.
+6. Brainstorm tasks to prepare for Spring WEAC meeting.
+7. CASTL paper writing meeting/DARA ending time.
+
+---
+
+### Discussed
+
+1. Updates on WINGS WEAC preparation.
+2. Todo list for spring WEAC meeting
+ * 1st step is to decide when data entry cut-off.
+   - we recommend using data entered upto Christmas break for Spring WEAC meeting.
+   - January will be used for data preparation and initial analysis
+   - February for finalization of analyses and preparation for presentations.
+
+3. being more efficient in meetings to make time for R stuff.
+4. Classroom ids (Chelsea): 
+
+---
+
+### DATA Decisions:(assigned to)
+
+
+### TODO:
+
+1. Hank will recommend data cut-off and broad analysis timeline in Wendesday WINGS meeting this week. (Hank)
+2. Hank will put reminder on calendar to send out agenda requests.
+
+R turorials: moving from basic use to more topical or package related stuff.
+
+* functions
+* 
+
+Make R stuff an automatic agenda item.

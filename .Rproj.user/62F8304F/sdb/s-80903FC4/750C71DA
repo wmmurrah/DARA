@@ -1,0 +1,17 @@
+{
+    "contents" : "---\ntitle: \"Example R Markdown\"\nauthor: \"William Murrah\"\ndate: \"02/16/2015\"\noutput: html_document\n---\n\n# Level 1 Heading\n\n## Level 2 Heading\n\n```{r opts, echo=FALSE, }\nlibrary(knitr)\nlibrary(texreg)\nopts_knit$set(root.dir=\"../../../\")\nopts_chunk$set(echo=FALSE, comment = NULL, warning=FALSE)\n```\n\n```{r data, echo=TRUE}\n cars <- read.csv(file=\"data/mtcars.csv\", header = TRUE)\n head(cars)\n```\n\n```{r scatterplot}\nplot(mpg ~ wt, cars, col=\"blue\", pch=20,\n     main=\"Title\")\n```\n\n```{r }\nmod <- lm(mpg ~ wt, cars)\nscreenreg(mod)\n```\n\n",
+    "created" : 1424115513871.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3139219685",
+    "id" : "750C71DA",
+    "lastKnownWriteTime" : 1424117718,
+    "path" : "~/Dropbox/1_Projects/DARA/Tutorials/R_Markdown/reports/exampleRMarkdown.Rmd",
+    "project_path" : "Tutorials/R_Markdown/reports/exampleRMarkdown.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}
