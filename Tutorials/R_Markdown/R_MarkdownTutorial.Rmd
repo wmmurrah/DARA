@@ -14,6 +14,7 @@ library(knitr)
 library(dplyr)
 library(data.table)
 library(tables)
+library(reporttools)
 opts_knit$set(root.dir='../../')
 opts_chunk$set(warning=FALSE, message=FALSE, echo=FALSE)              
 ```
@@ -38,6 +39,23 @@ I read this really cool article the other day [@kim2014psychometric].
 ```{r scatterplot}
 plot(mpg ~ wt, data=mtcars, pch=20, col="blue")
 ```
+
+
+## Tables!
+
+```{r}
+ncols <- sapply(mtcars, is.numeric)
+fcols <- sapply(mtcars, is.factor)
+numvars <- mtcars[ncols]
+catvars <- mtcars[fcols]
+tx <- as.factor(mtcars$vs)
+```
+
+```{r , results='asis'}
+data(iris)
+tabular()
+```
+
 
 
 # References
