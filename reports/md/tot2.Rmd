@@ -1,0 +1,250 @@
+---
+title: "CKCS Analyses"
+author: "William M. Murrah"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: pdf_document
+csl: apa.csl
+bibliography: tot2.bib
+---
+
+```{r opts, warning=FALSE, message=FALSE, echo=FALSE}
+library(knitr)
+opts_knit$set(root.dir='../../../')
+opts_chunk$set(warning=FALSE, message=FALSE, echo=FALSE)
+library(tables)
+library(texreg)
+library(tables)
+library(Hmisc)
+library(AER)
+library(sandwich)
+library(memisc)
+```
+
+
+```{r data}
+source('data/core1Rmake.R')
+source('analyses/core1ITT.R')
+source('analyses/tslsModelsR1.R')
+# source('analyses/coreTSLScontinuous.R')
+# source('analyses/coreTSLScontinuousNA0.R')
+source('analyses/tslsAEFP_1.R')
+source('analyses/tslsAEFP_AK_1.R')
+
+```
+
+# Descriptives
+
+\begin{table}[h]
+\center
+```{r , results='asis'}
+# latex(
+#   tabular(Factor(lottery, "Lottery")  ~ Factor(tot.study,name = "Study School Offer", levelnames = c('Declined', 'Accepted')) + 1, core1)
+#   )
+
+latex(
+  tabular(Factor(lottery, "Lottery")*(n=1)  + (Heading("Column Total")*1)   ~ Factor(tot.study,name = "Study School Offer", levelnames = c('Declined', 'Accepted')) + (Heading("Row Total")*1), core1)
+  )
+
+# latex(
+#   tabular(Factor(lottery, "Lottery")*((n=1) + Percent(denom="row"))  + (Heading("Column Total")*1)   ~ Factor(tot.study,name = "Study School Offer", levelnames = c('Declined', 'Accepted')) + (Heading("Row Total")*1), core1)
+#   )
+```
+\caption{Crosstabulation of Lottery Offered and Lottery Accepted}
+\end{table}
+
+\begin{table}[h]
+\center
+```{r , results='asis'}
+latex(
+  tabular(Factor(lottery, "Lottery") + 1   ~ Factor(tot.study,name = "Offer", levelnames = c('Declined', 'Accepted'))*(school + 1) + (Total=1), core1)
+  )
+```
+\caption{Crosstabulation of Lottery Offered and Lottery Accepted by Study School}
+\end{table}
+
+\begin{table}[h]
+\center
+```{r , results='asis'}
+latex(
+  tabular(Factor(lottery, "Lottery") * (n=1)   + (Heading("Column Total")*1 ) ~ Factor(tot.currentID, "Study School 1st Grade", c("Not Attended", "Attended")) + (Heading("Row Total")*1), core1)
+ )
+```
+\caption{Crosstabulation of Lottery Offered and Study School Attendance at the end of First Grade}
+\end{table}
+
+\begin{table}[h]
+\center
+```{r , results='asis'}
+latex(center = 'centering',
+  tabular(Factor(lottery, "Lottery") + 1   ~ Factor(tot.currentID, "Study School 1st Grade", c("Not Attended", "Attended"))*(school + 1) + (Total=1), core1)
+  )
+```
+\caption{Crosstabulation of Lottery Offered and Study School Attendance at the end of First Grade by Study School}
+\end{table}
+
+
+
+\newpage
+
+# Analyses
+
+The primary models for the impact analyses were estimated using the students who applied to one study Core Knowledge charter school. By focusing on this subsample, we can assume one-sided noncompliance, meaning that there are no students who when not offered a placement in a study Core Knowledge charter school would accept a placement in a study Core knowledge charter school. Treatment assignment ($z$) was defined as a binary variable with '1' indicating that the student was offered a placement on one and only one of the study Core knowledge charter schools, and being '0' otherwise. Treatment receipt ($d$) was defined as a binary variable with '1' indicationg the student accepted a placement in one and only one study Core Knowledge charter schools and being '0' otherwise. The outcome variables ($y$) were the PPVT and Woodcock-Johnson scores described in the Methods section.
+
+
+The $ITT_y$ is the intent-to-treat effect of treatment assignment ($z$) on the outcome ($y$). 
+
+## $ITT_y:$
+
+$$
+y_i = \beta_0 + \beta_1 z_i + \epsilon_i.
+$$
+
+The $\beta_1$ coefficient is interpreted as the effect of assignment to a study Core Knowledge charter school.
+
+The $ITT_d$ is the reduced form or the first stage equation: 
+
+## $ITT_d:$
+
+$$
+d_i = \gamma_0 + \gamma_1 z_i + \nu_i.
+$$
+
+The intercept ($\gamma_0$) of this equation can be interpreted as the proportion of subjects who attended a study Core Knowledge charter school even though they were not offered a placement(e.g. Always-takers). Because we are assuming one-sided noncompliance, this value should be zero. The $\gamma_1$ coefficient estimates the proportion of subjects who attend a study charter school in the event that they are offered a placement in a study charter school, minus the proportion that would attend a study charter school even if they would have been assigned to the control group [@gerber2012field]. Because we are assuming one-sided non-compliance, the $\gamma_1$ can be interpreted as the proportion of subjects treated in the event that they are assigned to the treatment condition, which is the proportion of compliers.  
+
+
+Conceputally, the $LATE_{y(d(z))}:$ is:
+
+$$
+ \delta = \frac{\beta_1}{\gamma_1},
+$$ 
+
+the intent-to-treat effect divided by the proportion of compliers.
+
+Computationally, the $LATE_{y}$ is estimated by regressing the outcome on the predicted scores from the $ITT_d$ model as follows:
+ 
+## $LATE_{y}:$
+
+$$
+y_i = \delta_0 + \delta_1 \hat{d}_i + \upsilon_i,
+$$
+
+where $\hat{\delta_1}$ is:
+
+$$
+\hat{d}_i = \gamma_0 + \gamma_1 z_i.
+$$
+
+We use two-stage least squares regression to estimate this model.
+
+```{r ,results='asis', fig.pos="H"}
+itt.d0 <- lm(tot.study ~ lottery + school, core1)
+itt.y  <- lm(scale(ppvt1) ~ lottery + school, core1)
+late  <- ivreg(scale(ppvt1) ~ tot.study + school, ~ lottery + school, core1)
+# late2 <- ivreg(scale(ppvt1) ~ tot.study + school,  ~ 
+#                  acsLottery + amaLottery + 
+#                  lcaLottery + nvcLottery + praLottery + school,   
+#                core1)
+hc.d  <- coeftest(itt.d0, vcovHC(itt.d0))
+hc.y  <- coeftest(itt.y, vcovHC(itt.y))
+hc.late <- coeftest(late, vcovHC(late))
+# hc.late2 <- coeftest(late2, vcovHC(late2))
+# texreg(list(hc.d, hc.y, hc.late), custom.model.names = c('$ITT_d$', '$ITT_y$', '$LATE_{y(d(z))}$'), caption="PPVT", custom.coef.names = c("(Intercept", "$z$", "Academy", "American", "Lincoln", "New Vision", "Platte River", "K full", "$d$"),
+#        reorder.coef= c(1,2,9,3,4,5,6,7,8))
+# Without Robust SE.
+texreg(list(itt.y, itt.d0, late), custom.model.names = c('$ITT_y$', '$ITT_d$', '$LATE_{y}$'), caption="PPVT", custom.coef.names = c("(Intercept)", "$z$", "Academy", "American", "Lincoln", "New Vision", "Platte River", "$d$"),
+       reorder.coef= c(1,2,8,3,4,5,6,7), float.pos='h')
+
+#  xtabs(~lottery + tot.study + school, core1)
+```
+
+
+```{r , results='asis' }
+
+texreg(ckcs.itt, caption = "Intent-to-treat analysis")
+```
+
+
+
+```{r , results='asis' }
+itt.d <- lm(tot.study ~ lottery + school, core1)
+tot.cur <- core
+itt.d2 <- lm(as.numeric(tot.currentID)-1 ~ lottery + school, core1)
+texreg(list(itt.d, itt.d2), caption = "Reduced Form Equation")
+```
+
+
+
+```{r , results='asis' }
+texreg(ckcs.tot2, caption ="Instrumental Variables estimation of Local Average Treatment Effect among the compliers")
+```
+
+
+```{r , results='asis' }
+texreg(ckcs.akitt, caption = "Intent-to-treat analysis")
+```
+
+```{r , results='asis' }
+texreg(ckcs.aktot2, caption ="Instrumental Variables estimation of Local Average Treatment Effect among the compliers for Academic Knowledge subscales")
+```
+\newpage
+```{r2 ,results='asis', fig.pos="H"}
+# itt.d0 <- lm(tot.study ~ lotteryOffer + school, core1)
+# itt.y  <- lm(scale(ppvt1) ~ lotteryOffer + school, core1)
+# late  <- ivreg(scale(ppvt1) ~ tot.study + school, ~ lotteryOffer + school, core1)
+# 
+# hc.d  <- coeftest(itt.d0, vcovHC(itt.d0))
+# hc.y  <- coeftest(itt.y, vcovHC(itt.y))
+# hc.late <- coeftest(late, vcovHC(late))
+# hc.late2 <- coeftest(late2, vcovHC(late2))
+# # texreg(list(hc.d, hc.y, hc.late), custom.model.names = c('$ITT_d$', '$ITT_y$', '$LATE_{y}$'), caption="PPVT", custom.coef.names = c("(Intercept", "$z$", "Academy", "American", "Lincoln", "New Vision", "Platte River", "K full", "$d$"),
+# #        reorder.coef= c(1,2,9,3,4,5,6,7,8))
+# # Without Robust SE.
+# texreg(list(itt.y, itt.d0, late), custom.model.names = c('$ITT_y$', '$ITT_d$', '$LATE_{y}$'), caption="PPVT", float.pos='h',
+#        reorder.coef= c(1,2,3,4,5,6,7,13,8,9,10,11,12))
+```
+\newpage
+```{r3 ,results='asis', fig.pos="H"}
+# itt.d0 <- lm(tot.study ~ lottery*school, core1)
+# itt.y  <- lm(scale(ppvt1) ~ lottery*school, core1)
+# late  <- ivreg(scale(ppvt1) ~ tot.study + school, ~ lottery*school, core1)
+# 
+# hc.d  <- coeftest(itt.d0, vcovHC(itt.d0))
+# hc.y  <- coeftest(itt.y, vcovHC(itt.y))
+# hc.late <- coeftest(late, vcovHC(late))
+# hc.late2 <- coeftest(late2, vcovHC(late2))
+# # texreg(list(hc.d, hc.y, hc.late), custom.model.names = c('$ITT_d$', '$ITT_y$', '$LATE_{y}$'), caption="PPVT", custom.coef.names = c("(Intercept)", "$z$", "Academy", "American", "Lincoln", "New Vision", "Platte River", "K full", "$d$"),
+# #        reorder.coef= c(1,2,9,3,4,5,6,7,8))
+# # Without Robust SE.
+# texreg(list(itt.y, itt.d0, late), custom.model.names = c('$ITT_y$', '$ITT_d$', '$LATE_{y}$'), caption="PPVT", float.pos='h',
+#        reorder.coef= c(1,2,3,4,5,6,7,13,8,9,10,11,12))
+```
+
+
+\newpage
+
+
+Table \ref{itt} contains the results from the intent-to-treat (ITT) analysis on students applying to one study charter school. The treatment variable in these analyses is `lotteryOffered`, and indicated whether or not the student was offered attendance in the one charter school applied to in the 2010-2011 school year. Table \ref{tot1} contains the **two-stage least squares** analyses for the same sample of students using the variables created from the parent survey (`tot.ks.st`). Table \ref{tot2} contains the **two-stage least squares** analyses using the dosage variable (`st.attend.2year`) from the enrollment data instead of the treatment receipt variable (`tot.ks.st`) created from the parent survey.
+
+```{r ,results='asis'}
+# texreg(ckcs.itt, caption='Intent-to-treat Analyses', label= 'itt')
+```
+
+\pagebreak
+
+```{r ,results='asis', }
+# texreg(ckcs.tot2, caption='Treatment-on-the-treated Analyses', label = 'tot1')
+```
+
+
+```{r ,results='asis'}
+# texreg(ckcs.totNA0, caption='Treatment-on-the-treated Analyses with "continuous" dosage variable, all NAs converted to 0', label='tot2')
+```
+
+```{r ,results='asis'}
+# texreg(ckcs.tot, caption='Treatment-on-the-treated Analyses with "continuous" dosage variable')
+```
+
+
+\pagebreak
+
+# References
