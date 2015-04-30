@@ -2,7 +2,7 @@
 title: "CKCS Analyses"
 author: "William M. Murrah"
 date: '`r format(Sys.time(), "%d %B, %Y")`'
-output: pdf_document
+output: html_document
 csl: apa.csl
 bibliography: tot2.bib
 ---
