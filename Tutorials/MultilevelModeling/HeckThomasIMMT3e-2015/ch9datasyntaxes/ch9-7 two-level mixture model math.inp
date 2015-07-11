@@ -1,0 +1,24 @@
+TITLE:      	    Two-level mixture model math achievement;
+DATA:     	        FILE IS C:\mplus\ch8 ex3.dat;
+                	Format is 2f8.0,5f8.2,7f8.0;
+VARIABLE:           Names are schcode heldback ses math sci attprob 
+                	gpa acprog moved lowses smallsch male public acadsch;
+               	    Usevariables schcode math acprog male public acadsch;
+                	classes = c(2);
+                	within = acprog male;
+                	between = public acadsch;
+                	cluster = schcode;
+     define:    	center acprog male public acadsch(grandmean);
+ANALYSIS:       	TYPE = twolevel mixture;
+                	Estimator is MLR;
+               	    starts = 0;
+      Model:    
+                	%Within% 
+                	%Overall%
+                	math on acprog male;
+               	    c#1 on acprog male;
+                	%Between%
+               	    %Overall%
+               	     math on public acadsch;
+                	c#1 on public acadsch;
+ OUTPUT:            SAMPSTAT STANDARDIZED TECH1 TECH8 TECH11;

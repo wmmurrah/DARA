@@ -1,0 +1,22 @@
+TITLE:     	Model 2: Two-level binary persistence model (probit);
+DATA:      	FILE IS C:\mplus\ch8 ex1.dat;
+    	    format is 4f8.0,2f8.2,3f8.0,5f8.2;
+VARIABLE:   Names are schcode persist3 persist2 female
+            ses gpa hiabsent public lowses teaqual 
+            panelwt hiabmean abteaq gpamean;
+            usevariables are schcode persist2 gpa;
+            
+            CLUSTER IS schcode;
+		    categorical is persist2;
+            within = gpa;
+            between = ;
+define:   	center gpa(grand);
+ANALYSIS:   TYPE = twolevel;
+            Estimator is MLR;
+            Link = probit;
+Model:
+            %BETWEEN%
+            persist2; 
+            %WITHIN%
+            persist2 on gpa;
+OUTPUT:	    sampstat standardized Tech1;

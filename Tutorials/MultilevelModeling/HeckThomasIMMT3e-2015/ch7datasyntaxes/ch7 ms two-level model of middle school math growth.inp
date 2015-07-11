@@ -1,0 +1,29 @@
+TITLE:          	Ch7 Two-level model of middle school math growth;
+DATA:           	FILE IS C:\program files\mplus\ch7 ex2.txt;
+                	Format is 10f8.0,2f8.2;
+VARIABLE:  	        Names are schcode math1 math2 math3
+                	female lowses slep sped middle notrans cses 
+                    quality;
+                	Usevariables schcode math1 math2 math3
+                	female lowses quality ncses;
+                	within = female lowses;
+                	between = ncses quality;
+                	CLUSTER IS schcode;
+define:		        ncses = cses*(-1);
+                    center ncses quality (grandmean);
+                
+ANALYSIS:           TYPE = twolevel;
+               	    Estimator is MLR;
+Model:
+                	%BETWEEN%
+               	     lb sb | math1@0 math2* math3@1;
+                	[math1-math3@0 lb sb];
+                	lb on ncses;
+                	sb on ncses*4 quality;
+               	    math1@0;
+               	    %WITHIN%
+                	sw lw |math1@0 math2* math3@1;
+                	sw lw on female lowses;
+                	math1@0;
+OUTPUT:	            sampstat standardized TECH1;
+

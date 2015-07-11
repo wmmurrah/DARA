@@ -1,0 +1,16 @@
+         Title:        	Model 3: Specifying the IS model(fix i with s);
+          Data:    	    File is C:\program files\Mplus\ch7grad1.txt;
+      Variable:   	    Names are id grad1 grad2 grad3 grad4 private
+                      	prestige;
+                        Usevariables are grad1 grad2 grad3 grad4;
+        Analysis:       Type = general;
+                        Estimator is ML;
+        Model:
+                       	i by grad1@1 grad2@1 grad3@1 grad4@1;
+                       	s by grad1@0 grad2@1 grad3@2 grad4@3;     
+                       	[grad1-grad4@0 i s];
+                        i with s@0;
+          Plot:         TYPE IS PLOT3;
+                        SERIES IS grad1-grad4(*);
+          Output:  	    Sampstat standardized tech1;
+

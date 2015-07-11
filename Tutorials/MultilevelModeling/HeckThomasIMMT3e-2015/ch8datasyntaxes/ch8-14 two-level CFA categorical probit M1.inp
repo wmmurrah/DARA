@@ -1,0 +1,28 @@
+Title:          Multilevel CFA for two constructs with ordinal items (probit);
+Data:           File is C:\mplus\ch8CFA.dat;
+                Format is 7f8.0;
+Variable:       Names are orgcode shdec incli team sysas evprog evstan;
+                Usevariables are orgcode shdec-evstan;
+                categorical are shdec-evstan;
+                cluster is orgcode; 
+Analysis:       Type = twolevel;
+                Estimator is MLR;
+                link = probit;
+                algorithm = integration;
+                integration = montecarlo;
+Model:          %Between%
+                bdec by shdec 
+                incli(1) 
+                team(2);
+                beval by evprog 
+                sysas(3)
+                evstan(4);
+                shdec* incli* team* evprog* sysas* evstan*;
+                %Within%
+                dec by shdec
+                incli(1) 
+                team (2);
+                eval by evprog 
+                sysas(3)
+                evstan(4);
+Output:         standardized tech1 tech8;

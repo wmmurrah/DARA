@@ -1,0 +1,29 @@
+TITLE:       	Two-level model with sample weights;
+DATA:        	FILE IS C:\mplus\ch10wt.dat;
+                Format is 2f8.0,3f8.2,1f8.0,3f8.2,2f8.0,f8.2,2f8.0,f8.2;
+VARIABLE:       Names are schcode tutorm ses math gmpv1math female gminterSES
+             	stwgt sSES private academic gmrankm city lcity schwt;
+             	Usevariables schcode tutorm math ses female
+             	sSES private academic city lcity;
+             	within =  ses female tutorm;
+             	between = sSES private academic city lcity;
+             	CLUSTER IS schcode;
+             	weight is stwgt;
+             	wtscale = cluster;
+             	bweight = schwt;
+             	bwtscale = sample;
+  define:    	center sSES (grandmean);
+ANALYSIS:   	TYPE = Twolevel Random;
+             	Estimator is MLR;
+  Model:
+             	%BETWEEN%
+             	math on sSES private academic city lcity;
+             	S on sSES;
+             	%WITHIN%
+             	math on ses female;
+             	S | math on tutorm;
+OUTPUT:      	SAMPSTAT TECH1;
+
+! NOTE: Mplus version 7.3 will produce slightly 
+! different model results from Mplus 7.2. 
+

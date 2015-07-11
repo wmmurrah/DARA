@@ -1,0 +1,26 @@
+TITLE:  	        Two-level power model (Step 2);
+             		!External estimates used to estimate power of detecting effects; 
+MONTECARLO:
+            		NAMES ARE treat pretest zread;
+            		NOBSERVATIONS = 520;
+            		NREPS = 500;
+            		SEED = 45335;
+            		POPULATION = ch10power.dat;
+            		COVERAGE = ch10power.dat;
+            		NCSIZES = 1;
+            		CSIZES = 52 (10);
+            		WITHIN = pretest;
+            		BETWEEN = treat;
+            		MODEL POPULATION:
+            		%BETWEEN%
+            		zread on treat;
+            		%WITHIN%
+            		zread on pretest;
+ANALYSIS:   	    TYPE = TWOLEVEL;
+            		Estimator is MLR;  
+MODEL: 
+             		%BETWEEN%
+             		zread on treat;
+             		%WITHIN%
+             		zread on pretest;
+OUTPUT:      	    TECH9;

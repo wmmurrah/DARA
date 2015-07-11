@@ -1,0 +1,15 @@
+         Title:        	Model 2: Specifying the LS model;;
+          Data:    	    File is C:\program files\Mplus\ch7grad1.txt;
+      Variable:   	    Names are id grad1 grad2 grad3 grad4 private
+                      	prestige;
+                        Usevariables are grad1 grad2 grad3 grad4;
+        Analysis:       Type = general;
+                        Estimator is ML;
+        Model:          !NOTE:  There is an error in Table 7.8. The correct degrees of 
+                        !freedom for Model 2 should "3" not "6" as shown in the table.
+                        l by grad1@1 grad2@1 grad3@1 grad4@1;
+                       	s by grad1@0 grad2* grad3* grad4@1;     
+                       	[grad1-grad4@0 l s];
+          Plot:         TYPE IS PLOT3;
+                        SERIES IS grad1-grad4(*);
+          Output:  	    Sampstat standardized tech1;

@@ -1,0 +1,22 @@
+TITLE:   	Model 3: Examining a randomly-varying slope; 
+DATA:       FILE IS C:\mplus1\ch4three.dat;
+            Format is 6f8.0,4f8.2;
+VARIABLE:   Names are person teachid schcode math female lowses teffect
+            lowses_m  schses_m teff_m;
+            Usevariables are teachid schcode math female lowses teffect 
+            lowses_m teff_m schses_m;
+            CLUSTER = schcode teachid;
+            between = (teachid) teffect lowses_m (schcode) teff_m schses_m;
+            within = female lowses;
+define:    	center lowses female  teffect lowses_m teff_m schses_m (GRANDMEAN);
+ANALYSIS:  	TYPE = threelevel random;
+    
+    Model:  %Between schcode%
+            math on  schses_m teff_m;
+            s;
+            %Between teachid%
+            math on  lowses_m; 
+            s | math on teffect;
+            %Within%
+            math on lowses female;
+ OUTPUT:    sampstat tech1 tech8;

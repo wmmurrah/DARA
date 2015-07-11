@@ -1,0 +1,26 @@
+TITLE:     	    Two-level ordinal persistence model with predictors (M1);
+DATA:      	    FILE IS C:\mplus\ch8 ex1.dat;
+            	Format is 4f8.0,2f8.2,3f8.0,5f8.2;
+VARIABLE:       Names are schcode persist3 persist2 female
+            	ses gpa hiabsent public lowses teaqual 
+            	panelwt hiabmean abteaq gpamean;
+            	Usevariables schcode persist3 female ses gpa     	    			
+                hiabsent teaqual femses; 
+            	CLUSTER IS schcode;
+	        	categorical is persist3;
+	        	within =  female ses gpa hiabsent femses;
+            	between = teaqual;
+ define:    	femses = female*ses;
+            	hiateaq = hiabmean*teaqual;
+            	center female ses gpa hiabsent femses (groupmean);
+		        center teaqual (grandmean);
+ANALYSIS:       TYPE = twolevel random;
+          		Estimator is MLR;
+   Model:
+          		%BETWEEN%
+          		S persist3 on teaqual;
+           		%WITHIN%
+          		persist3 on female ses femses gpa;
+            	S | persist3 on hiabsent;
+OUTPUT:  	    Sampstat tech1 tech8;
+

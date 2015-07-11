@@ -1,0 +1,17 @@
+TITLE:        	    Two-level multilevel regression model(M1);
+DATA:      	        FILE IS C:\mplus\ch9ex2.dat;
+VARIABLE:           Names are orgid worksat female hiexp product pctbelow;
+                 	Usevariables are product worksat pctbelow;
+                    within = worksat;
+                 	between = pctbelow;
+                 	CLUSTER IS orgid;
+define:    	        center worksat pctbelow(grandmean);
+ANALYSIS:           TYPE = twolevel;
+                    
+        Model:
+                 	%Between%
+                 	product on pctbelow;
+                 	%Within%
+                 	product on worksat;
+                    
+OUTPUT:  	        SAMPSTAT TECH1;

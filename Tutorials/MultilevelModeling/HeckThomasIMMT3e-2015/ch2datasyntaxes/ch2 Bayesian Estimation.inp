@@ -1,0 +1,23 @@
+TITLE:        	Two-level Bayesian Estimation Example Ch.2;
+DATA:      	    FILE IS C:\mplus1\ch2ex2.dat;
+                Format is 1f3.0,1f4.0,1f2.0;
+VARIABLE:  	    Names are schcode totmath lunch;
+                Usevariables are schcode totmath lunch;
+                Missing are .;
+                within = lunch;
+                CLUSTER IS schcode;
+define:    	    center lunch (grandmean);
+ANALYSIS:  	    TYPE = twolevel random;
+                Estimator is bayes;
+                algorithm = GIBBS;
+                POINT = Median;
+                FBITERATIONS = 2000;
+                PRIOR = ;
+         Model:
+                %Between%
+                totmath;
+                s;
+                %Within%
+                s | totmath on lunch*-12;
+OUTPUT:  	    TECH1;
+

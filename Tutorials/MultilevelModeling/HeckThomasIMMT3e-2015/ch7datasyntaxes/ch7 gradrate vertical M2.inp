@@ -1,0 +1,20 @@
+TITLE:    	    Model 2:  Adding covariates to growth model;
+DATA:      	    File is C:\mplus\ch7ex1.dat;
+              	Format is 3f8.0, f4.0,2f8.0;
+VARIABLE:       Names are id private prestige index1 graduate growrate;
+                Usevariables are id graduate growrate private prestige;
+  	            cluster = id;
+                within= growrate;
+                between = private prestige;
+    define:     center private prestige(grand);
+ANALYSIS:   	Type = twolevel random;
+                Estimator is ML;
+    Model:
+                %between%
+                graduate on private prestige;
+                S on private prestige;
+                graduate with S;
+                %within%
+                S | graduate on growrate;
+ OUTPUT:      	sampstat tech1;
+

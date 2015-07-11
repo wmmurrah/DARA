@@ -1,0 +1,23 @@
+TITLE:           Level 2 missing covariate (p.405); !the default is to model 
+                 !under missing data theory using all available data.
+DATA:            FILE IS C:\Mplus\ch10miss2.dat;
+                 Format is 5f8.0,4f8.2;
+                              
+VARIABLE:        Names are schcode female lowses read math CSES
+                 read_m math_m lowses_m;
+                 Usevariables schcode read lowses CSES;
+                 Cluster = schcode;
+                 MISSING are CSES(-999);
+                 !The MISSING option is used to identify the values that 
+                 !will be treated as missing or invalid in the analysis.
+                 between = CSES;
+                 within = lowses;
+ANALYSIS:        Type = twolevel;
+                 Estimator = MLR;
+Model:
+                 %Between%
+                 read on CSES;
+                 %Within%
+                 read on lowses;
+
+OUTPUT:          TECH1;

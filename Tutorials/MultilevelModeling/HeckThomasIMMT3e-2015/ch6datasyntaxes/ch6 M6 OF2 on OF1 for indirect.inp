@@ -1,0 +1,30 @@
+TITLE:        	Model 6: Examining an indirect effect between groups; 
+DATA:       	FILE IS C:\mplus\Ch6SEMfull.dat;
+                Format is 11f8.0,13f8.2; 
+VARIABLE:       Names are orgcode deptid item1 item2 item3 item4 
+               	item5 item6 age female deptsize dept_m orgsize empstab 
+               	orgdemos orgqual orgprod1 orgprod2 op1 op2 op3 op4 
+                op5 op6;
+               	Usevariables are orgcode item1 item2 item3 item4 
+               	item5 item6 female orgdemos op1 op2 op3 op4 op5 op6;
+               	Cluster is orgcode; 
+               	Within = female;
+               	Between = orgdemos op1 op2 op3 op4 op5 op6;
+ANALYSIS: 	    TYPE = twolevel;
+               	Estimator is MLR;
+      Model:      
+               	%Between%
+                orgpro by op1 op2 op3 op4 op5 op6;
+                OF1 by item1 item2 item3; 
+                OF2 by item4 item5 item6; 
+                OF1 OF2 on orgpro orgdemos;
+                OF2 on OF1;
+                orgpro on orgdemos;  
+                %Within%
+                F1 by item1 item2 item3; 
+                F2 by item4 item5 item6; 
+                item6 with item3;
+                F1 F2 on female;
+Model indirect:
+  	  	        OF2 ind orgpro orgdemos;
+ OUTPUT:    	sampstat standardized tech1;

@@ -1,0 +1,28 @@
+    TITLE:     Model 3: Revised multivariate model with mediating variable;  
+    DATA:      FILE IS C:\mplus1\ch4mv.dat;
+               Format is 7f8.0,6f8.2;          
+  VARIABLE:    Names are orgid female white satpay morale org1
+               org2 benefit cond resour zproduct lev1wt lev2wt;
+               Usevariables are benefit cond female white org1 org2 zproduct;
+               within =  female white;
+               between = org1 org2 zproduct;
+               CLUSTER IS orgid;
+   ANALYSIS:   TYPE = twolevel;
+               Estimator is mlr;
+     Model:
+               %Between%
+               benefit cond on org1; 
+               zproduct on org2;
+               benefit cond on zproduct;
+               benefit with cond;
+                    
+               %Within%
+               benefit cond on female white;
+               benefit with cond;
+                   
+      Model indirect:
+               benefit ind zproduct org2;
+               cond ind zproduct org2;      
+       OUTPUT: SAMPSTAT Standardized TECH1;
+
+    

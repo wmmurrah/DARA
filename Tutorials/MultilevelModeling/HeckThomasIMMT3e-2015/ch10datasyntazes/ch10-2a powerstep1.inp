@@ -1,0 +1,21 @@
+TITLE:       	    Two-level power model (Step1);
+             		!this is an example of a real data analysis
+             		!where the parameter estimates are saved and then 
+             		!used in Monte Carlo simulation study!
+DATA:  	            FILE IS C:\Mplus\ch10p.dat;
+             		Format is 4f8.0 1f8.5;
+VARIABLE:           Names are teacode nread treat pretest zread;
+             		Usevariables teacode zread treat pretest;
+             		within = pretest;
+             		between = treat;
+             		CLUSTER IS teacode;
+  define:    	    center treat pretest (grandmean);
+ANALYSIS:   	    TYPE = twolevel;
+             		Estimator is MLR;
+  Model:
+             		%BETWEEN%
+             		zread on treat;
+             		%WITHIN%
+             		zread on pretest;
+Output:      	    Sampstat standardized tech1;
+SAVEDATA:           ESTIMATES = ch10power.dat;

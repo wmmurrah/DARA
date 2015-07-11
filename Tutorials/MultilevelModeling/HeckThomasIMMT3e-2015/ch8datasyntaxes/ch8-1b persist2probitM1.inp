@@ -1,0 +1,24 @@
+TITLE:     	Model 1: Two-level binary persistence model (probit);
+DATA:      	FILE IS C:\mplus\ch8 ex1.dat;
+    	    format is 4f8.0,2f8.2,3f8.0,5f8.2;
+VARIABLE:   Names are schcode persist3 persist2 female
+            ses gpa hiabsent public lowses teaqual 
+            panelwt hiabmean abteaq gpamean;
+            usevariables are schcode persist2;
+            
+            CLUSTER IS schcode;
+		    categorical is persist2;
+            within = ;
+            between = ;
+define:   	
+ANALYSIS:   TYPE = twolevel;
+            Estimator is MLR;
+            Link = probit;
+Model:      ! NOTE: Since persist3 is uncorrelated with everything 
+            ! else in the modelbMplus produces a warning message 
+            ! in the output.
+
+            %BETWEEN%
+            persist2; 
+            %WITHIN%
+OUTPUT:	    standardized Tech1;

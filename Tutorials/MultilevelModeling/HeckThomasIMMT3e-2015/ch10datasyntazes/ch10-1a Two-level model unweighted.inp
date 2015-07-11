@@ -1,0 +1,33 @@
+TITLE:     Two-level weight model(unweighted estimates, p. 383);
+           
+DATA:      FILE IS C:\Mplus\ch10wt.dat;
+           Format is 2f8.0,3f8.2,1f8.0,3f8.2,2f8.0,f8.2,2f8.0,f8.2;
+
+VARIABLE:  Names are schcode tutorm ses math gmpv1math female gminterSES 
+           stwgt sSES private academic gmrankm city lcity schwt;
+
+           Usevariables schcode tutorm math ses female  
+           sSES private academic city lcity; 
+
+           within =  ses female tutorm;
+           between = sSES private academic city lcity;
+           
+          CLUSTER IS schcode;
+
+
+
+ANALYSIS:  TYPE = twolevel random;
+           Estimator is MLR;
+          
+Model:
+
+          %BETWEEN%
+          math on sSES private academic city lcity;
+          s on sSES;           
+
+          %WITHIN%
+          math on female ses;
+          s|math on tutorm;
+
+ OUTPUT:  SAMPSTAT TECH8;
+

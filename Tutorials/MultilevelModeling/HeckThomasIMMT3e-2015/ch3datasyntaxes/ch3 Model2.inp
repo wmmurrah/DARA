@@ -1,0 +1,16 @@
+TITLE:		Model 2: Level-1 random intercept model;
+DATA:		FILE IS ch3new.dat;
+		    Format is 5f8.0,3f8.2;
+VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt 
+            lev2wt ;
+		    Usevariables are deptid morale satpay female white;
+		    Cluster is deptid;
+		    Between = ;
+		    Within = satpay female white;
+Define:		Center satpay female white (grand);
+ANALYSIS:	Type=Twolevel; 
+Model:		%Between%
+		    morale;
+		    %Within%
+		    morale on satpay female white;
+OUTPUT:	    SAMPSTAT TECH1;	

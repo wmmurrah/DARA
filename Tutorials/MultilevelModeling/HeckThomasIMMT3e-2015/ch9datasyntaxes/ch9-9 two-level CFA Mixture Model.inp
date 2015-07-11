@@ -1,0 +1,29 @@
+TITLE:      	    Two-level CFA mixture model with continuous indicators;
+DATA:       	    FILE IS C:\mplus\3LCFA.dat;
+                	Format is 11f8.0,7f8.2;
+VARIABLE:           Names are orgcode deptid item1 item2 item3 item4 item5 item6
+                 	age female deptsize dept_m orgsize empstab orgdemos orgqual
+                 	orgprod1 orgprod2;
+                 	Usevariables are orgcode item1 item2 item3 item4 item5 item6
+                 	orgqual orgprod2;
+                 	Classes = c(2);
+                	cluster is orgcode;
+                	Within = ;
+                	Between = orgqual orgprod2;
+ANALYSIS:           TYPE = twolevel mixture;
+                 	Estimator is MLR;
+                 	starts = 0;
+   Model:
+                 	%Between%
+                 	%Overall%
+                 	OF1 by item1 item2 item3;
+                 	OF2 by item4 item5 item6;
+                 	c#1 on orgqual orgprod2;
+                 	c#1@1;
+                 	%c#1%
+                 	[OF1*5 OF2*8];
+                 	%Within%
+                 	%Overall%
+                 	F1 by item1 item2 item3;
+                 	F2 by item4 item5 item6;
+ OUTPUT:    	    sampstat standardized TECH1;

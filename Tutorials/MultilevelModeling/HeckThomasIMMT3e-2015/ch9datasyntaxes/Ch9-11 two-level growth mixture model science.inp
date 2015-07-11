@@ -1,0 +1,32 @@
+TITLE:                  Two-level latent growth mixture model for science;
+  DATA:                 FILE IS C:\mplus\ch9ex4.dat;
+                    	Format is 1f8.0,5f8.2,3f8.0;
+VARIABLE:               Names are schcode ses gpa sci1 sci2 sci3
+                     	moved lowses acadsch;
+                     	Usevariables sci1 sci2 sci3 gpa ses lowses;
+                     	classes = c(4);
+                     	within = gpa ses;
+                     	between = lowses;
+                     	CLUSTER IS schcode;
+  define:       	    center SES GPA lowses(grandmean);
+ANALYSIS:  	            TYPE =  twolevel mixture;
+                     	Estimator is MLR;
+                     	starts= 300 4;
+            Model:
+                     	%Within%
+                     	%Overall%
+                     	iw by sci1@1 sci2@1 sci3@1;
+                     	sw by sci1@0 sci2@1 sci3@2;
+                     	iw on gpa*1.8 ses*1.2;
+                     	sw on gpa*.6 ses*.6;
+                     	c#1 c#2 c#3 on gpa*.1 ses*.1;
+                        %Between%
+                    	%Overall%
+                     	ib by sci1@1 sci2@1 sci3@1;
+                     	sb by sci1@0 sci2@1 sci3@2;
+                     	[ib sb];
+                     	sb@0;
+                     	sb with ib@0;
+                     	ib sb on lowses;
+                     	c#1 c#2 c#3 on lowses*-.3;
+  OUTPUT:               SAMPSTAT STANDARDIZED TECH1 TECH11;

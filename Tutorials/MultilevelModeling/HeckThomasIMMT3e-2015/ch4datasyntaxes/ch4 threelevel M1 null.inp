@@ -1,0 +1,19 @@
+TITLE:   	    Model 1: Three-level (null) model; 
+  DATA:      	FILE IS C:\mplus1\ch4three.dat;
+                Format is 6f8.0,4f8.2;
+VARIABLE:       Names are person teachid schcode math female lowses teffect
+                lowses_m  schses_m teff_m;
+                Usevariables are teachid schcode math;
+               	CLUSTER = schcode teachid;
+ANALYSIS:  	    TYPE = threelevel;
+    Model:      ! NOTE: Mplus produces a warning message in the 
+                ! output as math is  uncorrelated with other variables.
+
+                %Between schcode%
+                math;
+                %Between teachid%
+                math;
+                %Within%
+                math;
+ OUTPUT:    	sampstat tech1 tech8;
+

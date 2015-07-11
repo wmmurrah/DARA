@@ -1,0 +1,17 @@
+TITLE:              Estimation of model with missing level-2 covariate
+ 		            using multiple imputation data sets (step2);
+DATA:               FILE IS ch10imp9MLRlist.dat;
+                    !uses the five imputed data sets that have been saved.
+                    TYPE = IMPUTATION;
+VARIABLE:           NAMES ARE read lowses CSES schcode;
+                    Cluster = schcode;
+                    between = CSES;
+                    within = lowses;
+  ANALYSIS:         Type = twolevel;
+                   	Estimator = MLR;
+  Model:
+                    %Between%
+                    read on CSES;
+                    %Within%
+                    read on lowses;
+OUTPUT:             TECH8;

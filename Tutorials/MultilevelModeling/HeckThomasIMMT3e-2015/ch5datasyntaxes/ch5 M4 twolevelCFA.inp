@@ -1,0 +1,33 @@
+TITLE:         Chapter 5 three-level CFA model (two-level model)(M4); 
+   DATA:       FILE IS C:\mplus1\3LCFA.dat;
+               Format is 11f8.0,7f8.2; 
+  VARIABLE:    Names are orgcode deptid item1 item2 item3 item4 item5 item6
+               age female deptsize dept_m orgsize empstab orgdemos orgqual
+               orgprod1 orgprod2;
+               Usevariables are deptid item1 item2 item3 item4 item5 item6;
+               cluster is deptid;             
+  ANALYSIS:    TYPE = twolevel;
+               Estimator is MLR;
+
+      Model:      
+               %between%
+               DF1 by item1 
+               item2(1) 
+               item3(2);
+               DF2 by item4 
+               item5(3) 
+               item6(4);
+               item1@0 item4@0;
+
+               %within%
+               F1 by item1 
+               item2(1) 
+               item3(2);
+               F2 by item4 
+               item5(3) 
+               item6(4);
+               item6 with item3;
+                
+    Output:    sampstat standardized modindices tech1; 
+
+  

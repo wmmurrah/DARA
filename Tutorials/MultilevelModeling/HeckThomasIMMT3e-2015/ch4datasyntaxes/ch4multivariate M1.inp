@@ -1,0 +1,21 @@
+TITLE:        	Model 1: Two-level model with multivariate outcomes; 
+DATA:           FILE IS C:\mplus1\ch4mv.dat;
+               	Format is 7f8.0,6f8.2;
+VARIABLE:       Names are orgid female white satpay morale org1 org2 
+                benefit cond zresour zproduct lev1wt lev2wt;
+               	Usevariables are benefit cond female org1;
+              	within =  female;
+               	between = org1;
+            	CLUSTER IS orgid;    
+ANALYSIS:       TYPE = twolevel;
+               	Estimator is mlr;
+       Model:   %Between%
+                benefit cond on org1; 
+                benefit with cond;
+                %Within%
+                benefit cond on female;
+                benefit with cond;
+OUTPUT:         SAMPSTAT Standardized TECH1;
+
+
+    

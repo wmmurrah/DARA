@@ -1,0 +1,35 @@
+TITLE:	    Model 2: Two-level CFA with random level-1 slope;
+DATA:	    FILE IS C:\mplus\3LCFA.dat;
+            Format is 11f8.0,7f8.2;
+VARIABLE: 	Names are orgcode deptid item1 item2 item3 item4 item5 item6 
+            age female deptsize dept_m orgsize empstab orgdemos orgqual  
+            orgprod1 orgprod2;
+            Usevariables are orgcode item1 item2 item3 item4 item5 item6 
+            female orgdemos;
+            Cluster = orgcode; 
+            Within = female;
+            Between = orgdemos;
+ANALYSIS:   TYPE = Twolevel random;
+		    Estimator is MLR;
+     Model:      
+            %Between%
+            OF1 by item1 
+            item2(1) 
+            item3(2);
+            OF2 by item4 
+            item5(3) 
+            item6(4);
+            OF1 OF2 on orgdemos;
+            S2;
+            %Within%
+            F1 by item1 
+            item2(1) 
+            item3(2);
+            F2 by item4 
+            item5(3) 
+            item6(4);
+            item6 with item3;
+            F1 on female;
+            S2 |F2 on female;
+OUTPUT:     Sampstat Tech1;
+

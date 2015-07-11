@@ -1,0 +1,19 @@
+TITLE:        	    Two-level regression with random slope (M1,p.343);
+                    !Note: Model 1 in Table 9.4 was estimated with a fixed slope.
+DATA:      	        FILE IS C:\mplus\ch9ex2.dat;
+VARIABLE:           Names are orgid worksat female hiexp product pctbelow;
+                 	Usevariables are product worksat pctbelow;
+                    within = worksat;
+                 	between = pctbelow;
+                 	CLUSTER IS orgid;
+define:    	        center worksat pctbelow(grandmean);
+ANALYSIS:           TYPE = twolevel random;
+         Model:
+                 	%Between%
+                 	product on pctbelow;
+                    S1;
+                    %Within%
+                 	S1| product on worksat;
+ OUTPUT:  	        SAMPSTAT TECH1;
+ 
+

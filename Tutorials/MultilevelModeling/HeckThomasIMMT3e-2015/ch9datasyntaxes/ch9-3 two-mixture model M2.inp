@@ -1,0 +1,32 @@
+TITLE:        	    Two-level mixture model with latent intercept classes (M2);
+DATA:      	        FILE IS C:\mplus\ch9ex2.dat;
+VARIABLE:           Names are orgid worksat female hiexp product pctbelow;
+                 	Usevariables are product worksat pctbelow;
+                 	classes = c(3);
+                 	within = worksat;
+                 	between = pctbelow;
+                 	CLUSTER IS orgid;
+define:    	        center worksat pctbelow(grandmean);
+ANALYSIS:           TYPE = twolevel mixture;
+                    Starts = 0;
+        Model:
+                 	%Between%
+                 	%Overall%
+                 	product on pctbelow;
+                 	c#1 on pctbelow;
+                    %c#1%
+                 	[product];
+                 	%Within%
+                 	%Overall%
+                 	product on worksat;
+                    c on worksat;
+                	%c#1%
+                	product on worksat;
+                    %c#2% 
+                    product on worksat;
+
+! NOTE: The model syntax on p. 335, 2nd line before the end, 
+! is missing a hard return after %c#2% which would place 
+! "product on worksat;" on the next line.
+
+OUTPUT:  	        SAMPSTAT TECH1 TECH11;

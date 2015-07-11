@@ -1,0 +1,17 @@
+Title: Chapter 1 SEM example;
+
+data: file is c:\program files\mplus1\ch1example1.dat;
+
+variable: names are read math lang female; 
+
+Analysis:  type = general;
+           estimator = ML;
+
+Model:   
+
+            achieve by math read lang;
+            achieve on female;
+            math@0;
+            
+                                  
+output:     sampstat standardized;

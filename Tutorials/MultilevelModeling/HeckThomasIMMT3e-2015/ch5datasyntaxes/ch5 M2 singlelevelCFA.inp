@@ -1,0 +1,16 @@
+   TITLE:      Chapter 5 three-level CFA model(Single-evel CFA);
+   DATA:       FILE IS C:\mplus\3LCFA.dat;
+               Format is 11f8.0,7f8.2; 
+  VARIABLE:    Names are orgcode deptid item1 item2 item3 item4 item5 item6
+               age female deptsize dept_m orgsize empstab orgdemos orgqual
+               orgprod1 orgprod2;
+               Usevariables are item1 item2 item3 item4 item5 item6;
+    
+  ANALYSIS:    TYPE = general;
+               Estimator is ML;
+     Model:                    
+               F1 by item1 item2 item3;
+               F2 by item4 item5 item6;
+               item6 with item3;
+                 
+    Output:    sampstat standardized modindices tech1; 

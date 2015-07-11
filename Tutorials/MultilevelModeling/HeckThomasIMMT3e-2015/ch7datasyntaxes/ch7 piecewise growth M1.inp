@@ -1,0 +1,21 @@
+TITLE:        	Model 1: Specifying the piecewise growth model;
+DATA:           File is C:\Mplus\ch7freshep.txt;
+                format is 11f8.0,1f5.2,1f1.0;
+VARIABLE:       Names are schid fresh1 fresh2 fresh3
+                fresh4 fresh5 fresh6 fresh7 fresh8 fresh9
+                private prestige hiprest;
+                Usevariables are fresh1 fresh2 fresh3
+                fresh4 fresh5 fresh6 fresh7 fresh8 fresh9;
+ANALYSIS:       Type = general;
+                Estimator is ML;
+Model:
+                I1 by fresh1@1 fresh2@1 fresh3@1; 
+                I2 by fresh4@1 fresh5@1 fresh6@1
+                fresh7@1 fresh8@1 fresh9@1;
+                S1 by fresh1@0 fresh2@1 fresh3@2;
+                fresh1@0;
+                S2 by fresh4@0 fresh5@1 fresh6@2 fresh7@3
+                fresh8@4 fresh9@5;                                            
+                [fresh1-fresh9@0 I1 I2 S1 S2];
+OUTPUT:      	Sampstat standardized;
+

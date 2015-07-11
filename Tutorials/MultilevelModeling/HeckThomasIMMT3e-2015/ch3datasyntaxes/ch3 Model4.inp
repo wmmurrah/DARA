@@ -1,0 +1,18 @@
+TITLE:	    Model 4: Explaining variation in the level-2 intercept and slope;
+DATA:	    FILE IS: C:\ Mplus1\ch3new.dat;
+		    Format is 5f8.0, 3f8.2;
+VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt 
+            lev2wt;
+		    Usevariables are deptid morale satpay female white pctbelow;
+		    Cluster is deptid;
+		    Between = pctbelow;
+		    Within = satpay female white;
+Define:		Center satpay female white pctbelow (grandmean); 
+ANALYSIS:	Type= Twolevel random;
+Model:		%Between%
+		    morale S on pctbelow;
+		    S with morale;
+		    %Within%
+		    morale on female white;
+		    S | Morale on satpay;
+OUTPUT:	    SAMPSTAT TECH1;	

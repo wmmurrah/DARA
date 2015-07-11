@@ -1,0 +1,22 @@
+TITLE:              Multiple imputation of missing level-2 covariate;
+DATA:               FILE IS C:\Mplus\ch10miss2.dat;
+                    Format is 5f8.0,4f8.2;
+VARIABLE:           Names are schcode female lowses read math CSES
+                    read_m math_m lowses_m;
+                    Usevariables schcode read lowses CSES;
+                    Cluster = schcode;
+                    MISSING = CSES(-999);
+                    between = CSES;
+                    within = lowses;
+ANALYSIS:           Type = twolevel;
+                    Estimator = MLR;
+Model:
+                    %Between%
+                    read on CSES;
+                    %Within%
+                    read on lowses;
+DATA IMPUTATION:
+                  	IMPUTE = CSES;
+                    SAVE = ch10bimpMLR*.dat; !saves five separate data sets used
+                    !in the second part of the analsis.
+OUTPUT:             TECH8;

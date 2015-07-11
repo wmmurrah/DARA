@@ -1,0 +1,23 @@
+    Title:       Adding Time invariant predictors (Freshman Model);
+    Data:        File is C:\Mplus\ch7freshep.txt;
+                 format is 11f8.0,1f5.2,1f1.0;
+    Variable:    Names are schid fresh83 fresh84 fresh85
+                 fresh86 fresh87 fresh88 fresh89 fresh90 fresh91
+                 private prestige;
+                 Usevariables are fresh83 fresh84 fresh85
+                 fresh86 fresh87 fresh88 fresh89 fresh90 fresh91
+                 private;
+    Analysis:    Type = general;
+                 Estimator is ML;
+                 Iterations = 10000;
+    Model:
+                 i1 by fresh83@1 fresh84@1 fresh85@1; 
+                 i2 by fresh86@1 fresh87@1 fresh88@1
+                 fresh89@1 fresh90@1 fresh91@1;
+                 s1 by fresh83@0 fresh84@1 fresh85@2;
+                 fresh83@0;
+                 s2 by fresh86@0 fresh87@1 fresh88@2 fresh89@3
+                 fresh90@4 fresh91@5;
+                 [fresh83-fresh91@0 i1 i2 s1 s2];
+                 I1 I2 S1 S2 on private;
+   Output:       Sampstat standardized;

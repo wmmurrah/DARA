@@ -1,0 +1,20 @@
+TITLE:		Estimates for Table 3.11 (M1 Satpay);
+DATA:		FILE IS C:\Mplus1\ch3cent.dat;
+		    Format is 3f8.0,4f8.2;
+
+VARIABLE:	Names are deptid morale satpay zsatpay gmsatpay gpsatpay 
+            satpay_m;
+		    Usevariables are deptid morale satpay;
+
+		    Between = ;
+		    Within = satpay;
+            Cluster is deptid;
+Define:	
+ANALYSIS:	Type=Twolevel random;
+            Estimator is MLR;
+Model:		%Between%
+		    morale S;
+            morale with S;
+		    %Within%
+		    S | morale on satpay;
+OUTPUT:	    SAMPSTAT TECH1;	

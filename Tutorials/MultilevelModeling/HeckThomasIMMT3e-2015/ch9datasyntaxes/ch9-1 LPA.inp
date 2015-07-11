@@ -1,0 +1,14 @@
+TITLE:       	Example LPA Model;
+DATA:    	    FILE IS C:\mplus\ch9ex1.dat;
+              	Format is 1f4.0,3f4.0,2f4.2,4f4.0;
+VARIABLE:       Names are schcode read math lang ess cses female 
+                lowses lgsch age ncses;
+             	Usevariables are read math lang;
+               	classes = c(3);
+ANALYSIS:   	TYPE = mixture;
+   OUTPUT:      TECH1;
+
+                
+! NOTE: Mplus produces a warning message in the 
+! output as the variables are uncorrelated with other
+! variables within class.

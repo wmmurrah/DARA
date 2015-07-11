@@ -1,0 +1,473 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+07/10/2015   7:31 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:		Model 3: Specifying a  random slope;
+  DATA:		FILE IS ch3new.dat;
+  		    Format is 5f8.0,3f8.2;
+  VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt
+              lev2wt;
+  		    Usevariables are deptid morale satpay female white;
+  		    Cluster is deptid;
+  		    Between = ;
+  		    Within = satpay female white;
+  Define:		Center satpay female white (grand);
+  ANALYSIS:	TYPE=Twolevel random;
+
+   Model:		! NOTE: Mplus version 7.3 will produce slightly
+              ! different model results from Mplus 7.2.
+
+              %Between%
+  		    morale S;
+  		    S with morale;
+              %Within%
+  		    morale on female white;
+  		    S | morale on satpay;
+
+  OUTPUT:	    SAMPSTAT TECH1;	
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Model 3: Specifying a  random slope;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       13189
+
+Number of dependent variables                                    1
+Number of independent variables                                  3
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   MORALE
+
+Observed independent variables
+   SATPAY      FEMALE      WHITE
+
+Continuous latent variables
+   S
+
+Variables with special functions
+
+  Cluster variable      DEPTID
+
+  Within variables
+   SATPAY      FEMALE      WHITE
+
+  Centering (GRANDMEAN)
+   SATPAY      FEMALE      WHITE
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  ch3new.dat
+Input data format
+  (5F8.0,3F8.2)
+
+
+SUMMARY OF DATA
+
+     Number of clusters                        165
+
+     Average cluster size       79.933
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass              Intraclass
+     Variable  Correlation   Variable  Correlation
+
+     MORALE       0.050
+
+
+
+SAMPLE STATISTICS
+
+NOTE:  The sample statistics for within and between refer to the
+       maximum-likelihood estimated within and between covariance
+       matrices, respectively.
+
+
+     ESTIMATED SAMPLE STATISTICS FOR WITHIN
+
+
+           Means
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000
+
+
+           Covariances
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ MORALE        35.090
+ SATPAY        14.220        11.659
+ FEMALE         0.251         0.210         0.250
+ WHITE          0.505         0.232        -0.001         0.247
+
+
+           Correlations
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ MORALE         1.000
+ SATPAY         0.703         1.000
+ FEMALE         0.085         0.123         1.000
+ WHITE          0.171         0.136        -0.004         1.000
+
+
+     ESTIMATED SAMPLE STATISTICS FOR BETWEEN
+
+
+           Means
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ 1             26.429         0.000         0.000         0.000
+
+
+           Covariances
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ MORALE         1.848
+ SATPAY         0.000         0.000
+ FEMALE         0.000         0.000         0.000
+ WHITE          0.000         0.000         0.000         0.000
+
+
+           Correlations
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ MORALE         1.000
+ SATPAY         0.000         0.000
+ FEMALE         0.000         0.000         0.000
+ WHITE          0.000         0.000         0.000         0.000
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     MORALE               26.360      -0.195      11.000    0.64%      21.000     25.000     27.000
+           13189.000      38.206      -0.420      40.000    0.26%      28.000     32.000
+     SATPAY                0.000      -0.267      -8.882    0.46%      -2.882     -0.882      0.118
+           13189.000      11.659      -0.550       7.118    0.86%       1.118      3.118
+     FEMALE                0.000       0.055      -0.486   51.38%      -0.486     -0.486     -0.486
+           13189.000       0.250      -1.997       0.514   48.62%       0.514      0.514
+     WHITE                 0.000       0.217      -0.446   55.39%      -0.446     -0.446     -0.446
+           13189.000       0.247      -1.953       0.554   44.61%       0.554      0.554
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        8
+
+Loglikelihood
+
+          H0 Value                      -37777.247
+          H0 Scaling Correction Factor      1.0436
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   75570.494
+          Bayesian (BIC)                 75630.391
+          Sample-Size Adjusted BIC       75604.968
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ MORALE     ON
+    FEMALE             0.003      0.063      0.052      0.959
+    WHITE              0.914      0.082     11.186      0.000
+
+ Residual Variances
+    MORALE            17.455      0.292     59.829      0.000
+
+Between Level
+
+ S        WITH
+    MORALE             0.006      0.019      0.340      0.734
+
+ Means
+    MORALE            26.434      0.115    229.317      0.000
+    S                  1.197      0.014     85.873      0.000
+
+ Variances
+    MORALE             1.861      0.230      8.082      0.000
+    S                  0.008      0.003      2.713      0.007
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.228E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ 1                  0             0             0             0
+
+
+           LAMBDA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ MORALE             0             0             0             0             0
+ SATPAY             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ WHITE              0             0             0             0             0
+
+
+           THETA
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ MORALE             0
+ SATPAY             0             0
+ FEMALE             0             0             0
+ WHITE              0             0             0             0
+
+
+           ALPHA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           BETA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ S                  0             0             0             0             0
+ MORALE             0             0             0             1             2
+ SATPAY             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ WHITE              0             0             0             0             0
+
+
+           PSI
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ S                  0
+ MORALE             0             3
+ SATPAY             0             0             0
+ FEMALE             0             0             0             0
+ WHITE              0             0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ 1                  0             0             0             0
+
+
+           LAMBDA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ MORALE             0             0             0             0             0
+ SATPAY             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ WHITE              0             0             0             0             0
+
+
+           THETA
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ MORALE             0
+ SATPAY             0             0
+ FEMALE             0             0             0
+ WHITE              0             0             0             0
+
+
+           ALPHA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ 1                  4             5             0             0             0
+
+
+           BETA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ S                  0             0             0             0             0
+ MORALE             0             0             0             0             0
+ SATPAY             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ WHITE              0             0             0             0             0
+
+
+           PSI
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ S                  6
+ MORALE             7             8
+ SATPAY             0             0             0
+ FEMALE             0             0             0             0
+ WHITE              0             0             0             0             0
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ MORALE         0.000         1.000         0.000         0.000         0.000
+ SATPAY         0.000         0.000         1.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         1.000         0.000
+ WHITE          0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ MORALE         0.000
+ SATPAY         0.000         0.000
+ FEMALE         0.000         0.000         0.000
+ WHITE          0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ S              0.000         0.000         0.000         0.000         0.000
+ MORALE         0.000         0.000         0.000         0.000         0.000
+ SATPAY         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ WHITE          0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ S              0.000
+ MORALE         0.000        19.103
+ SATPAY         0.000         0.000         5.830
+ FEMALE         0.000         0.000         0.000         0.125
+ WHITE          0.000         0.000         0.000         0.000         0.124
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ MORALE         0.000         1.000         0.000         0.000         0.000
+ SATPAY         0.000         0.000         1.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         1.000         0.000
+ WHITE          0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________
+ MORALE         0.000
+ SATPAY         0.000         0.000
+ FEMALE         0.000         0.000         0.000
+ WHITE          0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ 1              0.000        26.360         0.000         0.000         0.000
+
+
+           BETA
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ S              0.000         0.000         0.000         0.000         0.000
+ MORALE         0.000         0.000         0.000         0.000         0.000
+ SATPAY         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ WHITE          0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              S             MORALE        SATPAY        FEMALE        WHITE
+              ________      ________      ________      ________      ________
+ S              1.000
+ MORALE         0.000        19.103
+ SATPAY         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000
+ WHITE          0.000         0.000         0.000         0.000         0.000
+
+
+     Beginning Time:  19:31:21
+        Ending Time:  19:31:21
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

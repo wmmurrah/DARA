@@ -1,0 +1,318 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+07/10/2015   5:53 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:		    Model 1: Two-level (null) regression model;
+  DATA:	    	FILE IS ch3new.dat;
+  		        Format is 5f8.0,3f8.2;
+  VARIABLE:	    Names are deptid morale satpay female white pctbelow lev1wt
+                  lev2wt;
+  		        Usevariables are deptid morale;
+  		        Cluster is deptid;
+  		        Between = ;
+  		        Within = ;
+  ANALYSIS:	    TYPE= Twolevel;
+                  Estimator = MLR;
+  Model:		    !NOTE: Mplus will produce a warning message in the output
+                  !since the model has only the outcome variable (morale).
+                  %Between%
+  		        morale;
+  		        %Within%
+  		        morale;
+  OUTPUT:	        Sampstat Tech1;
+
+
+
+
+
+*** WARNING in MODEL command
+  Variable is uncorrelated with all other variables: MORALE
+*** WARNING in MODEL command
+  At least one variable is uncorrelated with all other variables in the model.
+  Check that this is what is intended.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+Model 1: Two-level (null) regression model;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       13189
+
+Number of dependent variables                                    1
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   MORALE
+
+Variables with special functions
+
+  Cluster variable      DEPTID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  ch3new.dat
+Input data format
+  (5F8.0,3F8.2)
+
+
+SUMMARY OF DATA
+
+     Number of clusters                        165
+
+     Average cluster size       79.933
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass
+     Variable  Correlation
+
+     MORALE       0.139
+
+
+
+SAMPLE STATISTICS
+
+NOTE:  The sample statistics for within and between refer to the
+       maximum-likelihood estimated within and between covariance
+       matrices, respectively.
+
+
+     ESTIMATED SAMPLE STATISTICS FOR WITHIN
+
+
+           Means
+              MORALE
+              ________
+ 1              0.000
+
+
+           Covariances
+              MORALE
+              ________
+ MORALE        33.302
+
+
+           Correlations
+              MORALE
+              ________
+ MORALE         1.000
+
+
+     ESTIMATED SAMPLE STATISTICS FOR BETWEEN
+
+
+           Means
+              MORALE
+              ________
+ 1             26.428
+
+
+           Covariances
+              MORALE
+              ________
+ MORALE         5.359
+
+
+           Correlations
+              MORALE
+              ________
+ MORALE         1.000
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     MORALE               26.360      -0.195      11.000    0.64%      21.000     25.000     27.000
+           13189.000      38.206      -0.420      40.000    0.26%      28.000     32.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        3
+
+Loglikelihood
+
+          H0 Value                      -42041.057
+          H0 Scaling Correction Factor      1.3132
+            for MLR
+          H1 Value                      -42041.057
+          H1 Scaling Correction Factor      1.3132
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   84088.114
+          Bayesian (BIC)                 84110.576
+          Sample-Size Adjusted BIC       84101.042
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000*
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+          Scaling Correction Factor         1.0000
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+
+CFI/TLI
+
+          CFI                                0.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value for Within                   0.000
+          Value for Between                  0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Variances
+    MORALE            33.302      0.595     55.995      0.000
+
+Between Level
+
+ Means
+    MORALE            26.428      0.189    139.945      0.000
+
+ Variances
+    MORALE             5.363      0.608      8.817      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.281E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              MORALE
+              ________
+ 1                  0
+
+
+           THETA
+              MORALE
+              ________
+ MORALE             1
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              MORALE
+              ________
+ 1                  2
+
+
+           THETA
+              MORALE
+              ________
+ MORALE             3
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              MORALE
+              ________
+ 1              0.000
+
+
+           THETA
+              MORALE
+              ________
+ MORALE        19.103
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              MORALE
+              ________
+ 1             26.360
+
+
+           THETA
+              MORALE
+              ________
+ MORALE        19.103
+
+
+     Beginning Time:  17:53:29
+        Ending Time:  17:53:29
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

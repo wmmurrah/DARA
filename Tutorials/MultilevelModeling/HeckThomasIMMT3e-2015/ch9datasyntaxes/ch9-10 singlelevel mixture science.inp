@@ -1,0 +1,22 @@
+TITLE:            Latent growth mixture model for science achievement;
+DATA:      	      FILE IS C:\mplus\ch9ex4.dat;
+                  Format is 1f8.0,5f8.2,3f8.0;
+VARIABLE:         Names are schcode ses gpa sci1 sci2 sci3
+                  moved lowses acadsch;
+                  Usevariables sci1 sci2 sci3 gpa ses;
+                  classes = c(4);       
+ANALYSIS:         TYPE = mixture;
+                  Estimator is MLR;
+                  starts = 100 4;
+Model:
+                  %Overall%
+                  i s |sci1@0 sci2@1 sci3@2;
+                  sci1@0;
+                  i on gpa ses;
+                  s on gpa ses;
+                  c#1 on gpa ses;
+		          c#2 on gpa ses;
+                  c#3 on gpa ses;
+ Plot:            TYPE IS PLOT3;
+                  SERIES IS sci1-sci3(*); 
+  OUTPUT:         SAMPSTAT STANDARDIZED TECH11 TECH14;

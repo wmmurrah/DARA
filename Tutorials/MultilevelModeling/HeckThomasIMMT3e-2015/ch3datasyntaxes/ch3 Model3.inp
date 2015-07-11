@@ -1,0 +1,24 @@
+TITLE:		Model 3: Specifying a  random slope;
+DATA:		FILE IS ch3new.dat;
+		    Format is 5f8.0,3f8.2;
+VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt 
+            lev2wt;
+		    Usevariables are deptid morale satpay female white;
+		    Cluster is deptid;
+		    Between = ;
+		    Within = satpay female white;
+Define:		Center satpay female white (grand);
+ANALYSIS:	TYPE=Twolevel random;
+           
+ Model:		! NOTE: Mplus version 7.3 will produce slightly 
+            ! different model results from Mplus 7.2. 
+
+            %Between%
+		    morale S;
+		    S with morale;
+            %Within%
+		    morale on female white;
+		    S | morale on satpay;
+           
+OUTPUT:	    SAMPSTAT TECH1;	
+ 

@@ -1,0 +1,22 @@
+ TITLE:     	Model 2: Two-level course failure model with predictors;
+  DATA:    		FILE IS C:\mplus\ch8ex1c.dat;
+               	Format is 5f8.0,3f8.2;
+ VARIABLE:  	Names are schcode lowses male math fail
+             	avetexp licper age;
+             	Usevariables schcode fail male lowses math
+             	age avetexp licper;
+             	within =  male lowses math age;
+             	between = licper avetexp;
+           		CLUSTER IS schcode;
+            	count is fail(nb);
+  define:   	center math age licper avetexp(grandmean);
+ ANALYSIS: 		TYPE = twolevel;
+            	Estimator is MLR;
+  Model:
+            	%BETWEEN%
+            	fail on avetexp licper;
+            	fail;
+            	%WITHIN%
+            	fail on male lowses math age;
+ OUTPUT:  		SAMPSTAT TECH1 TECH8;
+

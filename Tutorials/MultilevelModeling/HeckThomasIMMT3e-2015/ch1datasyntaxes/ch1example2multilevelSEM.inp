@@ -1,0 +1,33 @@
+TITLE:     Two-level Model with between and within group factors;
+
+ DATA:      FILE IS C:\mplus1\ch1example2.dat;
+               Format is 1f8.0,3f4.0,2f4.2,4f4.0;
+
+  VARIABLE:    Names are schcode read math lang ess cses female 
+               lowses lgsch age;
+              
+              usevariables are schcode read math lang
+              lowses age ess ncses;
+                             
+              CLUSTER IS schcode;
+              Within = lowses age;
+              between = ess ncses;
+
+      Define: ncses = cses*(-1);
+                            
+  ANALYSIS:  TYPE = Twolevel;
+             Estimator is MLR;
+             Iterations = 5000;
+            
+     Model:
+             %BETWEEN%
+             bachiev by math read lang;
+             bachiev on ncses ess;
+             read@0;
+                     
+
+             %WITHIN%
+             achiev by math read lang;
+             achiev on lowses age;
+   
+    OUTPUT:  SAMPSTAT STANDARDIZED;

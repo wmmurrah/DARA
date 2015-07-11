@@ -1,0 +1,35 @@
+TITLE:      	    Model 5: Three-level CFA model; 
+DATA:      	        FILE IS C:\mplus1\3LCFA.dat;
+               	    Format is 11f8.0,7f8.2; 
+VARIABLE:           Names are orgcode deptid item1 item2 item3 item4 item5 item6
+                    age female deptsize dept_m orgsize empstab orgdemos orgqual  
+                    orgprod1 orgprod2;
+                    Usevariables are orgcode deptid item1 item2 item3 item4 
+                    item5 item6;
+                    CLUSTER = orgcode deptid;
+ANALYSIS: 	        TYPE = threelevel;
+                    Estimator is MLR;
+        Model:
+                    %Between orgcode%
+                    OF1 by item1 item2 item3;
+                    OF2 by item4 item5 item6;
+                    item1@0   item4@0;
+                       
+                    %between deptid%
+                    DF1 by item1
+                    item2(1)
+                    item3(2);
+                    DF2 by item4
+                    item5(3)
+                    item6(4);
+                    item1@0  item4@0;
+                        
+                    %within%
+                    F1 by item1
+                    item2(1)
+                    item3(2);
+                    F2 by item4
+                    item5(3)
+                    item6(4);
+                    item6 with item3;
+OUTPUT:             sampstat standardized tech1;

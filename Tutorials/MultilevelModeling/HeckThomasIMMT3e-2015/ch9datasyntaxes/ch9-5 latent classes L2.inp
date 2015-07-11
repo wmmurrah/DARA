@@ -1,0 +1,27 @@
+TITLE:        	    Two-level mixture model with latent classes at level 2 (M2); 
+DATA:      	        FILE IS C:\mplus\ch9ex2.dat;
+VARIABLE:           Names are orgid worksat female hiexp product pctbelow;
+               	    Usevariables are product worksat hiexp pctbelow;
+                    classes = cb(2);
+                 	within = worksat hiexp;
+                 	between = cb pctbelow;
+                 	CLUSTER IS orgid;
+define:    	        center worksat hiexp pctbelow(grandmean);
+ANALYSIS:           TYPE = twolevel mixture random;
+                 	Estimator is mlr;
+                 	starts = 250 4;
+      Model:
+                 	%Between%
+                 	%Overall%
+                 	product cb on pctbelow*-.5;
+                 	s1@0 s2@0;
+                 	%cb#1%
+                 	[s1*11 s2*7];
+		            product*170;
+                	%cb#2%
+                 	[s1*12 s2*13];
+                	%Within%
+                 	%Overall%
+                 	s1 | product on worksat;
+                 	s2 | product on hiexp;
+OUTPUT: 	        SAMPSTAT TECH1;
