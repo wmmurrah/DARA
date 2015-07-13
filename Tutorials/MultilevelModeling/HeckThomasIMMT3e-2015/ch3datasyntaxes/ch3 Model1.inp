@@ -9,7 +9,7 @@ VARIABLE:	    Names are deptid morale satpay female white pctbelow lev1wt
 		        Within = ;
 ANALYSIS:	    TYPE= Twolevel;
                 Estimator = MLR;
-Model:		    !NOTE: Mplus will produce a warning message in the output
+MODEL:		    !NOTE: Mplus will produce a warning message in the output
               !since the model has only the outcome variable (morale).
             %Between%
 		         morale;

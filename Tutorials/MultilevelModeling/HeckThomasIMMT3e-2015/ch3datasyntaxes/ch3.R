@@ -22,7 +22,6 @@ library(sjmisc)
 ctr <- function(x) scale(x, scale = FALSE)
 
 # Load data ---------------------------------------------------------------
-
 ch3new <- read.table("ch3new.dat", 
                      header = FALSE)
 
@@ -30,7 +29,8 @@ names(ch3new) <- c("deptid", "morale", "satpay", "female", "white", "pctbelow",
                    "lev1wt", "lev2wt")
 
 # I keep all variable as numeric for now
-stargazer(ch3new, type = "text")
+stargazer(ch3new, type = "text",
+          title = "Level 1 descriptive statistics (talk about data)")
 
 # How many groups are there (deptid)?
 length(unique(ch3new$deptid))
@@ -38,6 +38,8 @@ length(unique(ch3new$deptid))
 range(table(ch3new$deptid))
 # What is the average group size?
 mean(table(ch3new$deptid))
+
+# Recode categorical variables into factors.
 ch3new$deptid <- to_fac(ch3new$deptid)
 ch3new$female <- to_fac(ch3new$female)
 ch3new$white <- to_fac(ch3new$white)
@@ -50,19 +52,40 @@ sd(agg.pctbelow[ ,2])
 
 morale.aov <- aov(morale ~ deptid, ch3new)
 summary(morale.aov)
-# Model 1: Unconditional Model --------------------------------------------
 
+# Model 1: Unconditional Model --------------------------------------------
 model1 <- lmer(morale ~ 1 + (1 | deptid), ch3new)
 summary(model1)
 screenreg(model1)
 
+# Useful information:
+# 1. Estimated mean morale score (Intercept).
+# 2. Partitioning of total variance in morale score betweem level 1 
+#    and level2.
+# 3. Level of dependence within level 2 units (ICC).
+#    between/(between + within) = between/total
 # ICC
 ICC1.lme(morale, deptid, ch3new)
+# 4. Reliability of each department's mean morale score can be estimated.
+
+lam.rel <- function(var.b, var.w, nj.vec) {
+  lam <- var.b/(var.b + (var.w/nj.vec))
+  return(lam)
+}
+
+lam.rel(var.b = 5.4, 
+        var.w = 33.30, 
+        nj.vec = c(14, 80, 200))
+# 5. Test of the null hypothesis that all departments have the same
+# mean morale score.
+
+####### Compare this to Mplus output ##########
+
 
 # Model 2: Random-intercept Model -----------------------------------------
 
-model2 <- lmer(morale ~ ctr(satpay) +  ctr(female) + ctr(white) + (1 | deptid), 
-               ch3new)
+# model2 <- lmer(morale ~ ctr(satpay) +  ctr(female) + ctr(white) + (1 | deptid), 
+#                ch3new)
 model2 <- lmer(morale ~ ctr(satpay) +  female + white + (1 | deptid), 
                ch3new)
 summary(model2)

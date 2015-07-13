@@ -170,6 +170,7 @@ modcols = 1:5
 for (i in 1:length(unique(toydat$group))) {
   abline(reg = sepmodels[[i]], col = i)
 }
+
 ```
 
 
