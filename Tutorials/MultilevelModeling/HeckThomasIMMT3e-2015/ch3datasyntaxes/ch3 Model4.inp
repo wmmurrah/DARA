@@ -1,5 +1,5 @@
 TITLE:	    Model 4: Explaining variation in the level-2 intercept and slope;
-DATA:	    FILE IS: C:\ Mplus1\ch3new.dat;
+DATA:	    FILE IS ch3new.dat;
 		    Format is 5f8.0, 3f8.2;
 VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt 
             lev2wt;

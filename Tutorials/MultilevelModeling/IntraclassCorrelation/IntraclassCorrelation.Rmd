@@ -1,0 +1,194 @@
+---
+title: "Intraclass correlations"
+output:
+  html_document:
+    css: ../lab.css
+    highlight: pygments
+    theme: cerulean
+---
+
+## Set up 
+```{r, message=FALSE, warning=FALSE}
+library(knitr)
+opts_knit$set(root.dir = "../../")
+opts_chunk$set(warning=FALSE, message=FALSE, echo=TRUE, comment=NULL)
+library(lme4)
+library(psychometric)
+library(psych)
+library(texreg)
+library(ztable)
+library(xtable)
+library(mosaic)
+options(ztable.type="html")
+options(digits = 2)
+```
+
+
+## Extreme 1: Very Low Within Group Variance, High Between Group Variance
+
+## Data
+
+Create a data set with very low within group variance and high between group variance.
+```{r, results='asis'}
+dat <- data.frame(Y = c(seq(0,1, length.out = 10), 
+                        seq(4.5, 5.5, length.out =  10), 
+                        seq(9,10, length.out =  10)), 
+                  Group = factor(rep(1:3, each=10)))
+
+# Print data frame.
+z <- ztable(dat, align = "ccc")
+z <- addrgroup(z, 
+               rgroup = c("Group 1", "Group 2", "Group 3"), 
+               n.rgroup = c(10, 10, 10),
+               cspan.rgroup=1)
+z
+```
+
+## Boxplot of data
+```{r}
+boxplot(Y ~ Group, 
+        data = dat, 
+        xlab="Group", 
+        ylab="Y", 
+        main= "Low within group variance, high between group variance")
+```
+
+## Descriptive statistics of data
+```{r}
+mean(dat$Y)
+var(dat$Y)
+sd(dat$Y)
+aggregate(Y ~ Group, 
+          data = dat, 
+          FUN = function(x) c(Mean=mean(x), 
+                              VAR=var(x), 
+                              SD=sd(x)))
+```
+
+## Variance of the group means
+```{r}
+var(c(.5, 5, 9.5))
+```
+
+## Intraclass correlation
+```{r}
+ICC1.lme(Y, Group, dat)
+```
+
+
+
+## Comparison of models of clustered data
+```{r, results='asis'}
+# Linear model ignoring clustered nature of data.
+lm.mod <- lm(Y ~ 1, 
+             data = dat)
+
+# Linear model with fixed effects for group.
+fe.mod <- lm(Y ~ Group, 
+             data = dat)
+# Hierarchical model.
+ml.mod <- lmer(Y ~ 1 + (1 | Group), 
+               data = dat)
+
+# Compare models
+htmlreg(l=list(lm.mod, fe.mod, ml.mod), 
+        custom.model.names = c("Linear", "Fixed Effects", "Hierarchical"),
+        caption = "Comparing models of clustered data" ,
+        caption.above=TRUE)
+```
+
+
+* * *
+# Extreme 2: High Within Group Variance, Low Between Group Variance
+```{r, results='asis'}
+dat2 <- data.frame(Y = c(seq(0,10, length.out = 10) - .1, 
+                         seq(0,10, length.out = 10), 
+                         seq(0,10, length.out = 10) + .1), 
+                  Group = factor(rep(1:3, each=10)))
+
+# Print data frame.
+z2 <- ztable(dat2, align = "ccc")
+z2 <- addrgroup(z2, 
+                rgroup = c("Group 1", "Group 2", "Group 3"), 
+                n.rgroup = c(10, 10, 10),
+                cspan.rgroup=1)
+z2
+```
+
+## Boxplot of data
+```{r}
+boxplot(Y ~ Group, 
+        data = dat2, 
+        xlab="Group", 
+        ylab="Y", 
+        main= "High within group variance, no between group variance")
+```
+
+## Descriptive Statistics
+```{r}
+mean(dat2$Y)
+var(dat2$Y)
+sd(dat2$Y)
+aggregate(Y ~ Group, 
+          data = dat2, 
+          FUN = function(x) c(Mean=mean(x), VAR=var(x), SD=sd(x)))
+
+```
+
+## Variance of the group means
+```{r}
+var(c(4.9, 5.0, 5.1))
+```
+
+
+```{r}
+ICC1.lme(Y, Group, dat2)
+```
+
+
+```{r, results='asis'}
+# Linear model ignoring clustered nature of data.
+lm.mod2 <- lm(Y ~ 1, 
+              data = dat2)
+
+# Linear model with fixed effects for group.
+fe.mod2 <- lm(Y ~ Group, 
+              data = dat2)
+
+# Hierarchical model.
+ml.mod2 <- lmer(Y ~ 1 + (1 | Group), 
+                data = dat2)
+
+htmlreg(l=list(lm.mod2, fe.mod2, ml.mod2), 
+        custom.model.names = c("Linear", "Fixed Effects", "Hierarchical"),
+        caption = "Comparing models of clustered data" ,
+        caption.above=TRUE)
+```
+
+
+```{r}
+par(mfrow=c(1,2))
+boxplot(Y ~ Group, dat, xlab="Group", ylab="Y", main= "Low within, high between")
+
+boxplot(Y ~ Group, dat2, xlab="Group", ylab="Y", main= "High within no between")
+
+```
+
+## Low within, High between
+```{r}
+# par(mfrow = c(3,1))
+plotreg(list(lm.mod, fe.mod, ml.mod), 
+        xlim = c(-3, 10), 
+        mfrow = FALSE, 
+        custom.model.names = c("Linear", "Fixed Effects", "Hierarchical"))
+
+```
+
+## High within, low between
+```{r}
+plotreg(list(lm.mod2, fe.mod2, ml.mod2), 
+        xlim = c(-3, 10), 
+        mfrow =FALSE, 
+        custom.model.names = c("Linear", "Fixed Effects", "Hierarchical"))
+```
+

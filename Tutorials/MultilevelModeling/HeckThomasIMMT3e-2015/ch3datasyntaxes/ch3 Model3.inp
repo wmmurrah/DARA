@@ -7,7 +7,7 @@ VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt
 		    Cluster is deptid;
 		    Between = ;
 		    Within = satpay female white;
-Define:		Center satpay female white (grand);
+Define:		Center satpay  (grand); ! female white
 ANALYSIS:	TYPE=Twolevel random;
            
  Model:		! NOTE: Mplus version 7.3 will produce slightly 

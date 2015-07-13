@@ -1,0 +1,178 @@
+---
+title: "Introduction to Multilevel Modeling"
+author: "William Murrah"
+date: ''
+output:
+  html_document:
+    fig_height: 3
+    fig_width: 5
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+
+```{r, include=TRUE, message=FALSE}
+# Don't delete this chunk if you are using the mosaic package
+# This loads the mosaic and dplyr packages
+require(mosaic)
+# Other packages to load:
+require(ztable)
+require(texreg)
+require(lme4)
+```
+
+```{r, include=FALSE}
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+
+# This changes the default colors in lattice plots.
+trellis.par.set(theme=theme.mosaic())  
+
+# knitr settings to control how R chunks work.
+require(knitr)
+opts_knit$set(root.dir = "../../")
+opts_chunk$set(
+  tidy=FALSE,     # display code as typed
+  size="small"    # slightly smaller font for code
+)
+# This loads the mosaic data sets.  (Could be deleted if you are not using them.)
+require(mosaicData)  
+options(ztable.type = "html")
+```
+
+# Basic Notation
+
+$$
+Y_{ij} = \beta_{0j} + e_{ij},
+$$
+
+$$
+\beta_{0j} = \gamma_{00} + u_{0j}.
+$$
+
+$$
+Y_{ij} = \gamma_{00} + u_{0j} + e_{ij}
+$$
+
+
+# Toy Example
+
+```{r , results = 'asis'}
+toydat <- data.frame(id = 1:10,
+                     group = rep(1:5, each = 2),
+                     Y = c(5, 7, 4, 6, 3, 5, 2, 4, 1 ,3),
+                     X = c(1, 3, 2, 4, 3, 5, 4, 6 ,5, 7))
+ztable(toydat, 
+       align = "cccc")
+```
+
+## Ignore clustering
+
+```{r , results='asis'}
+model1 <- lm(Y ~ X, toydat)
+htmlreg(model1, 
+        caption = "Ignore clustering", 
+        custom.model.names = "ignore")
+plot(Y ~ X, 
+     toydat, 
+     main = "Ignore clustering",
+     xlim = c(0,8),
+     ylim = c(0, 8))
+abline(reg = model1, 
+        col = "red")
+
+
+```
+
+$$
+Y_i = 5.333 - .33X + e_i
+$$
+
+**Interpretation:** There’s a negative relationship between the predictor ***X*** and the outcome ***Y***, a one unit increase in ***X*** results in .333 lower ***Y***.
+
+
+### Plot of Residuals
+```{r , message=FALSE}
+mplot(model1, 
+      which = 1, 
+      system = "ggplot", 
+      ncol = 2)
+```
+
+## Aggregate to the Group Level
+```{r , results= 'asis'}
+gdat <- data.frame(group = 1:5,
+                   Y = aggregate(Y ~ group,
+                                 toydat, 
+                                 FUN = mean)$Y,
+                   X = aggregate(X ~ group,
+                                  toydat,
+                                  FUN = mean)$X)
+ztable(gdat,
+       align = "ccc")
+```
+
+```{r , results='asis'}
+model2 <- lm(Y ~ X, gdat)
+htmlreg(list(model1, model2),
+        custom.model.names = c("ignore", "aggregate"))
+plot(Y ~ X, 
+     gdat, 
+     main = "Aggregate",
+     xlim = c(0,8),
+     ylim = c(0, 8))
+abline(reg = model2, 
+        col = "red")
+```
+
+$$
+Y_j = 8.00 - 1.00X + u_j
+$$
+
+**Interpretation:** There’s a negative relationship between the predictor ***X*** and the outcome ***Y***, a one unit increase in ***X*** results in 1.0 lower ***Y***.
+
+## Separate Models within Groups
+
+```{r results ='asis'}
+sepmodels <- lmList(Y ~ X |group, data = toydat)
+htmlreg(sepmodels[1:5])
+plot(Y ~ X, 
+     toydat, 
+     main = "Separate Group Models",
+     xlim = c(0,8),
+     ylim = c(0, 8))
+modcols = 1:5
+for (i in 1:length(unique(toydat$group))) {
+  abline(reg = sepmodels[[i]], col = i)
+}
+```
+
+
+## Multilevel Modeling
+
+```{r , results='asis'}
+mlmodel <- lmer(Y ~ X + (1 | group), data = toydat)
+htmlreg(list(model1, model2, mlmodel),
+        custom.model.names = c("ignore", "aggregate", "multilevel"))
+```
+
+```{r ,results = 'asis'}
+femodel <- lm(Y ~ X + as.factor(group), data = toydat )
+htmlreg(list(model1, model2, mlmodel, femodel),
+        custom.model.names = c("ignore", "aggregate", "multilevel", "FE model"))
+```
+
+
+### Document Information
+  * File creation date: `r Sys.Date()`
+  * `r R.version.string`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * Additional session information
+  
+```{r echo=FALSE}
+sessionInfo()  # could use devtools::session_info() if you prefer that
+```
+  

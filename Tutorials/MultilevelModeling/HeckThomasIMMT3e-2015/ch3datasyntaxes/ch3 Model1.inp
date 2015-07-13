@@ -1,4 +1,4 @@
-TITLE:		    Model 1: Two-level (null) regression model;
+TITLE:		  Model 1: Two-level (null) regression model;
 DATA:	    	FILE IS ch3new.dat;
 		        Format is 5f8.0,3f8.2;
 VARIABLE:	    Names are deptid morale satpay female white pctbelow lev1wt 
@@ -10,11 +10,11 @@ VARIABLE:	    Names are deptid morale satpay female white pctbelow lev1wt
 ANALYSIS:	    TYPE= Twolevel;
                 Estimator = MLR;
 Model:		    !NOTE: Mplus will produce a warning message in the output
-                !since the model has only the outcome variable (morale).
-                %Between%
-		        morale;
+              !since the model has only the outcome variable (morale).
+            %Between%
+		         morale;
 		        %Within%
-		        morale;
-OUTPUT:	        Sampstat Tech1;
+		         morale;
+OUTPUT:	    Sampstat Tech1;
 
 
