@@ -12,6 +12,9 @@ output:
   word_document:
     fig_height: 3
     fig_width: 5
+header-includes:
+- \usepackage{amsmath}
+bibliography: references.bib    
 ---
 
 
@@ -46,19 +49,25 @@ options(ztable.type = "html")
 # Basic Notation
 
 $$
-Y_{ij} = \beta_{0j} + e_{ij},
+Y_{ij} = \beta_{0j} + e_{ij}, \tag{1}
 $$
 
 $$
-\beta_{0j} = \gamma_{00} + u_{0j}.
+\beta_{0j} = \gamma_{00} + u_{0j}, \tag{2}
 $$
 
 $$
-Y_{ij} = \gamma_{00} + u_{0j} + e_{ij}
-$$
+Y_{ij} = \gamma_{00} + u_{0j} + e_{ij}. \tag{3}
+$$ 
 
 
-# Toy Example
+
+# Example of Simpson's Paradox
+
+This example of Simpson's paradox is taken from [Joseph Stevens](http://pages.uoregon.edu/stevensj/workshops/hlmslides.pdf), which is based on data from [@snijders1999multilevel].
+
+### Definition from [wikipedia](https://en.wikipedia.org/wiki/Simpson%27s_paradox):
+> Simpson's paradox, or the Yule–Simpson effect, is a paradox in probability and statistics, in which a trend that appears in different groups of data but disappears or reverses when these groups are combined. It is sometimes given the impersonal title reversal paradox or amalgamation paradox  .
 
 ```{r , results = 'asis'}
 toydat <- data.frame(id = 1:10,
@@ -139,6 +148,19 @@ $$
 ```{r results ='asis'}
 sepmodels <- lmList(Y ~ X |group, data = toydat)
 htmlreg(sepmodels[1:5])
+```
+
+We could also think about this as a fixed effects model
+
+```{r results = 'asis'}
+ctr <- function(x) scale(x, scale = FALSE)
+femodel <- lm(Y ~ X + as.factor(group), data = toydat )
+
+htmlreg(femodel)
+```
+
+
+```{r results = 'asis'}
 plot(Y ~ X, 
      toydat, 
      main = "Separate Group Models",
@@ -155,15 +177,11 @@ for (i in 1:length(unique(toydat$group))) {
 
 ```{r , results='asis'}
 mlmodel <- lmer(Y ~ X + (1 | group), data = toydat)
-htmlreg(list(model1, model2, mlmodel),
-        custom.model.names = c("ignore", "aggregate", "multilevel"))
+htmlreg(list(model1, model2, femodel, mlmodel),
+        custom.model.names = c("ignore", "aggregate", "femodel", "multilevel"))
 ```
 
-```{r ,results = 'asis'}
-femodel <- lm(Y ~ X + as.factor(group), data = toydat )
-htmlreg(list(model1, model2, mlmodel, femodel),
-        custom.model.names = c("ignore", "aggregate", "multilevel", "FE model"))
-```
+
 
 
 ### Document Information
@@ -175,4 +193,3 @@ htmlreg(list(model1, model2, mlmodel, femodel),
 ```{r echo=FALSE}
 sessionInfo()  # could use devtools::session_info() if you prefer that
 ```
-  

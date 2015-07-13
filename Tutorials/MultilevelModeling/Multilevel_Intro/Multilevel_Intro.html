@@ -76,17 +76,23 @@ require(lme4)</code></pre>
 <div id="basic-notation" class="section level1">
 <h1>Basic Notation</h1>
 <p><span class="math">\[
-Y_{ij} = \beta_{0j} + e_{ij},
+Y_{ij} = \beta_{0j} + e_{ij}, \tag{1}
 \]</span></p>
 <p><span class="math">\[
-\beta_{0j} = \gamma_{00} + u_{0j}.
+\beta_{0j} = \gamma_{00} + u_{0j}, \tag{2}
 \]</span></p>
 <p><span class="math">\[
-Y_{ij} = \gamma_{00} + u_{0j} + e_{ij}
+Y_{ij} = \gamma_{00} + u_{0j} + e_{ij}. \tag{3}
 \]</span></p>
 </div>
-<div id="toy-example" class="section level1">
-<h1>Toy Example</h1>
+<div id="example-of-simpsons-paradox" class="section level1">
+<h1>Example of Simpson’s Paradox</h1>
+<p>This example of Simpson’s paradox is taken from <a href="http://pages.uoregon.edu/stevensj/workshops/hlmslides.pdf">Joseph Stevens</a>, which is based on data from <span class="citation">(Snijders and Bosker 1999)</span>.</p>
+<div id="definition-from-wikipedia" class="section level3">
+<h3>Definition from <a href="https://en.wikipedia.org/wiki/Simpson%27s_paradox">wikipedia</a>:</h3>
+<blockquote>
+<p>Simpson’s paradox, or the Yule–Simpson effect, is a paradox in probability and statistics, in which a trend that appears in different groups of data but disappears or reverses when these groups are combined. It is sometimes given the impersonal title reversal paradox or amalgamation paradox .</p>
+</blockquote>
 <pre class="r"><code>toydat &lt;- data.frame(id = 1:10,
                      group = rep(1:5, each = 2),
                      Y = c(5, 7, 4, 6, 3, 5, 2, 4, 1 ,3),
@@ -300,6 +306,7 @@ X
 </td>
 </tr>
 </table>
+</div>
 <div id="ignore-clustering" class="section level2">
 <h2>Ignore clustering</h2>
 <pre class="r"><code>model1 &lt;- lm(Y ~ X, toydat)
@@ -820,6 +827,153 @@ RMSE
 </td>
 </tr>
 </table>
+<p>We could also think about this as a fixed effects model</p>
+<pre class="r"><code>ctr &lt;- function(x) scale(x, scale = FALSE)
+femodel &lt;- lm(Y ~ X + as.factor(group), data = toydat )
+
+htmlreg(femodel)</code></pre>
+<pre><code>## Warning in summary.lm(model, ...): essentially perfect fit: summary may be
+## unreliable</code></pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<table cellspacing="0" align="center" style="border: none;">
+<caption align="bottom" style="margin-top:0.3em;">
+Statistical models
+</caption>
+<tr>
+<th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;">
+</th>
+<th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;">
+<b>Model 1</b>
+</th>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+(Intercept)
+</td>
+<td style="padding-right: 12px; border: none;">
+4.00<sup style="vertical-align: 0px;">***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+</td>
+<td style="padding-right: 12px; border: none;">
+(0.00)
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+X
+</td>
+<td style="padding-right: 12px; border: none;">
+1.00<sup style="vertical-align: 0px;">***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+</td>
+<td style="padding-right: 12px; border: none;">
+(0.00)
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+as.factor(group)2
+</td>
+<td style="padding-right: 12px; border: none;">
+-2.00<sup style="vertical-align: 0px;">***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+</td>
+<td style="padding-right: 12px; border: none;">
+(0.00)
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+as.factor(group)3
+</td>
+<td style="padding-right: 12px; border: none;">
+-4.00<sup style="vertical-align: 0px;">***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+</td>
+<td style="padding-right: 12px; border: none;">
+(0.00)
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+as.factor(group)4
+</td>
+<td style="padding-right: 12px; border: none;">
+-6.00<sup style="vertical-align: 0px;">***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+</td>
+<td style="padding-right: 12px; border: none;">
+(0.00)
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+as.factor(group)5
+</td>
+<td style="padding-right: 12px; border: none;">
+-8.00<sup style="vertical-align: 0px;">***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+</td>
+<td style="padding-right: 12px; border: none;">
+(0.00)
+</td>
+</tr>
+<tr>
+<td style="border-top: 1px solid black;">
+R<sup style="vertical-align: 0px;">2</sup>
+</td>
+<td style="border-top: 1px solid black;">
+1.00
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+Adj. R<sup style="vertical-align: 0px;">2</sup>
+</td>
+<td style="padding-right: 12px; border: none;">
+1.00
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;">
+Num. obs.
+</td>
+<td style="padding-right: 12px; border: none;">
+10
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid black;">
+RMSE
+</td>
+<td style="border-bottom: 2px solid black;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="padding-right: 12px; border: none;" colspan="2">
+<span style="font-size:0.8em"><sup style="vertical-align: 0px;"><em><strong></sup>p &lt; 0.001, <sup style="vertical-align: 0px;"></strong></sup>p &lt; 0.01, <sup style="vertical-align: 0px;"></em></sup>p &lt; 0.05</span>
+</td>
+</tr>
+</table>
 <pre class="r"><code>plot(Y ~ X, 
      toydat, 
      main = &quot;Separate Group Models&quot;,
@@ -839,216 +993,8 @@ for (i in 1:length(unique(toydat$group))) {
 ## 0.002, component 1)</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="r"><code>htmlreg(list(model1, model2, mlmodel),
-        custom.model.names = c(&quot;ignore&quot;, &quot;aggregate&quot;, &quot;multilevel&quot;))</code></pre>
-<pre><code>## Warning in summary.lm(model, ...): essentially perfect fit: summary may be
-## unreliable</code></pre>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<table cellspacing="0" align="center" style="border: none;">
-<caption align="bottom" style="margin-top:0.3em;">
-Statistical models
-</caption>
-<tr>
-<th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;">
-</th>
-<th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;">
-<b>ignore</b>
-</th>
-<th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;">
-<b>aggregate</b>
-</th>
-<th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;">
-<b>multilevel</b>
-</th>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-(Intercept)
-</td>
-<td style="padding-right: 12px; border: none;">
-5.33<sup style="vertical-align: 0px;">**</sup>
-</td>
-<td style="padding-right: 12px; border: none;">
-8.00<sup style="vertical-align: 0px;">***</sup>
-</td>
-<td style="padding-right: 12px; border: none;">
-0.00
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-(1.45)
-</td>
-<td style="padding-right: 12px; border: none;">
-(0.00)
-</td>
-<td style="padding-right: 12px; border: none;">
-(1.26)
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-X
-</td>
-<td style="padding-right: 12px; border: none;">
--0.33
-</td>
-<td style="padding-right: 12px; border: none;">
--1.00<sup style="vertical-align: 0px;">***</sup>
-</td>
-<td style="padding-right: 12px; border: none;">
-1.00<sup style="vertical-align: 0px;">***</sup>
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-(0.33)
-</td>
-<td style="padding-right: 12px; border: none;">
-(0.00)
-</td>
-<td style="padding-right: 12px; border: none;">
-(0.00)
-</td>
-</tr>
-<tr>
-<td style="border-top: 1px solid black;">
-R<sup style="vertical-align: 0px;">2</sup>
-</td>
-<td style="border-top: 1px solid black;">
-0.11
-</td>
-<td style="border-top: 1px solid black;">
-1.00
-</td>
-<td style="border-top: 1px solid black;">
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-Adj. R<sup style="vertical-align: 0px;">2</sup>
-</td>
-<td style="padding-right: 12px; border: none;">
-0.00
-</td>
-<td style="padding-right: 12px; border: none;">
-1.00
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-Num. obs.
-</td>
-<td style="padding-right: 12px; border: none;">
-10
-</td>
-<td style="padding-right: 12px; border: none;">
-5
-</td>
-<td style="padding-right: 12px; border: none;">
-10
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-RMSE
-</td>
-<td style="padding-right: 12px; border: none;">
-1.83
-</td>
-<td style="padding-right: 12px; border: none;">
-0.00
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-AIC
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
--87.16
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-BIC
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
--85.95
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-Log Likelihood
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-47.58
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-Num. groups: group
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-5
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;">
-Variance: group.(Intercept)
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-</td>
-<td style="padding-right: 12px; border: none;">
-5.00
-</td>
-</tr>
-<tr>
-<td style="border-bottom: 2px solid black;">
-Variance: Residual
-</td>
-<td style="border-bottom: 2px solid black;">
-</td>
-<td style="border-bottom: 2px solid black;">
-</td>
-<td style="border-bottom: 2px solid black;">
-0.00
-</td>
-</tr>
-<tr>
-<td style="padding-right: 12px; border: none;" colspan="4">
-<span style="font-size:0.8em"><sup style="vertical-align: 0px;"><em><strong></sup>p &lt; 0.001, <sup style="vertical-align: 0px;"></strong></sup>p &lt; 0.01, <sup style="vertical-align: 0px;"></em></sup>p &lt; 0.05</span>
-</td>
-</tr>
-</table>
-<pre class="r"><code>femodel &lt;- lm(Y ~ X + as.factor(group), data = toydat )
-htmlreg(list(model1, model2, mlmodel, femodel),
-        custom.model.names = c(&quot;ignore&quot;, &quot;aggregate&quot;, &quot;multilevel&quot;, &quot;FE model&quot;))</code></pre>
+<pre class="r"><code>htmlreg(list(model1, model2, femodel, mlmodel),
+        custom.model.names = c(&quot;ignore&quot;, &quot;aggregate&quot;, &quot;femodel&quot;, &quot;multilevel&quot;))</code></pre>
 <pre><code>## Warning in summary.lm(model, ...): essentially perfect fit: summary may be
 ## unreliable</code></pre>
 <pre><code>## Warning in summary.lm(model, ...): essentially perfect fit: summary may be
@@ -1068,10 +1014,10 @@ Statistical models
 <b>aggregate</b>
 </th>
 <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;">
-<b>multilevel</b>
+<b>femodel</b>
 </th>
 <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;">
-<b>FE model</b>
+<b>multilevel</b>
 </th>
 </tr>
 <tr>
@@ -1083,13 +1029,13 @@ Statistical models
 </td>
 <td style="padding-right: 12px; border: none;">
 8.00<sup style="vertical-align: 0px;">***</sup>
-</td>
-<td style="padding-right: 12px; border: none;">
-0.00
 </td>
 <td style="padding-right: 12px; border: none;">
 4.00<sup style="vertical-align: 0px;">***</sup>
 </td>
+<td style="padding-right: 12px; border: none;">
+0.00
+</td>
 </tr>
 <tr>
 <td style="padding-right: 12px; border: none;">
@@ -1101,10 +1047,10 @@ Statistical models
 (0.00)
 </td>
 <td style="padding-right: 12px; border: none;">
-(1.26)
+(0.00)
 </td>
 <td style="padding-right: 12px; border: none;">
-(0.00)
+(1.26)
 </td>
 </tr>
 <tr>
@@ -1149,9 +1095,9 @@ as.factor(group)2
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
+-2.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
--2.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
@@ -1162,9 +1108,9 @@ as.factor(group)2
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
+(0.00)
 </td>
 <td style="padding-right: 12px; border: none;">
-(0.00)
 </td>
 </tr>
 <tr>
@@ -1176,9 +1122,9 @@ as.factor(group)3
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
+-4.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
--4.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
@@ -1189,9 +1135,9 @@ as.factor(group)3
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
+(0.00)
 </td>
 <td style="padding-right: 12px; border: none;">
-(0.00)
 </td>
 </tr>
 <tr>
@@ -1203,9 +1149,9 @@ as.factor(group)4
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
+-6.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
--6.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
@@ -1216,9 +1162,9 @@ as.factor(group)4
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
+(0.00)
 </td>
 <td style="padding-right: 12px; border: none;">
-(0.00)
 </td>
 </tr>
 <tr>
@@ -1230,9 +1176,9 @@ as.factor(group)5
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
+-8.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
--8.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
@@ -1243,9 +1189,9 @@ as.factor(group)5
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
+(0.00)
 </td>
 <td style="padding-right: 12px; border: none;">
-(0.00)
 </td>
 </tr>
 <tr>
@@ -1259,9 +1205,9 @@ R<sup style="vertical-align: 0px;">2</sup>
 1.00
 </td>
 <td style="border-top: 1px solid black;">
+1.00
 </td>
 <td style="border-top: 1px solid black;">
-1.00
 </td>
 </tr>
 <tr>
@@ -1275,9 +1221,9 @@ Adj. R<sup style="vertical-align: 0px;">2</sup>
 1.00
 </td>
 <td style="padding-right: 12px; border: none;">
+1.00
 </td>
 <td style="padding-right: 12px; border: none;">
-1.00
 </td>
 </tr>
 <tr>
@@ -1308,9 +1254,9 @@ RMSE
 0.00
 </td>
 <td style="padding-right: 12px; border: none;">
+0.00
 </td>
 <td style="padding-right: 12px; border: none;">
-0.00
 </td>
 </tr>
 <tr>
@@ -1322,9 +1268,9 @@ AIC
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
--87.16
 </td>
 <td style="padding-right: 12px; border: none;">
+-87.16
 </td>
 </tr>
 <tr>
@@ -1336,9 +1282,9 @@ BIC
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
--85.95
 </td>
 <td style="padding-right: 12px; border: none;">
+-85.95
 </td>
 </tr>
 <tr>
@@ -1350,9 +1296,9 @@ Log Likelihood
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
-47.58
 </td>
 <td style="padding-right: 12px; border: none;">
+47.58
 </td>
 </tr>
 <tr>
@@ -1364,9 +1310,9 @@ Num. groups: group
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
-5
 </td>
 <td style="padding-right: 12px; border: none;">
+5
 </td>
 </tr>
 <tr>
@@ -1378,9 +1324,9 @@ Variance: group.(Intercept)
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
-5.00
 </td>
 <td style="padding-right: 12px; border: none;">
+5.00
 </td>
 </tr>
 <tr>
@@ -1392,9 +1338,9 @@ Variance: Residual
 <td style="border-bottom: 2px solid black;">
 </td>
 <td style="border-bottom: 2px solid black;">
-0.00
 </td>
 <td style="border-bottom: 2px solid black;">
+0.00
 </td>
 </tr>
 <tr>
@@ -1406,7 +1352,7 @@ Variance: Residual
 <div id="document-information" class="section level3">
 <h3>Document Information</h3>
 <ul>
-<li>File creation date: 2015-07-12</li>
+<li>File creation date: 2015-07-13</li>
 <li>R version 3.2.1 (2015-06-18)</li>
 <li><code>mosaic</code> package version: 0.10.0</li>
 <li>Additional session information</li>
@@ -1442,6 +1388,9 @@ Variance: Residual
 ## [29] splines_3.2.1    assertthat_0.1   pbkrtest_0.4-2   colorspace_1.2-6
 ## [33] labeling_0.3     quantreg_5.11    stringi_0.5-5    lazyeval_0.1.10 
 ## [37] munsell_0.4.2</code></pre>
+<div class="references">
+<p>Snijders, Tom, and Roel Bosker. 1999. “Multilevel Modeling: An Introduction to Basic and Advanced Multilevel Modeling.” Sage.</p>
+</div>
 </div>
 </div>
 </div>
