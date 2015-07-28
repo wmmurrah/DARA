@@ -1,0 +1,211 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+07/28/2015  12:39 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:		Model 2: Level-1 random intercept model
+  ! Changes made to this syntax file from 'ch3 Model1.inp'are as follows:
+  ! 1. Add predictors to usevariables command
+  ! 2. Add these predictors to the "Within" command
+  ! 3. Add the DEFINE command with the "Center" sub-command (grand) or
+  !    (grandmean). We could also do (group) or (groupmean)
+  ! 4. Specify the within group regression model as:
+  !    morale ON satpay female white
+  ;
+
+
+  DATA:		FILE IS ch3new.dat;
+  		    Format is 5f8.0,3f8.2;
+  VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt
+              lev2wt ;
+  		    Usevariables are deptid morale satpay;
+  		    Cluster is deptid;
+  		    Between = ;
+  		    Within = satpay;
+  Define:	center satpay (group);
+  ANALYSIS:	Type=Twolevel;
+  Model:		%Between%
+  		    morale;
+  		    %Within%
+  		    morale ON satpay;
+
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Model 2: Level-1 random intercept model
+;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       13189
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   MORALE
+
+Observed independent variables
+   SATPAY
+
+Variables with special functions
+
+  Cluster variable      DEPTID
+
+  Within variables
+   SATPAY
+
+  Centering (GROUPMEAN)
+   SATPAY
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  ch3new.dat
+Input data format
+  (5F8.0,3F8.2)
+
+
+SUMMARY OF DATA
+
+     Number of clusters                        165
+
+     Average cluster size       79.933
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass
+     Variable  Correlation
+
+     MORALE       0.146
+
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        4
+
+Loglikelihood
+
+          H0 Value                      -37936.560
+          H0 Scaling Correction Factor      1.3081
+            for MLR
+          H1 Value                      -37936.560
+          H1 Scaling Correction Factor      1.3081
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   75881.120
+          Bayesian (BIC)                 75911.068
+          Sample-Size Adjusted BIC       75898.356
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000*
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+          Scaling Correction Factor         1.0000
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           6349.187
+          Degrees of Freedom                     1
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value for Within                   0.000
+          Value for Between                  0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ MORALE     ON
+    SATPAY             1.210      0.014     85.027      0.000
+
+ Residual Variances
+    MORALE            17.730      0.293     60.426      0.000
+
+Between Level
+
+ Means
+    MORALE            26.431      0.190    139.472      0.000
+
+ Variances
+    MORALE             5.646      0.612      9.228      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.126E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  12:39:19
+        Ending Time:  12:39:20
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

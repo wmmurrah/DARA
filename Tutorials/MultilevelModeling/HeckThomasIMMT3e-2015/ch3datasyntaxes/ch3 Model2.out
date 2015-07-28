@@ -1,10 +1,20 @@
 Mplus VERSION 7.31 (Linux)
 MUTHEN & MUTHEN
-07/12/2015   1:43 PM
+07/17/2015   3:00 PM
 
 INPUT INSTRUCTIONS
 
-  TITLE:		Model 2: Level-1 random intercept model;
+  TITLE:		Model 2: Level-1 random intercept model
+  ! Changes made to this syntax file from 'ch3 Model1.inp'are as follows:
+  ! 1. Add predictors to usevariables command
+  ! 2. Add these predictors to the "Within" command
+  ! 3. Add the DEFINE command with the "Center" sub-command (grand) or
+  !    (grandmean). We could also do (group) or (groupmean)
+  ! 4. Specify the within group regression model as:
+  !    morale ON satpay female white
+  ;
+
+
   DATA:		FILE IS ch3new.dat;
   		    Format is 5f8.0,3f8.2;
   VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt
@@ -18,8 +28,9 @@ INPUT INSTRUCTIONS
   Model:		%Between%
   		    morale;
   		    %Within%
-  		    morale on satpay female white;
+  		    morale ON satpay female white;
   OUTPUT:	    SAMPSTAT TECH1;	
+
 
 
 
@@ -27,7 +38,8 @@ INPUT READING TERMINATED NORMALLY
 
 
 
-Model 2: Level-1 random intercept model;
+Model 2: Level-1 random intercept model
+;
 
 SUMMARY OF ANALYSIS
 
@@ -468,9 +480,9 @@ TECHNICAL 1 OUTPUT
  WHITE          0.000         0.000         0.000         0.000
 
 
-     Beginning Time:  13:43:43
-        Ending Time:  13:43:47
-       Elapsed Time:  00:00:04
+     Beginning Time:  15:00:10
+        Ending Time:  15:00:10
+       Elapsed Time:  00:00:00
 
 
 

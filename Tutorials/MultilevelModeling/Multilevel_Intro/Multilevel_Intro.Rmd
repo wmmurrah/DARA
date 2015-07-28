@@ -36,7 +36,7 @@ trellis.par.set(theme=theme.mosaic())
 
 # knitr settings to control how R chunks work.
 require(knitr)
-opts_knit$set(root.dir = "../../")
+opts_knit$set(root.dir = "../../../")
 opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small"    # slightly smaller font for code
@@ -183,6 +183,33 @@ htmlreg(list(model1, model2, femodel, mlmodel),
 ```
 
 
+```
+TITLE:		  Model 1: Two-level (null) regression model;
+DATA:	    	FILE IS ch3new.dat;
+		        Format is 5f8.0,3f8.2;
+VARIABLE:	    Names are deptid morale satpay female white pctbelow lev1wt 
+                lev2wt;
+		        Usevariables are deptid morale;
+		        Cluster is deptid;
+		        Between = ;
+		        Within = ;
+ANALYSIS:	    TYPE= Twolevel;
+                Estimator = MLR;
+MODEL:		    !NOTE: Mplus will produce a warning message in the output
+              !since the model has only the outcome variable (morale).
+            %Between%
+		         morale;
+		        %Within%
+		         morale;
+OUTPUT:	    Sampstat Tech1;
+
+```
+
+```{r}
+getwd()
+dump("Tutorials/MultilevelModeling/HeckThomasIMMT3e-2015/ch3datasyntaxes/ch3Model1.out")
+print(.Last.value)
+```
 
 
 ### Document Information

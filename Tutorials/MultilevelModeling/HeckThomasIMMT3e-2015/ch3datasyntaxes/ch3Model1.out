@@ -1,10 +1,10 @@
 Mplus VERSION 7.31 (Linux)
 MUTHEN & MUTHEN
-07/10/2015   5:53 PM
+07/13/2015   3:16 PM
 
 INPUT INSTRUCTIONS
 
-  TITLE:		    Model 1: Two-level (null) regression model;
+  TITLE:		  Model 1: Two-level (null) regression model;
   DATA:	    	FILE IS ch3new.dat;
   		        Format is 5f8.0,3f8.2;
   VARIABLE:	    Names are deptid morale satpay female white pctbelow lev1wt
@@ -15,13 +15,13 @@ INPUT INSTRUCTIONS
   		        Within = ;
   ANALYSIS:	    TYPE= Twolevel;
                   Estimator = MLR;
-  Model:		    !NOTE: Mplus will produce a warning message in the output
-                  !since the model has only the outcome variable (morale).
-                  %Between%
-  		        morale;
+  MODEL:		    !NOTE: Mplus will produce a warning message in the output
+                !since the model has only the outcome variable (morale).
+              %Between%
+  		         morale;
   		        %Within%
-  		        morale;
-  OUTPUT:	        Sampstat Tech1;
+  		         morale;
+  OUTPUT:	    Sampstat Tech1;
 
 
 
@@ -300,9 +300,9 @@ TECHNICAL 1 OUTPUT
  MORALE        19.103
 
 
-     Beginning Time:  17:53:29
-        Ending Time:  17:53:29
-       Elapsed Time:  00:00:00
+     Beginning Time:  15:16:38
+        Ending Time:  15:16:40
+       Elapsed Time:  00:00:02
 
 
 

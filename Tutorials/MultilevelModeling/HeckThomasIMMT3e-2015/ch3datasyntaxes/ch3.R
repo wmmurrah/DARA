@@ -18,9 +18,18 @@ library(sjmisc)
 
 # User defined functions used ---------------------------------------------
 
-# Center function
-ctr <- function(x) scale(x, scale = FALSE)
+# Reliability function
+lam.rel <- function(var.b, var.w, nj.vec) {
+  lam <- var.b/(var.b + (var.w/nj.vec))
+  return(lam)
+}
 
+# Center function.
+ctr <- function(x) scale(x, scale = FALSE)
+# Group mean center function.
+gmc <- function(x, grp) {
+  return(x-tapply(x, grp, mean, na.rm = TRUE)[grp])
+}
 # Load data ---------------------------------------------------------------
 ch3new <- read.table("ch3new.dat", 
                      header = FALSE)
@@ -68,10 +77,10 @@ screenreg(model1)
 ICC1.lme(morale, deptid, ch3new)
 # 4. Reliability of each department's mean morale score can be estimated.
 
-lam.rel <- function(var.b, var.w, nj.vec) {
-  lam <- var.b/(var.b + (var.w/nj.vec))
-  return(lam)
-}
+# lam.rel <- function(var.b, var.w, nj.vec) {
+#   lam <- var.b/(var.b + (var.w/nj.vec))
+#   return(lam)
+# }
 
 lam.rel(var.b = 5.4, 
         var.w = 33.30, 
@@ -80,29 +89,116 @@ lam.rel(var.b = 5.4,
 # mean morale score.
 
 ####### Compare this to Mplus output ##########
+# Look at ch3Model1.out.
 
 
+# Centering ---------------------------------------------------------------
+range(ch3new$satpay)
+mean(ch3new$satpay)
+
+
+# Random intercept with fixed level-1 slope:
+ch3new$grMsatpay <- tapply(ch3new$satpay, 
+                           ch3new$deptid, 
+                           mean, na.rm = TRUE)[ch3new$deptid]
+model2.no.ctr <- lmer(morale ~ satpay + (1 | deptid), ch3new) 
+model2.Zx      <- lmer(morale ~ scale(satpay) + (1 | deptid), ch3new) 
+model2.grand  <- lmer(morale ~ ctr(satpay) + (1 | deptid), ch3new) 
+model2.group <- lmer(morale ~ gmc(satpay, deptid) + (1 | deptid), ch3new) 
+model2.ZxL2     <- lmer(morale ~  gmc(satpay, deptid) + grMsatpay + 
+                          (1 | deptid), ch3new) 
+screenreg(list(model2.no.ctr, model2.Zx, model2.grand,
+               model2.group, model2.ZxL2),
+          custom.coef.names = c("(Intercept", "satpay","satpay", 
+                                "satpay", "satpay", "GroupMn satpay"),
+          custom.model.names = c("Uncentered", "Scaled", "Grand", 
+                                 "Group", "Group(+L2)"))
+
+###
+# Grand mean centering:
+# 1. Interpreted as the expected value of the outcome when the predictor is at 
+#    zero (the mean value of on the original scale).
+# 2. While the mean is changed (it is 0 on the new scale), the standard 
+#    deviation is the same.
+sd(ch3new$satpay)
+sd(ctr(ch3new$satpay))
+# 3. With grand mean centering the level 2 intercept has been adjusted for 
+#    the leel-1 predictors.
+# 4. The variance of intercept and slope are the variances of the "average"
+#    person.
+
+# Group mean centering:
+# 1. Intercept is the expected value of the outcome when the predictor is at
+#    zero, which is the individual's group mean.
+# 2. GROUP MEAN CENTERING CHANGES THE MEANING OF THE MODEL!
+# 3. Emphasis is on relational advantages within groups.
+# 4. Information about differences across level-2 units is removed from the 
+#    predictors.
+
+# Random intercept and level-1 slope:
+model2.no.ctr <- lmer(morale ~ satpay + (satpay | deptid), ch3new) 
+model2.Zx      <- lmer(morale ~ scale(satpay) + (scale(satpay) | deptid), ch3new) 
+model2.grand  <- lmer(morale ~ ctr(satpay) + (ctr(satpay) | deptid), ch3new) 
+model2.group <- lmer(morale ~ gmc(satpay, deptid) + (gmc(satpay, deptid)| deptid), ch3new) 
+model2.ZxL2     <- lmer(morale ~  gmc(satpay, deptid) + grMsatpay + 
+                          (gmc(satpay, deptid) | deptid), ch3new) 
+screenreg(list(model2.no.ctr, model2.Zx, model2.grand, 
+               model2.group, model2.ZxL2), 
+          custom.coef.names = c("(Intercept", "satpay","satpay", 
+                                "satpay", "satpay", "GroupMn satpay"),
+          custom.model.names = c("Uncentered", "Scaled", "Grand", 
+                                 "Group", "Group(+L2)"))
 # Model 2: Random-intercept Model -----------------------------------------
+# Now we build a level 1 model by considering theoretically relevant predictors.
+# It is common to first consider predictors as fixed (e.g. the same across all 
+# groups.)
+#
+# For our example we will consider satisifaction with pay (satpay), gender 
+# (female), and race (white).
+# Note that I do not center the dummy coded variables, which differs from the 
+# book.
 
+# Book model:
 # model2 <- lmer(morale ~ ctr(satpay) +  ctr(female) + ctr(white) + (1 | deptid), 
 #                ch3new)
+
+# model2 <- lmer(morale ~ ctr(satpay) +  I(female - .50) + white + (1 | deptid), 
+#                ch3new)
+# How I would model this:
 model2 <- lmer(morale ~ ctr(satpay) +  female + white + (1 | deptid), 
                ch3new)
+# Note that the slope of all three predictors is fixed.
+
 summary(model2)
 screenreg(list(model1, model2))
-
-
+# The interpretation of the intecept is the average morale for people with
+# average satpay for nonwhite males. 
+ch3new$grMsatpay <- tapply(ch3new$satpay, 
+                           ch3new$deptid, 
+                           mean, na.rm = TRUE)[ch3new$deptid]
+model2.no.ctr <- lmer(morale ~ satpay + (1 | deptid), ch3new) 
+model2.Zx      <- lmer(morale ~ scale(satpay) + (1 | deptid), ch3new) 
+model2.grand  <- lmer(morale ~ ctr(satpay) + (1 | deptid), ch3new) 
+model2.group <- lmer(morale ~ gmc(satpay, deptid) + (1 | deptid), ch3new) 
+model2.ZxL2     <- lmer(morale ~  gmc(satpay, deptid) + grMsatpay + 
+                          (1 | deptid), ch3new) 
+screenreg(list(model2.no.ctr, model2.Zx, model2.grand,
+               model2.group, model2.ZxL2),
+          custom.coef.names = c("(Intercept", "satpay","satpay", 
+                                "satpay", "satpay", "GroupMn satpay"),
+          custom.model.names = c("Uncentered", "Std.X", "Grand", 
+                                 "Group", "Std.XY"))
 # Model 3: Level 1 Random Slope Model -------------------------------------
 
-model3 <- lmer(morale ~ ctr(satpay) + female + white + 
+model3.grand <- lmer(morale ~ ctr(satpay) + female + white + 
                  (1 + ctr(satpay) | deptid), ch3new)
 summary(model3)
 screenreg(list(model1, model2, model3))
 
-
 # Model 4: Level-2 intercept and slope ------------------------------------
 
-model4 <- lmer(morale ~ ctr(satpay) + ctr(female) + ctr(white) + ctr(pctbelow) +
+model4 <- lmer(morale ~ ctr(satpay) + ctr(female) + ctr(white) + 
+                 ctr(pctbelow) +
                  (1 + ctr(satpay) + ctr(pctbelow) | deptid), ch3new)
 summary(model4)
 screenreg(list(model1, model2, model3, model4))
