@@ -38,13 +38,6 @@ names(ch3new) <- c("deptid", "morale", "satpay", "female", "white", "pctbelow",
                    "lev1wt", "lev2wt")
 
 
-# Create Mplus .dat file --------------------------------------------
-# We started with a .dat file created for Mplus. Below I include code
-# to get R data ready for Mplus using the MplusAutomation package.
-library(MplusAutomation)
-prepareMplusData(ch3new, filename = "Rch3news.dat", inpfile = TRUE, )
-
-
 # I keep all variable as numeric for now
 stargazer(ch3new, type = "text",
           title = "Level 1 descriptive statistics (talk about data)")
