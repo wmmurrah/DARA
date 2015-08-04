@@ -1,0 +1,177 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+07/25/2015  10:13 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  Sleepstudy Example REML
+  DATA:
+  FILE = "sleepstudy.dat";
+
+  VARIABLE:
+  NAMES = Reaction Days Subject;
+   MISSING=.;
+
+    Cluster is Subject;
+  		    Between = ;
+  		    Within = Days;
+  ANALYSIS:
+  TYPE = twolevel random;
+  MODEL:
+
+    %Between%
+  		    Reaction S;
+  		    Reaction WITH S;
+  	%Within%
+          S | Reaction ON Days;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Sleepstudy Example REML
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         180
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   REACTION
+
+Observed independent variables
+   DAYS
+
+Continuous latent variables
+   S
+
+Variables with special functions
+
+  Cluster variable      SUBJECT
+
+  Within variables
+   DAYS
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  sleepstudy.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of clusters                         18
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              REACTION      DAYS
+              ________      ________
+ REACTION       1.000
+ DAYS           1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        6
+
+Loglikelihood
+
+          H0 Value                        -875.970
+          H0 Scaling Correction Factor      1.9355
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    1763.940
+          Bayesian (BIC)                  1783.098
+          Sample-Size Adjusted BIC        1764.096
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    REACTION         655.558    208.308      3.147      0.002
+
+Between Level
+
+ REACTION WITH
+    S                 12.135     42.735      0.284      0.776
+
+ Means
+    REACTION         251.407      6.632     37.907      0.000
+    S                 10.467      1.502      6.968      0.000
+
+ Variances
+    REACTION         559.606    211.115      2.651      0.008
+    S                 32.481     11.641      2.790      0.005
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.409E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:13:16
+        Ending Time:  10:13:16
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

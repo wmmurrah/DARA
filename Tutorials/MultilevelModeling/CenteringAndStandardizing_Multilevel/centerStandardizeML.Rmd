@@ -1,0 +1,91 @@
+---
+title: "Centering and Standardization in Multilevel Modeling"
+author: "William Murrah"
+date: ""
+output: 
+  html_document:
+    fig_height: 3
+    fig_width: 5
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
+    fig_height: 3
+    fig_width: 5
+header-includes:
+- \usepackage{amsmath}
+bibliography: references.bib     
+---
+
+
+```{r, include=FALSE}
+# Don't delete this chunk if you are using the mosaic package
+# This loads the mosaic and dplyr packages
+require(mosaic)
+require(ztable)
+require(texreg)
+require(lme4)
+```
+
+```{r, include=FALSE}
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+
+# This changes the default colors in lattice plots.
+trellis.par.set(theme=theme.mosaic())  
+
+# knitr settings to control how R chunks work.
+require(knitr)
+opts_knit$set(root.dir = "../../../")
+opts_chunk$set(
+  tidy=FALSE,     # display code as typed
+  size="small",    # slightly smaller font for code
+  comment = NULL
+)
+options(ztable.type = "html")              
+```
+
+This tutorial is based on @hox2010multilevel and @heck2015introduction.
+
+
+```{r}
+n = 600
+j = 3
+x <- rnorm(n = n, 
+           mean = 5.00, 
+           sd = 2.5)
+
+g1 <- rep(c(1, 0, 0), each = n/j)
+g2 <- rep(c(0, 1, 0), each = n/j)
+g3 <- rep(c(0, 0, 1), each = n/j)
+
+Y <- 5.00 + .65*x + 1*g2 + 1.5*g3 + rnorm(n, 0, 2.3)
+dat <- data.frame(Y, x, group = factor(rep(1:j, each = 200)))
+
+```{r}
+xyplot(Y ~ x | group, groups = group, data = dat, type = c('p', 'r'))
+```
+
+```{r}
+mod <- lm(Y ~ x + group, data = dat)
+summary(mod)
+mermod <- lmer(Y ~ x + (1 | group), data = dat)
+summary(mermod)
+```
+```{r , results='asis'}
+htmlreg(list(mod, mermod))
+```
+
+
+
+
+### Documenting file creation 
+
+  * File creation date: `r Sys.Date()`
+  * `r R.version.string`
+  * Additional session information
+  
+```{r echo=FALSE}
+sessionInfo()  # could use devtools::session_info() if you prefer that
+```
+  
+## References  

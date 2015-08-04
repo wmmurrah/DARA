@@ -7,7 +7,7 @@ VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt
 		    Cluster is deptid;
 		    Between = pctbelow;
 		    Within = satpay female white;
-Define:		Center satpay female white pctbelow (grandmean); 
+Define:		Center satpay pctbelow (grandmean); 
 ANALYSIS:	Type= Twolevel random;
 Model:		%Between%
 		    morale S on pctbelow;
@@ -15,4 +15,3 @@ Model:		%Between%
 		    %Within%
 		    morale on female white;
 		    S | Morale on satpay;
-OUTPUT:	    SAMPSTAT TECH1;	

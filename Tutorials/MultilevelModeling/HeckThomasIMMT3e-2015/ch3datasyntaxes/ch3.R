@@ -37,6 +37,14 @@ ch3new <- read.table("ch3new.dat",
 names(ch3new) <- c("deptid", "morale", "satpay", "female", "white", "pctbelow", 
                    "lev1wt", "lev2wt")
 
+
+# Create Mplus .dat file --------------------------------------------
+# We started with a .dat file created for Mplus. Below I include code
+# to get R data ready for Mplus using the MplusAutomation package.
+library(MplusAutomation)
+prepareMplusData(ch3new, filename = "Rch3news.dat", inpfile = TRUE, )
+
+
 # I keep all variable as numeric for now
 stargazer(ch3new, type = "text",
           title = "Level 1 descriptive statistics (talk about data)")
@@ -63,7 +71,7 @@ morale.aov <- aov(morale ~ deptid, ch3new)
 summary(morale.aov)
 
 # Model 1: Unconditional Model --------------------------------------------
-model1 <- lmer(morale ~ 1 + (1 | deptid), ch3new)
+model1 <- lmer(morale ~ 1 + (1 | deptid), ch3new, REML = FALSE)
 summary(model1)
 screenreg(model1)
 
@@ -109,7 +117,7 @@ model2.ZxL2     <- lmer(morale ~  gmc(satpay, deptid) + grMsatpay +
                           (1 | deptid), ch3new) 
 screenreg(list(model2.no.ctr, model2.Zx, model2.grand,
                model2.group, model2.ZxL2),
-          custom.coef.names = c("(Intercept", "satpay","satpay", 
+          custom.coef.names = c("(Intercept)", "satpay","satpay", 
                                 "satpay", "satpay", "GroupMn satpay"),
           custom.model.names = c("Uncentered", "Scaled", "Grand", 
                                  "Group", "Group(+L2)"))
@@ -123,7 +131,7 @@ screenreg(list(model2.no.ctr, model2.Zx, model2.grand,
 sd(ch3new$satpay)
 sd(ctr(ch3new$satpay))
 # 3. With grand mean centering the level 2 intercept has been adjusted for 
-#    the leel-1 predictors.
+#    the level-1 predictors.
 # 4. The variance of intercept and slope are the variances of the "average"
 #    person.
 
@@ -144,10 +152,11 @@ model2.ZxL2     <- lmer(morale ~  gmc(satpay, deptid) + grMsatpay +
                           (gmc(satpay, deptid) | deptid), ch3new) 
 screenreg(list(model2.no.ctr, model2.Zx, model2.grand, 
                model2.group, model2.ZxL2), 
-          custom.coef.names = c("(Intercept", "satpay","satpay", 
+          custom.coef.names = c("(Intercept)", "satpay","satpay", 
                                 "satpay", "satpay", "GroupMn satpay"),
           custom.model.names = c("Uncentered", "Scaled", "Grand", 
                                  "Group", "Group(+L2)"))
+
 # Model 2: Random-intercept Model -----------------------------------------
 # Now we build a level 1 model by considering theoretically relevant predictors.
 # It is common to first consider predictors as fixed (e.g. the same across all 
@@ -166,13 +175,25 @@ screenreg(list(model2.no.ctr, model2.Zx, model2.grand,
 #                ch3new)
 # How I would model this:
 model2 <- lmer(morale ~ ctr(satpay) +  female + white + (1 | deptid), 
-               ch3new)
+               ch3new, REML = FALSE)
 # Note that the slope of all three predictors is fixed.
 
 summary(model2)
 screenreg(list(model1, model2))
 # The interpretation of the intecept is the average morale for people with
 # average satpay for nonwhite males. 
+
+# ICC model 2
+1.85/(1.85 + 17.54)
+
+# ICC model 1
+5.36/(5.36 + 33.3)
+
+# The total variance between departments is diminished about 31% by the 
+#  variables in the model, compared with the unconditional model.
+
+anova(model1, model2)
+
 ch3new$grMsatpay <- tapply(ch3new$satpay, 
                            ch3new$deptid, 
                            mean, na.rm = TRUE)[ch3new$deptid]
@@ -180,7 +201,7 @@ model2.no.ctr <- lmer(morale ~ satpay + (1 | deptid), ch3new)
 model2.Zx      <- lmer(morale ~ scale(satpay) + (1 | deptid), ch3new) 
 model2.grand  <- lmer(morale ~ ctr(satpay) + (1 | deptid), ch3new) 
 model2.group <- lmer(morale ~ gmc(satpay, deptid) + (1 | deptid), ch3new) 
-model2.ZxL2     <- lmer(morale ~  gmc(satpay, deptid) + grMsatpay + 
+model2.ZxL2     <- lmer(morale ~  gmc(satpay, deptid) + ctr(grMsatpay) + 
                           (1 | deptid), ch3new) 
 screenreg(list(model2.no.ctr, model2.Zx, model2.grand,
                model2.group, model2.ZxL2),
@@ -190,15 +211,41 @@ screenreg(list(model2.no.ctr, model2.Zx, model2.grand,
                                  "Group", "Std.XY"))
 # Model 3: Level 1 Random Slope Model -------------------------------------
 
-model3.grand <- lmer(morale ~ ctr(satpay) + female + white + 
-                 (1 + ctr(satpay) | deptid), ch3new)
+model3 <- lmer(morale ~ ctr(satpay) + female + white + 
+                 (1 + ctr(satpay) | deptid), ch3new, REML = FALSE)
 summary(model3)
 screenreg(list(model1, model2, model3))
 
+anova(model2, model3)
+
+#### Mplus #####
+# In addition to changing the modle statement, we must change t
+# he analysis type when we have random slopes:
+#
+# ANALYSIS: type = twolevel random;
+#
+
 # Model 4: Level-2 intercept and slope ------------------------------------
 
-model4 <- lmer(morale ~ ctr(satpay) + ctr(female) + ctr(white) + 
-                 ctr(pctbelow) +
-                 (1 + ctr(satpay) + ctr(pctbelow) | deptid), ch3new)
+# Is a department's overall pay level associated with its average 
+# morale level?
+
+model4 <- lmer(morale ~ ctr(satpay)*ctr(pctbelow)  + female + white + 
+                 (1 + ctr(satpay) | deptid), 
+               ch3new, REML = FALSE)
 summary(model4)
 screenreg(list(model1, model2, model3, model4))
+screenreg(list(model1, model4))
+#### Mplus ####
+# In addition to changes in the model statement, we must also:
+#
+# 1. add pctbelow to usevariables statement.
+# 2. we must add pctbelow to %BETWEEN% statement.
+
+### Variance explained by final model at each level:
+
+# Within 
+(33.30 - 17.46)/33.30
+
+# Between
+(5.36 - 1.70)/ 5.36

@@ -41,8 +41,6 @@ opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small"    # slightly smaller font for code
 )
-# This loads the mosaic data sets.  (Could be deleted if you are not using them.)
-require(mosaicData)  
 options(ztable.type = "html")
 ```
 
@@ -205,10 +203,8 @@ OUTPUT:	    Sampstat Tech1;
 
 ```
 
-```{r}
-getwd()
-dump("Tutorials/MultilevelModeling/HeckThomasIMMT3e-2015/ch3datasyntaxes/ch3Model1.out")
-print(.Last.value)
+```{r comment=''}
+cat(readLines('Tutorials/MultilevelModeling/HeckThomasIMMT3e-2015/ch3datasyntaxes/ch3Model1.out'), sep = '\n')
 ```
 
 
@@ -221,3 +217,6 @@ print(.Last.value)
 ```{r echo=FALSE}
 sessionInfo()  # could use devtools::session_info() if you prefer that
 ```
+
+
+### References

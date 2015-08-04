@@ -1,0 +1,24 @@
+TITLE:
+Sleepstudy Example REML
+DATA:
+FILE = "sleepstudy.dat";
+ 
+VARIABLE:
+NAMES = Reaction Days Subject; 
+ MISSING=.;
+ 
+  Cluster is Subject;
+		    Between = ;
+		    Within = Days;
+ANALYSIS:
+TYPE = twolevel random;
+ESTIMATOR = ML;
+MODEL:
+
+  %Between%
+		    Reaction S;
+		    Reaction WITH S;
+	%Within%
+        S | Reaction ON Days;
+OUTPUT: stdyx;        
+        

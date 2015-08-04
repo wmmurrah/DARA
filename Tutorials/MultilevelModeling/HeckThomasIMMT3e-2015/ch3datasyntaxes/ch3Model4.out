@@ -1,0 +1,182 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+08/04/2015  12:28 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:	    Model 4: Explaining variation in the level-2 intercept and slope;
+  DATA:	    FILE IS ch3new.dat;
+  		    Format is 5f8.0, 3f8.2;
+  VARIABLE:	Names are deptid morale satpay female white pctbelow lev1wt
+              lev2wt;
+  		    Usevariables are deptid morale satpay female white pctbelow;
+  		    Cluster is deptid;
+  		    Between = pctbelow;
+  		    Within = satpay female white;
+  Define:		Center satpay pctbelow (grandmean);
+  ANALYSIS:	Type= Twolevel random;
+  Model:		%Between%
+  		    morale S on pctbelow;
+  		    S with morale;
+  		    %Within%
+  		    morale on female white;
+  		    S | Morale on satpay;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Model 4: Explaining variation in the level-2 intercept and slope;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       13189
+
+Number of dependent variables                                    1
+Number of independent variables                                  4
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   MORALE
+
+Observed independent variables
+   SATPAY      FEMALE      WHITE       PCTBELOW
+
+Continuous latent variables
+   S
+
+Variables with special functions
+
+  Cluster variable      DEPTID
+
+  Within variables
+   SATPAY      FEMALE      WHITE
+
+  Between variables
+   PCTBELOW
+
+  Centering (GRANDMEAN)
+   SATPAY      PCTBELOW
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  ch3new.dat
+Input data format
+  (5F8.0, 3F8.2)
+
+
+SUMMARY OF DATA
+
+     Number of clusters                        165
+
+     Average cluster size       79.933
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass              Intraclass
+     Variable  Correlation   Variable  Correlation
+
+     MORALE       0.050
+
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       10
+
+Loglikelihood
+
+          H0 Value                      -37768.809
+          H0 Scaling Correction Factor      1.0632
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   75557.618
+          Bayesian (BIC)                 75632.489
+          Sample-Size Adjusted BIC       75600.710
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ MORALE     ON
+    FEMALE             0.005      0.063      0.074      0.941
+    WHITE              0.910      0.082     11.064      0.000
+
+ Residual Variances
+    MORALE            17.456      0.292     59.789      0.000
+
+Between Level
+
+ S          ON
+    PCTBELOW           0.001      0.001      1.416      0.157
+
+ MORALE     ON
+    PCTBELOW          -0.026      0.007     -3.574      0.000
+
+ S        WITH
+    MORALE             0.014      0.018      0.776      0.438
+
+ Intercepts
+    MORALE            25.954      0.122    213.138      0.000
+    S                  1.196      0.014     86.310      0.000
+
+ Residual Variances
+    MORALE             1.701      0.218      7.810      0.000
+    S                  0.007      0.003      2.455      0.014
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.124E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  12:28:57
+        Ending Time:  12:29:00
+       Elapsed Time:  00:00:03
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen
