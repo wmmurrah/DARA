@@ -1,0 +1,21 @@
+TITLE: Your title goes here
+DATA: FILE = "curran.dat";
+VARIABLE: 
+NAMES = id kidgen momage kidage homecog homeemo 
+occasion anti read kidagetv kidage6
+     kidagesq kidagec occasion2; 
+Usevariables are id read kidage6 kidagesq;
+Missing are all .;
+             	cluster = id;
+             	within= kidage6 kidagesq;
+             	between = ;
+ANALYSIS:     Type = twolevel random;
+             	Estimator is ML;
+  Model:
+
+             	%between%
+             	read;
+             	!S;
+             	!read WITH S;
+             	%within%
+             	read ON kidage6 kidagesq;

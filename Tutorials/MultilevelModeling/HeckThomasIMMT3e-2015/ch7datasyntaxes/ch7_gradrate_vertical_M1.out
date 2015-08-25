@@ -1,0 +1,165 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+08/21/2015   6:40 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:    	    Model 1:  Within-individuals model;
+  DATA:      	    File is ch7ex1.dat;
+                	Format is 3f8.0, f4.0,2f8.0;
+  VARIABLE:  	    Names are id private prestige index1 graduate growrate;
+                	Usevariables are id graduate growrate;
+                	cluster = id;
+                	within= growrate;
+                	between = ;
+  ANALYSIS:       Type = twolevel random;
+               	Estimator is ML;
+    Model:
+               	%between%
+               	graduate;
+               	S;
+               	graduate with S;
+               	%within%
+               	S | graduate on growrate;
+  !OUTPUT:    	    sampstat  TECH1;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Model 1:  Within-individuals model;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                          80
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   GRADUATE
+
+Observed independent variables
+   GROWRATE
+
+Continuous latent variables
+   S
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   GROWRATE
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  ch7ex1.dat
+Input data format
+  (3F8.0, F4.0,2F8.0)
+
+
+SUMMARY OF DATA
+
+     Number of clusters                         20
+
+     Average cluster size        4.000
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass              Intraclass
+     Variable  Correlation   Variable  Correlation
+
+     GRADUATE     0.699
+
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        6
+
+Loglikelihood
+
+          H0 Value                        -313.843
+
+Information Criteria
+
+          Akaike (AIC)                     639.686
+          Bayesian (BIC)                   653.978
+          Sample-Size Adjusted BIC         635.058
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Residual Variances
+    GRADUATE          60.023     13.463      4.458      0.000
+
+Between Level
+
+ GRADUATE WITH
+    S                -15.041     21.655     -0.695      0.487
+
+ Means
+    GRADUATE          46.030      3.913     11.763      0.000
+    S                  4.155      1.146      3.625      0.000
+
+ Variances
+    GRADUATE         264.215     97.158      2.719      0.007
+    S                 14.264      8.679      1.644      0.100
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.114E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  18:40:27
+        Ending Time:  18:40:27
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

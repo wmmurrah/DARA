@@ -1,0 +1,179 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+08/21/2015   6:34 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:    	    Model 0:  Within-individuals model;
+  DATA:      	    File is ch7ex1.dat;
+                	Format is 3f8.0, f4.0,2f8.0;
+  VARIABLE:  	    Names are id private prestige index1 graduate growrate;
+                	Usevariables are id graduate;
+                	cluster = id;
+                	within= ;
+                	between = ;
+  ANALYSIS:       Type = twolevel;
+               	Estimator is ML;
+    Model:
+               	%between%
+               	graduate;
+               	%within%
+               	graduate;
+
+
+
+*** WARNING in MODEL command
+  Variable is uncorrelated with all other variables: GRADUATE
+*** WARNING in MODEL command
+  At least one variable is uncorrelated with all other variables in the model.
+  Check that this is what is intended.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+Model 0:  Within-individuals model;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                          80
+
+Number of dependent variables                                    1
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   GRADUATE
+
+Variables with special functions
+
+  Cluster variable      ID
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  ch7ex1.dat
+Input data format
+  (3F8.0, F4.0,2F8.0)
+
+
+SUMMARY OF DATA
+
+     Number of clusters                         20
+
+     Average cluster size        4.000
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass
+     Variable  Correlation
+
+     GRADUATE     0.679
+
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        3
+
+Loglikelihood
+
+          H0 Value                        -324.975
+          H1 Value                        -324.975
+
+Information Criteria
+
+          Akaike (AIC)                     655.950
+          Bayesian (BIC)                   663.096
+          Sample-Size Adjusted BIC         653.636
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+
+CFI/TLI
+
+          CFI                                0.000
+          TLI                                1.000
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value for Within                   0.000
+          Value for Between                  0.000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ Variances
+    GRADUATE         112.841     20.619      5.473      0.000
+
+Between Level
+
+ Means
+    GRADUATE          52.263      3.646     14.333      0.000
+
+ Variances
+    GRADUATE         237.709     84.157      2.825      0.005
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.273E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  18:34:24
+        Ending Time:  18:34:27
+       Elapsed Time:  00:00:03
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

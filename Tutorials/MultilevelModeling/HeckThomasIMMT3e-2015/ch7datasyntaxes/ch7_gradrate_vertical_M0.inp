@@ -1,0 +1,15 @@
+TITLE:    	    Model 0:  Within-individuals model;
+DATA:      	    File is ch7ex1.dat;
+              	Format is 3f8.0, f4.0,2f8.0;
+VARIABLE:  	    Names are id private prestige index1 graduate growrate;
+              	Usevariables are id graduate;
+              	cluster = id;
+              	within= ;
+              	between = ;
+ANALYSIS:       Type = twolevel;
+             	Estimator is ML;
+  Model:
+             	%between%
+             	graduate;
+             	%within%
+             	graduate;

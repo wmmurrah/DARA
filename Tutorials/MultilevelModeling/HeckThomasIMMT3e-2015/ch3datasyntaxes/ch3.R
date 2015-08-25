@@ -175,13 +175,14 @@ summary(model2)
 screenreg(list(model1, model2))
 # The interpretation of the intecept is the average morale for people with
 # average satpay for nonwhite males. 
-
+femodel2 <- lm( morale ~ ctr(satpay) + female + white + deptid, data = ch3new)
+coef(femodel2)[1:5]
 # ICC model 2
 1.85/(1.85 + 17.54)
 
 # ICC model 1
 5.36/(5.36 + 33.3)
-
+(.1385 - .0954)/.1385
 # The total variance between departments is diminished about 31% by the 
 #  variables in the model, compared with the unconditional model.
 
