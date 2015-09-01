@@ -1,0 +1,215 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+08/27/2015   2:46 PM
+
+INPUT INSTRUCTIONS
+
+           Title:        	Model 1: Specifying the IS model;
+            Data:    	    file is ch7grad1.txt;
+        Variable:   	    Names are id grad1 grad2 grad3 grad4 private
+                        	prestige;
+                          Usevariables are grad1 grad2 grad3 grad4;
+          Analysis:       Type = general;
+                          Estimator is ML;
+          Model:
+                         	i by grad1@1 grad2@1 grad3@1 grad4@1;
+                         	s by grad1@0 grad2@1 grad3@2 grad4@3;
+                         	[grad1-grad4@0 i s];
+            Plot:         TYPE IS PLOT3;
+                          SERIES IS grad1-grad4(*);
+   !         Output:  	    Sampstat standardized tech1;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Model 1: Specifying the IS model;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                          20
+
+Number of dependent variables                                    4
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   GRAD1       GRAD2       GRAD3       GRAD4
+
+Continuous latent variables
+   I           S
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+
+Input data file(s)
+  ch7grad1.txt
+
+Input data format  FREE
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        9
+
+Loglikelihood
+
+          H0 Value                        -311.768
+          H1 Value                        -310.844
+
+Information Criteria
+
+          Akaike (AIC)                     641.537
+          Bayesian (BIC)                   650.498
+          Sample-Size Adjusted BIC         622.754
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              1.850
+          Degrees of Freedom                     5
+          P-Value                           0.8695
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.159
+          Probability RMSEA <= .05           0.881
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.061
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                             68.367
+          Degrees of Freedom                     6
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.100
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ I        BY
+    GRAD1              1.000      0.000    999.000    999.000
+    GRAD2              1.000      0.000    999.000    999.000
+    GRAD3              1.000      0.000    999.000    999.000
+    GRAD4              1.000      0.000    999.000    999.000
+
+ S        BY
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              1.000      0.000    999.000    999.000
+    GRAD3              2.000      0.000    999.000    999.000
+    GRAD4              3.000      0.000    999.000    999.000
+
+ S        WITH
+    I                -22.986     23.316     -0.986      0.324
+
+ Means
+    I                 46.211      3.897     11.859      0.000
+    S                  4.036      1.136      3.551      0.000
+
+ Intercepts
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              0.000      0.000    999.000    999.000
+    GRAD3              0.000      0.000    999.000    999.000
+    GRAD4              0.000      0.000    999.000    999.000
+
+ Variances
+    I                286.669     96.716      2.964      0.003
+    S                 16.179     10.605      1.526      0.127
+
+ Residual Variances
+    GRAD1             18.675     30.894      0.604      0.546
+    GRAD2             41.128     20.156      2.040      0.041
+    GRAD3             78.240     33.255      2.353      0.019
+    GRAD4             92.544     54.682      1.692      0.091
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.186E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              I             I_SE          S             S_SE
+              ________      ________      ________      ________
+ 1             46.211         3.688         4.036         2.431
+
+
+           Covariances
+              I             I_SE          S             S_SE
+              ________      ________      ________      ________
+ I            273.064
+ I_SE           0.000         0.000
+ S            -18.056         0.000        10.267
+ S_SE           0.000         0.000         0.000         0.000
+
+
+           Correlations
+              I             I_SE          S             S_SE
+              ________      ________      ________      ________
+ I              1.000
+ I_SE         999.000         1.000
+ S             -0.341       999.000         1.000
+ S_SE         999.000       999.000       999.000         1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores, estimated values, residuals)
+  Scatterplots (sample values, estimated factor scores, estimated values, residuals)
+  Sample means
+  Estimated means
+  Sample and estimated means
+  Latent variable distribution plots
+  Observed individual values
+  Estimated individual values
+
+     Beginning Time:  14:46:30
+        Ending Time:  14:46:30
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

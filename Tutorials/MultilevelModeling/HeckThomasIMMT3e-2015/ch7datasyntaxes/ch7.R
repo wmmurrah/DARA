@@ -23,6 +23,7 @@ grad <- read.table("ch7grad1.txt", header = FALSE)
 names(grad) <- c("id", "grad1", "grad2", "grad3", "grad4",
                  "private", "prestige")
 stargazer(grad, type = "text")
+
 # Using reshape() to transform data from wide to long.
 gradlong <- reshape(data = grad,                   # Wide data frame.
                     varying = c("grad1", "grad2",  # Time-varying variables,
@@ -35,14 +36,14 @@ gradlong <- reshape(data = grad,                   # Wide data frame.
 # Rename rownames
 rownames(gradlong) <- 1:nrow(gradlong)
 # Reorder data frame by 'id' variable.
-gradlong <- gradlong[order(gradlong$id) , ]
+gradlong <- gradlong[order(gradlong$id), ]
 
 # I checked this gradlong with the Mplus version.
-# ch7ex1 <- read.table("ch7ex1.dat", header = FALSE)
-# 
-# names(ch7ex1) <- c("id", "private", "prestige", "index1", "graduate", "growrate")
-# ch7ex1 <- ch7ex1[ ,-4]
-# ch7ex1 <- ch7ex1[ c(1,2,3,5,4)]
+ch7ex1 <- read.table("ch7ex1.dat", header = FALSE)
+
+names(ch7ex1) <- c("id", "private", "prestige", "index1", "graduate", "growrate")
+ch7ex1 <- ch7ex1[ ,-4]
+ch7ex1 <- ch7ex1[ c(1,2,3,5,4)]
 
 mean(graduate, data = gradlong, groups = growrate)
 sd(graduate, data = gradlong, groups = growrate)
@@ -63,6 +64,8 @@ mod1 <- lmer(graduate ~ growrate + (growrate | id),
              data = gradlong, REML = FALSE)
 screenreg(list(mod0, mod1))
 
+# Look at Mplus output.
+
 ctr <- function(x) scale(x, scale = FALSE)
 gradlong$prestige <- ctr(gradlong$prestige)
 gradlong$private <- ctr(gradlong$private)
@@ -70,7 +73,7 @@ mod2 <- lmer(graduate ~ growrate*private + growrate*prestige + (growrate | id),
              data = gradlong, REML = FALSE)
 screenreg(list(mod0, mod1, mod2))
 
-
+# Look at Mplus output.
 
 # Example with varying occasions ------------------------------------------
 
@@ -82,7 +85,7 @@ stargazer(curran, type = "text")
 # How many children are in our data?
 length(unique(curran$id))
 
-xyplot(read ~ kidagetv, 
+xyplot(read ~ kidage, 
        data = curran, 
        groups = id, 
        type = "b",
@@ -91,7 +94,7 @@ xyplot(read ~ kidagetv,
 mod0 <-   lmer(read ~ poly(kidage6, 2, raw = TRUE) + (1 | id), 
                curran, REML = FALSE)
 screenreg(mod0)
-mod0.2 <- lmer(read ~ kidage6 + kidagesq + (kidage6 | id), curran, 
+mod0.2 <- lmer(read ~ kidage6 + kidagesq + (1 | id), curran, 
                REML = FALSE)
 screenreg(list(mod0, mod0.2))
 
@@ -103,3 +106,36 @@ library(MplusAutomation)
 prepareMplusData(df = curran, 
                  filename = "curran.dat", 
                  inpfile = "curran.inp")
+
+
+
+# Latent Growth Modeling --------------------------------------------------
+rm(list = ls())
+# Some Key points:
+# 1. Not a multilevel model (yet).
+# 2. Intercept and slope are latent variables.
+# 3. Latent variables measured by repeated observations of y.
+# 4. Therefore, we use wide format data.
+
+grad <- read.table("ch7grad1.txt", header = FALSE)
+names(grad) <- c("id", "grad1", "grad2", "grad3", "grad4",
+                 "private", "prestige")
+stargazer(grad, type = "text")
+
+
+# Plotting Mplus graphics in R --------------------------------------------
+
+library(rhdf5)
+
+mplus.view.plots("ch7_LCM_M1_IS_SEM_grad.gh5")
+
+mplus.plot.histogram("ch7_LCM_M1_IS_SEM_grad.gh5", "grad1", bins=8)
+hist(grad$grad1, breaks = 8, col = "skyblue")
+
+
+grad1 <- read.table("ch7grad1.txt", header = FALSE)
+names(grad1) <- c("id", "grad1", "grad2", "grad3", "grad4", 
+                  "private", "prestige")
+hist(grad1$grad1)
+identical(grad1, grad)
+plot(grad2 ~ grad1, data = grad1)

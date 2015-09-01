@@ -1,5 +1,5 @@
 TITLE:        	Model 3: Adding covariates to the IS model;
-DATA:    		File is C:\mplus\ch7grad1.txt;
+DATA:    		File is ch7grad1.txt;
 VARIABLE:       Names are id grad1 grad2 grad3 grad4 private prestige;
                	Usevariables are grad1 grad2 grad3 grad4 private prestige;
 define:  	    center prestige private (grandmean);

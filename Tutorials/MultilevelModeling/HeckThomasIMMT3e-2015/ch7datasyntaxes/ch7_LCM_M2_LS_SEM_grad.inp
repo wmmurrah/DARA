@@ -1,5 +1,5 @@
          Title:        	Model 2: Specifying the LS model;;
-          Data:    	    File is C:\program files\Mplus\ch7grad1.txt;
+          Data:    	    File is ch7grad1.txt;
       Variable:   	    Names are id grad1 grad2 grad3 grad4 private
                       	prestige;
                         Usevariables are grad1 grad2 grad3 grad4;

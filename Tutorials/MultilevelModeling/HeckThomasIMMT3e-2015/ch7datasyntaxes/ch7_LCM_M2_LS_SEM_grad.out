@@ -1,0 +1,497 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+09/01/2015   1:14 PM
+
+INPUT INSTRUCTIONS
+
+           Title:        	Model 2: Specifying the LS model;;
+            Data:    	    File is ch7grad1.txt;
+        Variable:   	    Names are id grad1 grad2 grad3 grad4 private
+                        	prestige;
+                          Usevariables are grad1 grad2 grad3 grad4;
+          Analysis:       Type = general;
+                          Estimator is ML;
+          Model:          !NOTE:  There is an error in Table 7.8. The correct degrees of
+                          !freedom for Model 2 should "3" not "6" as shown in the table.
+                          l by grad1@1 grad2@1 grad3@1 grad4@1;
+                         	s by grad1@0 grad2* grad3* grad4@1;
+                         	[grad1-grad4@0 l s];
+            Plot:         TYPE IS PLOT3;
+                          SERIES IS grad1-grad4(*);
+            Output:  	    Sampstat standardized tech1;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Model 2: Specifying the LS model;;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                          20
+
+Number of dependent variables                                    4
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   GRAD1       GRAD2       GRAD3       GRAD4
+
+Continuous latent variables
+   L           S
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+
+Input data file(s)
+  ch7grad1.txt
+
+Input data format  FREE
+
+
+SAMPLE STATISTICS
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              GRAD1         GRAD2         GRAD3         GRAD4
+              ________      ________      ________      ________
+      1        46.350        49.850        54.050        58.800
+
+
+           Covariances
+              GRAD1         GRAD2         GRAD3         GRAD4
+              ________      ________      ________      ________
+ GRAD1        299.928
+ GRAD2        276.452       331.428
+ GRAD3        211.383       241.958       285.248
+ GRAD4        221.370       276.070       244.260       399.760
+
+
+           Correlations
+              GRAD1         GRAD2         GRAD3         GRAD4
+              ________      ________      ________      ________
+ GRAD1          1.000
+ GRAD2          0.877         1.000
+ GRAD3          0.723         0.787         1.000
+ GRAD4          0.639         0.758         0.723         1.000
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     GRAD1                46.350       0.579      17.000    5.00%      28.000     39.000     43.500
+              20.000     299.927      -0.336      86.000    5.00%      45.000     55.000
+     GRAD2                49.850       0.654      22.000   10.00%      33.000     42.000     48.500
+              20.000     331.427       0.047      95.000    5.00%      50.000     58.000
+     GRAD3                54.050      -0.127      19.000    5.00%      42.000     47.000     54.000
+              20.000     285.248      -0.470      86.000    5.00%      57.000     69.000
+     GRAD4                58.800      -0.374      17.000    5.00%      36.000     53.000     63.000
+              20.000     399.760      -1.002      87.000    5.00%      65.000     77.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       11
+
+Loglikelihood
+
+          H0 Value                        -311.737
+          H1 Value                        -310.844
+
+Information Criteria
+
+          Akaike (AIC)                     645.474
+          Bayesian (BIC)                   656.427
+          Sample-Size Adjusted BIC         622.517
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                              1.787
+          Degrees of Freedom                     3
+          P-Value                           0.6177
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.309
+          Probability RMSEA <= .05           0.637
+
+CFI/TLI
+
+          CFI                                1.000
+          TLI                                1.039
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                             68.367
+          Degrees of Freedom                     6
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.108
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ L        BY
+    GRAD1              1.000      0.000    999.000    999.000
+    GRAD2              1.000      0.000    999.000    999.000
+    GRAD3              1.000      0.000    999.000    999.000
+    GRAD4              1.000      0.000    999.000    999.000
+
+ S        BY
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              0.313      0.129      2.419      0.016
+    GRAD3              0.620      0.190      3.267      0.001
+    GRAD4              1.000      0.000    999.000    999.000
+
+ S        WITH
+    L                -65.774     71.234     -0.923      0.356
+
+ Means
+    L                 46.253      3.901     11.856      0.000
+    S                 12.418      3.608      3.442      0.001
+
+ Intercepts
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              0.000      0.000    999.000    999.000
+    GRAD3              0.000      0.000    999.000    999.000
+    GRAD4              0.000      0.000    999.000    999.000
+
+ Variances
+    L                284.458     96.814      2.938      0.003
+    S                150.390    104.532      1.439      0.150
+
+ Residual Variances
+    GRAD1             21.347     34.015      0.628      0.530
+    GRAD2             40.121     20.464      1.961      0.050
+    GRAD3             81.186     35.895      2.262      0.024
+    GRAD4             84.607     64.809      1.305      0.192
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ L        BY
+    GRAD1              0.964      0.057     17.069      0.000
+    GRAD2              0.977      0.072     13.549      0.000
+    GRAD3              0.912      0.128      7.144      0.000
+    GRAD4              0.856      0.152      5.646      0.000
+
+ S        BY
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              0.222      0.131      1.699      0.089
+    GRAD3              0.411      0.175      2.344      0.019
+    GRAD4              0.623      0.223      2.792      0.005
+
+ S        WITH
+    L                 -0.318      0.282     -1.126      0.260
+
+ Means
+    L                  2.742      0.522      5.254      0.000
+    S                  1.013      0.450      2.249      0.025
+
+ Intercepts
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              0.000      0.000    999.000    999.000
+    GRAD3              0.000      0.000    999.000    999.000
+    GRAD4              0.000      0.000    999.000    999.000
+
+ Variances
+    L                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+
+ Residual Variances
+    GRAD1              0.070      0.109      0.640      0.522
+    GRAD2              0.135      0.073      1.844      0.065
+    GRAD3              0.237      0.097      2.451      0.014
+    GRAD4              0.218      0.170      1.280      0.200
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ L        BY
+    GRAD1              0.964      0.057     17.069      0.000
+    GRAD2              0.977      0.072     13.549      0.000
+    GRAD3              0.912      0.128      7.144      0.000
+    GRAD4              0.856      0.152      5.646      0.000
+
+ S        BY
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              0.222      0.131      1.699      0.089
+    GRAD3              0.411      0.175      2.344      0.019
+    GRAD4              0.623      0.223      2.792      0.005
+
+ S        WITH
+    L                 -0.318      0.282     -1.126      0.260
+
+ Means
+    L                  2.742      0.522      5.254      0.000
+    S                  1.013      0.450      2.249      0.025
+
+ Intercepts
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              0.000      0.000    999.000    999.000
+    GRAD3              0.000      0.000    999.000    999.000
+    GRAD4              0.000      0.000    999.000    999.000
+
+ Variances
+    L                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+
+ Residual Variances
+    GRAD1              0.070      0.109      0.640      0.522
+    GRAD2              0.135      0.073      1.844      0.065
+    GRAD3              0.237      0.097      2.451      0.014
+    GRAD4              0.218      0.170      1.280      0.200
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ L        BY
+    GRAD1             16.866      2.870      5.876      0.000
+    GRAD2             16.866      2.870      5.876      0.000
+    GRAD3             16.866      2.870      5.876      0.000
+    GRAD4             16.866      2.870      5.876      0.000
+
+ S        BY
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              3.839      2.221      1.729      0.084
+    GRAD3              7.601      3.026      2.512      0.012
+    GRAD4             12.263      4.262      2.877      0.004
+
+ S        WITH
+    L                 -0.318      0.282     -1.126      0.260
+
+ Means
+    L                  2.742      0.522      5.254      0.000
+    S                  1.013      0.450      2.249      0.025
+
+ Intercepts
+    GRAD1              0.000      0.000    999.000    999.000
+    GRAD2              0.000      0.000    999.000    999.000
+    GRAD3              0.000      0.000    999.000    999.000
+    GRAD4              0.000      0.000    999.000    999.000
+
+ Variances
+    L                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+
+ Residual Variances
+    GRAD1             21.347     34.015      0.628      0.530
+    GRAD2             40.121     20.464      1.961      0.050
+    GRAD3             81.186     35.895      2.262      0.024
+    GRAD4             84.607     64.809      1.305      0.192
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    GRAD1              0.930      0.109      8.535      0.000
+    GRAD2              0.865      0.073     11.861      0.000
+    GRAD3              0.763      0.097      7.869      0.000
+    GRAD4              0.782      0.170      4.590      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.801E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              GRAD1         GRAD2         GRAD3         GRAD4
+              ________      ________      ________      ________
+      1           0             0             0             0
+
+
+           LAMBDA
+              L             S
+              ________      ________
+ GRAD1              0             0
+ GRAD2              0             1
+ GRAD3              0             2
+ GRAD4              0             0
+
+
+           THETA
+              GRAD1         GRAD2         GRAD3         GRAD4
+              ________      ________      ________      ________
+ GRAD1              3
+ GRAD2              0             4
+ GRAD3              0             0             5
+ GRAD4              0             0             0             6
+
+
+           ALPHA
+              L             S
+              ________      ________
+      1           7             8
+
+
+           BETA
+              L             S
+              ________      ________
+ L                  0             0
+ S                  0             0
+
+
+           PSI
+              L             S
+              ________      ________
+ L                  9
+ S                 10            11
+
+
+     STARTING VALUES
+
+
+           NU
+              GRAD1         GRAD2         GRAD3         GRAD4
+              ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              L             S
+              ________      ________
+ GRAD1          1.000         0.000
+ GRAD2          1.000         1.000
+ GRAD3          1.000         1.000
+ GRAD4          1.000         1.000
+
+
+           THETA
+              GRAD1         GRAD2         GRAD3         GRAD4
+              ________      ________      ________      ________
+ GRAD1        149.964
+ GRAD2          0.000       165.714
+ GRAD3          0.000         0.000       142.624
+ GRAD4          0.000         0.000         0.000       199.880
+
+
+           ALPHA
+              L             S
+              ________      ________
+      1         0.000         0.000
+
+
+           BETA
+              L             S
+              ________      ________
+ L              0.000         0.000
+ S              0.000         0.000
+
+
+           PSI
+              L             S
+              ________      ________
+ L              0.050
+ S              0.000         0.050
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              L             L_SE          S             S_SE
+              ________      ________      ________      ________
+ 1             46.253         3.834        12.418         7.457
+
+
+           Covariances
+              L             L_SE          S             S_SE
+              ________      ________      ________      ________
+ L            269.753
+ L_SE           0.000         0.000
+ S            -49.636         0.000        94.791
+ S_SE           0.000         0.000         0.000         0.000
+
+
+           Correlations
+              L             L_SE          S             S_SE
+              ________      ________      ________      ________
+ L              1.000
+ L_SE         999.000         1.000
+ S             -0.310       999.000         1.000
+ S_SE         999.000       999.000       999.000         1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores, estimated values, residuals)
+  Scatterplots (sample values, estimated factor scores, estimated values, residuals)
+  Sample means
+  Estimated means
+  Sample and estimated means
+  Latent variable distribution plots
+  Observed individual values
+  Estimated individual values
+
+     Beginning Time:  13:14:46
+        Ending Time:  13:14:47
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen
