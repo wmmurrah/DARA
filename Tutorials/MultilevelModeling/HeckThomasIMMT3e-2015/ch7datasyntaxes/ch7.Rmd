@@ -1,14 +1,17 @@
-#**************************************************************************
-# Chapter 7: Individual and Organizational Change -------------------------
-# Author: William Murrah
-# Description: R Code for chapter 7 of:
-#              Heck, R. H., & Thomas, S. L. (2015). An Introduction to 
-#              Multilevel Modeling Techniques: MLM and SEM Approaches Using 
-#              Mplus. Routledge.
-#**************************************************************************
-rm(list=ls())
+---
+title: "Multilevel Modeling Review"
+author: "William Murrah"
+date: "September 8, 2015"
+output: html_document
+---
 
-# Packages used -----------------------------------------------------------
+```{r}
+library(knitr)
+opts_chunk$set(message = FALSE, warning = FALSE, results = 'asis')
+```
+
+```{r }
+# Packages used
 library(lme4)
 library(texreg)
 library(stargazer)
@@ -18,12 +21,16 @@ library(sjmisc)
 library(sjPlot)
 library(lattice)
 library(mosaic)
+```
 
+```{r , results = 'asis'}
 grad <- read.table("ch7grad1.txt", header = FALSE)
 names(grad) <- c("id", "grad1", "grad2", "grad3", "grad4",
                  "private", "prestige")
-stargazer(grad, type = "text")
+stargazer(grad, type = "html")
+```
 
+```{r }
 # Using reshape() to transform data from wide to long.
 gradlong <- reshape(data = grad,                   # Wide data frame.
                     varying = c("grad1", "grad2",  # Time-varying variables,
@@ -38,78 +45,74 @@ rownames(gradlong) <- 1:nrow(gradlong)
 # Reorder data frame by 'id' variable.
 gradlong <- gradlong[order(gradlong$id), ]
 
-# I checked this gradlong with the Mplus version.
-# ch7ex1 <- read.table("ch7ex1.dat", header = FALSE)
-# 
-# names(ch7ex1) <- c("id", "private", "prestige", "index1", "graduate", "growrate")
-# ch7ex1 <- ch7ex1[ ,-4]
-# ch7ex1 <- ch7ex1[ c(1,2,3,5,4)]
-
 mean(graduate, data = gradlong, groups = growrate)
 sd(graduate, data = gradlong, groups = growrate)
+```
 
+## Individual Growth Trajectories
+```{r , results = 'asis'}
 # Plot individual growth trajectories with lattice package.
 xyplot(graduate ~ growrate , 
        data = gradlong, 
        group =id, 
        type = "b",
        col = "black")
+```
 
+```{r}
 mod0 <- lmer(graduate ~ 1 + (1 |id), gradlong, REML = FALSE)
-screenreg(mod0)
+htmlreg(mod0)
+
 # Calculate ICC.
 252.03/(252.03 + 112.75)
 
 mod1 <- lmer(graduate ~ growrate + (growrate | id), 
              data = gradlong, REML = FALSE)
-screenreg(list(mod0, mod1))
+htmlreg(list(mod0, mod1))
 
-# Look at Mplus output.
+```
 
+```{r }
 ctr <- function(x) scale(x, scale = FALSE)
 gradlong$prestige <- ctr(gradlong$prestige)
 gradlong$private <- ctr(gradlong$private)
 mod2 <- lmer(graduate ~ growrate*private + growrate*prestige + (growrate | id),
              data = gradlong, REML = FALSE)
-screenreg(list(mod0, mod1, mod2))
-
+htmlreg(list(mod0, mod1, mod2))
+```
 # Look at Mplus output.
 
-# Example with varying occasions ------------------------------------------
+## Example with varying occasions 
 
+```{r , }
 curran <- read_spss("CurranLong.sav")
 
-view_df(curran, showFreq = TRUE, showPerc = T)
-stargazer(curran, type = "text")
+# view_df(curran, showFreq = TRUE, showPerc = T)
+stargazer(curran, type = "html")
 
 # How many children are in our data?
 length(unique(curran$id))
 
-xyplot(read ~ kidage, 
+xyplot(read ~ kidagetv, 
        data = curran, 
        groups = id, 
-       type = "b",
+       type = "o",
        col = "black")
+
 
 mod0 <-   lmer(read ~ poly(kidage6, 2, raw = TRUE) + (1 | id), 
                curran, REML = FALSE)
-screenreg(mod0)
+htmlreg(mod0)
 mod0.2 <- lmer(read ~ kidage6 + kidagesq + (1 | id), curran, 
                REML = FALSE)
-screenreg(list(mod0, mod0.2))
-
-
-### Varying occasions in Mplus
-
-library(MplusAutomation)
-
-prepareMplusData(df = curran, 
-                 filename = "curran.dat", 
-                 inpfile = "curran.inp")
+htmlreg(list(mod0, mod0.2))
+```
 
 
 
-# Latent Growth Modeling --------------------------------------------------
+# Latent Growth Modeling 
+
+```{r}
 rm(list = ls())
 # Some Key points:
 # 1. Not a multilevel model (yet).
@@ -120,24 +123,9 @@ rm(list = ls())
 grad <- read.table("ch7grad1.txt", header = FALSE)
 names(grad) <- c("id", "grad1", "grad2", "grad3", "grad4",
                  "private", "prestige")
-stargazer(grad, type = "text")
+stargazer(grad, type = "html")
+```
 
 
-# Plotting Mplus graphics in R --------------------------------------------
-
-library(rhdf5)
-
-mplus.view.plots("ch7_LCM_M1_IS_SEM_grad.gh5")
-
-mplus.plot.histogram("ch7_LCM_M1_IS_SEM_grad.gh5", "grad1", bins=8)
-hist(grad$grad1, breaks = 8, col = "skyblue")
-
-
-grad1 <- read.table("ch7grad1.txt", header = FALSE)
-names(grad1) <- c("id", "grad1", "grad2", "grad3", "grad4", 
-                  "private", "prestige")
-hist(grad1$grad1)
-identical(grad1, grad)
-plot(grad2 ~ grad1, data = grad1)
 
 

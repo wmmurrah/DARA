@@ -1,0 +1,1153 @@
+Mplus VERSION 7.31 (Linux)
+MUTHEN & MUTHEN
+09/08/2015   2:55 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:          	Ch7 Two-level model of middle school math growth
+  Study aim: What is the impact of measures of school quality on student learning?
+  n = 7,029 students randomly selected form 49 schools.
+  Outcome: Math outcomes are for grades 6,7,8 (math1, math2, math3).
+    They are scaled scores (vertically equated)
+  Student background variables:
+     female - female, 0 = male.
+     lowses - socioeconomic status,  1 = free/reduced lunch, 0 = else.
+  School characteristics:
+     quality - composite of survey items including leadership, expectation of students, etc.
+               standardized (m = 0, sd = 1, higher scores = better quality).
+     cses - student ses composition. higher scores mean lower community ses.
+  ;
+  DATA:           	FILE IS ch7_ex2.txt;
+                  	Format is 10f8.0,2f8.2;
+  VARIABLE:  	        Names are schcode math1 math2 math3
+                  	female lowses slep sped middle notrans cses
+                      quality;
+                  	Usevariables schcode math1 math2 math3
+                  	female lowses quality ncses;
+                  	within = female lowses;
+                  	between = ncses quality;
+                  	CLUSTER IS schcode;
+                  	! We change direction of cses.
+  define:		        ncses = cses*(-1);
+                      center ncses quality (grandmean);
+
+  ANALYSIS:           TYPE = twolevel;
+                 	    Estimator is MLR;
+  Model:
+                  	%BETWEEN%
+                 	  lb by math1 - math3@1;
+                 	  sb by math1@0 math2* math3@1;
+                  	[math1-math3@0 lb sb];
+                  	lb on ncses;
+                  	sb on ncses*4 quality; ! Set starting value for convergence
+                 	    math1@0;
+                 	    %WITHIN%
+                  	lw sw |math1@0 math2* math3@1;
+                  	lw sw on female lowses;
+                  	math1@0;
+  OUTPUT:	            sampstat standardized TECH1;
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Ch7 Two-level model of middle school math growth
+Study aim: What is the impact of measures of school quality on student learning?
+n = 7,029 students randomly selected form 49 schools.
+Outcome: Math outcomes are for grades 6,7,8 (math1, math2, math3).
+They are scaled scores (vertically equated)
+Student background variables:
+female - female, 0 = male.
+lowses - socioeconomic status,  1 = free/reduced lunch, 0 = else.
+School characteristics:
+quality - composite of survey items including leadership, expectation of students, etc.
+standardized (m = 0, sd = 1, higher scores = better quality).
+cses - student ses composition. higher scores mean lower community ses.
+;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        7029
+
+Number of dependent variables                                    3
+Number of independent variables                                  4
+Number of continuous latent variables                            4
+
+Observed dependent variables
+
+  Continuous
+   MATH1       MATH2       MATH3
+
+Observed independent variables
+   FEMALE      LOWSES      QUALITY     NCSES
+
+Continuous latent variables
+   LW          SW          LB          SB
+
+Variables with special functions
+
+  Cluster variable      SCHCODE
+
+  Within variables
+   FEMALE      LOWSES
+
+  Between variables
+   QUALITY     NCSES
+
+  Centering (GRANDMEAN)
+   QUALITY
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  ch7_ex2.txt
+Input data format
+  (10F8.0,2F8.2)
+
+
+SUMMARY OF DATA
+
+     Number of clusters                         49
+
+     Average cluster size      143.449
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass              Intraclass              Intraclass
+     Variable  Correlation   Variable  Correlation   Variable  Correlation
+
+     MATH1        0.061      MATH2        0.082      MATH3        0.085
+
+
+
+SAMPLE STATISTICS
+
+NOTE:  The sample statistics for within and between refer to the
+       maximum-likelihood estimated within and between covariance
+       matrices, respectively.
+
+
+     ESTIMATED SAMPLE STATISTICS FOR WITHIN
+
+
+           Means
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.500         0.342
+
+
+           Means
+              QUALITY       NCSES
+              ________      ________
+ 1              0.000         0.000
+
+
+           Covariances
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ MATH1       1585.316
+ MATH2       1127.397      1287.255
+ MATH3       1120.893      1155.913      1382.608
+ FEMALE         1.318         1.796         1.665         0.250
+ LOWSES        -4.089        -3.713        -3.915         0.001         0.225
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           Covariances
+              QUALITY       NCSES
+              ________      ________
+ QUALITY        0.000
+ NCSES          0.000         0.000
+
+
+           Correlations
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ MATH1          1.000
+ MATH2          0.789         1.000
+ MATH3          0.757         0.866         1.000
+ FEMALE         0.066         0.100         0.090         1.000
+ LOWSES        -0.216        -0.218        -0.222         0.003         1.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           Correlations
+              QUALITY       NCSES
+              ________      ________
+ QUALITY        0.000
+ NCSES          0.000         0.000
+
+
+     ESTIMATED SAMPLE STATISTICS FOR BETWEEN
+
+
+           Means
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ 1            597.437       657.433       681.622         0.000         0.000
+
+
+           Means
+              QUALITY       NCSES
+              ________      ________
+ 1              0.053         0.000
+
+
+           Covariances
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ MATH1        102.838
+ MATH2         78.429       115.244
+ MATH3         85.168       101.060       128.206
+ FEMALE         0.000         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.035         1.062         0.733         0.000         0.000
+ NCSES          4.398         6.506         5.695         0.000         0.000
+
+
+           Covariances
+              QUALITY       NCSES
+              ________      ________
+ QUALITY        0.418
+ NCSES         -0.111         0.820
+
+
+           Correlations
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ MATH1          1.000
+ MATH2          0.720         1.000
+ MATH3          0.742         0.831         1.000
+ FEMALE         0.000         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.005         0.153         0.100         0.000         0.000
+ NCSES          0.479         0.669         0.555         0.000         0.000
+
+
+           Correlations
+              QUALITY       NCSES
+              ________      ________
+ QUALITY        1.000
+ NCSES         -0.189         1.000
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     MATH1               598.363       0.424     480.000    0.01%     560.000    584.000    595.000
+            7029.000    1727.073      -0.088     778.000    0.03%     607.000    635.000
+     MATH2               659.995       0.631     564.000    0.01%     626.000    646.000    655.000
+            7029.000    1436.716       0.290     826.000    0.07%     666.000    691.000
+     MATH3               683.490       0.776     573.000    0.01%     648.000    667.000    677.000
+            7029.000    1560.596       0.421     878.000    0.01%     689.000    716.000
+     FEMALE                0.500       0.001       0.000   50.04%       0.000      0.000      0.000
+            7029.000       0.250      -2.000       1.000   49.96%       1.000      1.000
+     LOWSES                0.342       0.664       0.000   65.76%       0.000      0.000      0.000
+            7029.000       0.225      -1.559       1.000   34.24%       0.000      1.000
+     QUALITY               0.053       0.243      -1.385    2.04%      -0.515     -0.155     -0.025
+              49.000       0.418      -0.163       1.745    2.04%       0.115      0.575
+     NCSES                 0.000      -0.186      -1.770    2.04%      -0.920     -0.280      0.030
+              49.000       0.820      -0.912       1.740    2.04%       0.310      0.830
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       21
+
+Loglikelihood
+
+          H0 Value                      -97813.862
+          H0 Scaling Correction Factor      1.9264
+            for MLR
+          H1 Value                      -97806.769
+          H1 Scaling Correction Factor      1.6884
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                  195669.723
+          Bayesian (BIC)                195813.737
+          Sample-Size Adjusted BIC      195747.004
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                             16.589*
+          Degrees of Freedom                     6
+          P-Value                           0.0109
+          Scaling Correction Factor         0.8551
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.016
+
+CFI/TLI
+
+          CFI                                0.999
+          TLI                                0.998
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          14020.771
+          Degrees of Freedom                    18
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value for Within                   0.003
+          Value for Between                  0.053
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ LW       |
+    MATH1              1.000      0.000    999.000    999.000
+    MATH2              1.000      0.000    999.000    999.000
+    MATH3              1.000      0.000    999.000    999.000
+
+ SW       |
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.983      0.036     27.013      0.000
+    MATH3              1.000      0.000    999.000    999.000
+
+ LW         ON
+    FEMALE             5.358      0.871      6.153      0.000
+    LOWSES           -18.087      1.707    -10.593      0.000
+
+ SW         ON
+    FEMALE             1.717      0.598      2.868      0.004
+    LOWSES             1.294      0.727      1.779      0.075
+
+ SW       WITH
+    LW              -461.978     20.793    -22.218      0.000
+
+ Residual Variances
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2            133.035     16.046      8.291      0.000
+    MATH3            224.803     23.644      9.508      0.000
+    LW              1503.825     44.751     33.604      0.000
+    SW               500.094     19.627     25.480      0.000
+
+Between Level
+
+ LB       BY
+    MATH1              1.000      0.000    999.000    999.000
+    MATH2              1.000      0.000    999.000    999.000
+    MATH3              1.000      0.000    999.000    999.000
+
+ SB       BY
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.711      0.011     65.413      0.000
+    MATH3              1.000      0.000    999.000    999.000
+
+ LB         ON
+    NCSES              5.611      1.285      4.368      0.000
+
+ SB         ON
+    NCSES              2.664      1.183      2.252      0.024
+    QUALITY            3.616      1.331      2.716      0.007
+
+ SB       WITH
+    LB               -36.530     12.593     -2.901      0.004
+
+ Intercepts
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.000      0.000    999.000    999.000
+    MATH3              0.000      0.000    999.000    999.000
+    LB               600.753      1.949    308.287      0.000
+    SB                82.664      1.294     63.879      0.000
+
+ Residual Variances
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2             22.713      7.166      3.170      0.002
+    MATH3             22.064     11.038      1.999      0.046
+    LB                80.647     17.717      4.552      0.000
+    SB                43.776     14.845      2.949      0.003
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ LW       |
+    MATH1              1.000      0.000  *********      0.000
+    MATH2              1.109      0.014     80.405      0.000
+    MATH3              1.071      0.017     64.056      0.000
+
+ SW       |
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.614      0.020     31.305      0.000
+    MATH3              0.603      0.021     28.038      0.000
+
+ LW         ON
+    FEMALE             0.067      0.011      6.080      0.000
+    LOWSES            -0.216      0.018    -12.108      0.000
+
+ SW         ON
+    FEMALE             0.038      0.013      2.873      0.004
+    LOWSES             0.027      0.015      1.771      0.077
+
+ SW       WITH
+    LW                -0.533      0.017    -30.849      0.000
+
+ Residual Variances
+    MATH1              0.000      0.000     29.218      0.000
+    MATH2              0.103      0.013      7.846      0.000
+    MATH3              0.163      0.011     14.188      0.000
+    LW                 0.949      0.008    124.894      0.000
+    SW                 0.998      0.001    742.541      0.000
+
+Between Level
+
+ LB       BY
+    MATH1              1.000      0.000  *********      0.000
+    MATH2              0.949      0.071     13.458      0.000
+    MATH3              0.911      0.094      9.680      0.000
+
+ SB       BY
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.476      0.082      5.816      0.000
+    MATH3              0.642      0.107      6.017      0.000
+
+ LB         ON
+    NCSES              0.492      0.110      4.480      0.000
+
+ SB         ON
+    NCSES              0.331      0.144      2.303      0.021
+    QUALITY            0.321      0.122      2.638      0.008
+
+ SB       WITH
+    LB                -0.615      0.137     -4.495      0.000
+
+ Intercepts
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.000      0.000    999.000    999.000
+    MATH3              0.000      0.000    999.000    999.000
+    LB                58.224      5.342     10.899      0.000
+    SB                11.362      1.768      6.425      0.000
+
+ Residual Variances
+    MATH1              0.000      0.000      5.464      0.000
+    MATH2              0.192      0.063      3.069      0.002
+    MATH3              0.172      0.080      2.146      0.032
+    LB                 0.758      0.108      6.998      0.000
+    SB                 0.827      0.100      8.234      0.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ LW       |
+    MATH1              1.000      0.000  *********      0.000
+    MATH2              1.109      0.014     80.405      0.000
+    MATH3              1.071      0.017     64.056      0.000
+
+ SW       |
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.614      0.020     31.305      0.000
+    MATH3              0.603      0.021     28.038      0.000
+
+ LW         ON
+    FEMALE             0.135      0.022      6.088      0.000
+    LOWSES            -0.454      0.037    -12.166      0.000
+
+ SW         ON
+    FEMALE             0.077      0.027      2.874      0.004
+    LOWSES             0.058      0.033      1.771      0.076
+
+ SW       WITH
+    LW                -0.533      0.017    -30.849      0.000
+
+ Residual Variances
+    MATH1              0.000      0.000     29.218      0.000
+    MATH2              0.103      0.013      7.846      0.000
+    MATH3              0.163      0.011     14.188      0.000
+    LW                 0.949      0.008    124.894      0.000
+    SW                 0.998      0.001    742.541      0.000
+
+Between Level
+
+ LB       BY
+    MATH1              1.000      0.000  *********      0.000
+    MATH2              0.949      0.071     13.458      0.000
+    MATH3              0.911      0.094      9.680      0.000
+
+ SB       BY
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.476      0.082      5.816      0.000
+    MATH3              0.642      0.107      6.017      0.000
+
+ LB         ON
+    NCSES              0.544      0.115      4.737      0.000
+
+ SB         ON
+    NCSES              0.366      0.155      2.358      0.018
+    QUALITY            0.497      0.183      2.723      0.006
+
+ SB       WITH
+    LB                -0.615      0.137     -4.495      0.000
+
+ Intercepts
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.000      0.000    999.000    999.000
+    MATH3              0.000      0.000    999.000    999.000
+    LB                58.224      5.342     10.899      0.000
+    SB                11.362      1.768      6.425      0.000
+
+ Residual Variances
+    MATH1              0.000      0.000      5.464      0.000
+    MATH2              0.192      0.063      3.069      0.002
+    MATH3              0.172      0.080      2.146      0.032
+    LB                 0.758      0.108      6.998      0.000
+    SB                 0.827      0.100      8.234      0.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ LW       |
+    MATH1             39.806      0.681     58.437      0.000
+    MATH2             39.806      0.681     58.437      0.000
+    MATH3             39.806      0.681     58.437      0.000
+
+ SW       |
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2             22.018      0.638     34.515      0.000
+    MATH3             22.388      0.438     51.137      0.000
+
+ LW         ON
+    FEMALE             0.135      0.022      6.088      0.000
+    LOWSES            -0.454      0.037    -12.166      0.000
+
+ SW         ON
+    FEMALE             0.077      0.027      2.874      0.004
+    LOWSES             0.058      0.033      1.771      0.076
+
+ SW       WITH
+    LW                -0.533      0.017    -30.849      0.000
+
+ Residual Variances
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2            133.035     16.046      8.291      0.000
+    MATH3            224.803     23.644      9.508      0.000
+    LW                 0.949      0.008    124.894      0.000
+    SW                 0.998      0.001    742.541      0.000
+
+Between Level
+
+ LB       BY
+    MATH1             10.318      0.944     10.928      0.000
+    MATH2             10.318      0.944     10.928      0.000
+    MATH3             10.318      0.944     10.928      0.000
+
+ SB       BY
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              5.171      0.781      6.622      0.000
+    MATH3              7.275      1.102      6.602      0.000
+
+ LB         ON
+    NCSES              0.544      0.115      4.737      0.000
+
+ SB         ON
+    NCSES              0.366      0.155      2.358      0.018
+    QUALITY            0.497      0.183      2.723      0.006
+
+ SB       WITH
+    LB                -0.615      0.137     -4.495      0.000
+
+ Intercepts
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2              0.000      0.000    999.000    999.000
+    MATH3              0.000      0.000    999.000    999.000
+    LB                58.224      5.342     10.899      0.000
+    SB                11.362      1.768      6.425      0.000
+
+ Residual Variances
+    MATH1              0.000      0.000    999.000    999.000
+    MATH2             22.713      7.166      3.170      0.002
+    MATH3             22.064     11.038      1.999      0.046
+    LB                 0.758      0.108      6.998      0.000
+    SB                 0.827      0.100      8.234      0.000
+
+
+R-SQUARE
+
+Within Level
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    MATH1              1.000      0.000   ********      0.000
+    MATH2              0.897      0.013     68.100      0.000
+    MATH3              0.837      0.011     72.943      0.000
+
+     Latent                                         Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    LW                 0.051      0.008      6.702      0.000
+    SW                 0.002      0.001      1.658      0.097
+
+Between Level
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    MATH1              1.000      0.000   ********      0.000
+    MATH2              0.808      0.063     12.903      0.000
+    MATH3              0.828      0.080     10.346      0.000
+
+     Latent                                         Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    LB                 0.242      0.108      2.240      0.025
+    SB                 0.173      0.100      1.722      0.085
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.468E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              QUALITY       NCSES
+              ________      ________
+ 1                  0             0
+
+
+           LAMBDA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ MATH1              0             0             0             0             0
+ MATH2              0             1             0             0             0
+ MATH3              0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ LOWSES             0             0             0             0             0
+ QUALITY            0             0             0             0             0
+ NCSES              0             0             0             0             0
+
+
+           LAMBDA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ MATH1              0             0             0
+ MATH2              0             0             0
+ MATH3              0             0             0
+ FEMALE             0             0             0
+ LOWSES             0             0             0
+ QUALITY            0             0             0
+ NCSES              0             0             0
+
+
+           THETA
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ MATH1              0
+ MATH2              0             2
+ MATH3              0             0             3
+ FEMALE             0             0             0             0
+ LOWSES             0             0             0             0             0
+ QUALITY            0             0             0             0             0
+ NCSES              0             0             0             0             0
+
+
+           THETA
+              QUALITY       NCSES
+              ________      ________
+ QUALITY            0
+ NCSES              0             0
+
+
+           ALPHA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           ALPHA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           BETA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ LW                 0             0             0             0             4
+ SW                 0             0             0             0             6
+ LB                 0             0             0             0             0
+ SB                 0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ LOWSES             0             0             0             0             0
+ QUALITY            0             0             0             0             0
+ NCSES              0             0             0             0             0
+
+
+           BETA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ LW                 5             0             0
+ SW                 7             0             0
+ LB                 0             0             0
+ SB                 0             0             0
+ FEMALE             0             0             0
+ LOWSES             0             0             0
+ QUALITY            0             0             0
+ NCSES              0             0             0
+
+
+           PSI
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ LW                 8
+ SW                 9            10
+ LB                 0             0             0
+ SB                 0             0             0             0
+ FEMALE             0             0             0             0             0
+ LOWSES             0             0             0             0             0
+ QUALITY            0             0             0             0             0
+ NCSES              0             0             0             0             0
+
+
+           PSI
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ LOWSES             0
+ QUALITY            0             0
+ NCSES              0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              QUALITY       NCSES
+              ________      ________
+ 1                  0             0
+
+
+           LAMBDA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ MATH1              0             0             0             0             0
+ MATH2              0             0             0            11             0
+ MATH3              0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ LOWSES             0             0             0             0             0
+ QUALITY            0             0             0             0             0
+ NCSES              0             0             0             0             0
+
+
+           LAMBDA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ MATH1              0             0             0
+ MATH2              0             0             0
+ MATH3              0             0             0
+ FEMALE             0             0             0
+ LOWSES             0             0             0
+ QUALITY            0             0             0
+ NCSES              0             0             0
+
+
+           THETA
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ MATH1              0
+ MATH2              0            12
+ MATH3              0             0            13
+ FEMALE             0             0             0             0
+ LOWSES             0             0             0             0             0
+ QUALITY            0             0             0             0             0
+ NCSES              0             0             0             0             0
+
+
+           THETA
+              QUALITY       NCSES
+              ________      ________
+ QUALITY            0
+ NCSES              0             0
+
+
+           ALPHA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ 1                  0             0            14            15             0
+
+
+           ALPHA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           BETA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ LW                 0             0             0             0             0
+ SW                 0             0             0             0             0
+ LB                 0             0             0             0             0
+ SB                 0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ LOWSES             0             0             0             0             0
+ QUALITY            0             0             0             0             0
+ NCSES              0             0             0             0             0
+
+
+           BETA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ LW                 0             0             0
+ SW                 0             0             0
+ LB                 0             0            16
+ SB                 0            17            18
+ FEMALE             0             0             0
+ LOWSES             0             0             0
+ QUALITY            0             0             0
+ NCSES              0             0             0
+
+
+           PSI
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ LW                 0
+ SW                 0             0
+ LB                 0             0            19
+ SB                 0             0            20            21
+ FEMALE             0             0             0             0             0
+ LOWSES             0             0             0             0             0
+ QUALITY            0             0             0             0             0
+ NCSES              0             0             0             0             0
+
+
+           PSI
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ LOWSES             0
+ QUALITY            0             0
+ NCSES              0             0             0
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              QUALITY       NCSES
+              ________      ________
+ 1              0.000         0.000
+
+
+           LAMBDA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ MATH1          1.000         0.000         0.000         0.000         0.000
+ MATH2          1.000         1.000         0.000         0.000         0.000
+ MATH3          1.000         1.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         1.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ MATH1          0.000         0.000         0.000
+ MATH2          0.000         0.000         0.000
+ MATH3          0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000
+ LOWSES         1.000         0.000         0.000
+ QUALITY        0.000         1.000         0.000
+ NCSES          0.000         0.000         1.000
+
+
+           THETA
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ MATH1          0.000
+ MATH2          0.000       718.358
+ MATH3          0.000         0.000       780.298
+ FEMALE         0.000         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              QUALITY       NCSES
+              ________      ________
+ QUALITY        0.000
+ NCSES          0.000         0.000
+
+
+           ALPHA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           BETA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ LW             0.000         0.000         0.000         0.000         0.000
+ SW             0.000         0.000         0.000         0.000         0.000
+ LB             0.000         0.000         0.000         0.000         0.000
+ SB             0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ LW             0.000         0.000         0.000
+ SW             0.000         0.000         0.000
+ LB             0.000         0.000         0.000
+ SB             0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000
+
+
+           PSI
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ LW             0.050
+ SW             0.000         0.050
+ LB             0.000         0.000         0.000
+ SB             0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.125
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ LOWSES         0.113
+ QUALITY        0.000         0.000
+ NCSES          0.000         0.000         0.000
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              QUALITY       NCSES
+              ________      ________
+ 1              0.000         0.000
+
+
+           LAMBDA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ MATH1          0.000         0.000         1.000         0.000         0.000
+ MATH2          0.000         0.000         1.000         1.000         0.000
+ MATH3          0.000         0.000         1.000         1.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         1.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ MATH1          0.000         0.000         0.000
+ MATH2          0.000         0.000         0.000
+ MATH3          0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000
+ LOWSES         1.000         0.000         0.000
+ QUALITY        0.000         1.000         0.000
+ NCSES          0.000         0.000         1.000
+
+
+           THETA
+              MATH1         MATH2         MATH3         FEMALE        LOWSES
+              ________      ________      ________      ________      ________
+ MATH1          0.000
+ MATH2          0.000       718.358
+ MATH3          0.000         0.000       780.298
+ FEMALE         0.000         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              QUALITY       NCSES
+              ________      ________
+ QUALITY        0.000
+ NCSES          0.000         0.000
+
+
+           ALPHA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           BETA
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ LW             0.000         0.000         0.000         0.000         0.000
+ SW             0.000         0.000         0.000         0.000         0.000
+ LB             0.000         0.000         0.000         0.000         0.000
+ SB             0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ LW             0.000         0.000         0.000
+ SW             0.000         0.000         0.000
+ LB             0.000         0.000         0.000
+ SB             0.000         0.000         4.000
+ FEMALE         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000
+
+
+           PSI
+              LW            SW            LB            SB            FEMALE
+              ________      ________      ________      ________      ________
+ LW             0.000
+ SW             0.000         0.000
+ LB             0.000         0.000         0.050
+ SB             0.000         0.000         0.000         0.050
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ LOWSES         0.000         0.000         0.000         0.000         0.000
+ QUALITY        0.000         0.000         0.000         0.000         0.000
+ NCSES          0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              LOWSES        QUALITY       NCSES
+              ________      ________      ________
+ LOWSES         0.000
+ QUALITY        0.000         0.173
+ NCSES          0.000         0.000         0.398
+
+
+     Beginning Time:  14:55:15
+        Ending Time:  14:55:16
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

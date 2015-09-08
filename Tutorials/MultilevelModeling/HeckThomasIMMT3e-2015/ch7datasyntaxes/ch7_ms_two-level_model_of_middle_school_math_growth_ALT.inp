@@ -1,0 +1,43 @@
+TITLE:          	Ch7 Two-level model of middle school math growth
+Study aim: What is the impact of measures of school quality on student learning?
+n = 7,029 students randomly selected form 49 schools.
+Outcome: Math outcomes are for grades 6,7,8 (math1, math2, math3). 
+  They are scaled scores (vertically equated)
+Student background variables:
+   female - female, 0 = male.
+   lowses - socioeconomic status,  1 = free/reduced lunch, 0 = else.
+School characteristics:
+   quality - composite of survey items including leadership, expectation of students, etc.
+             standardized (m = 0, sd = 1, higher scores = better quality).
+   cses - student ses composition. higher scores mean lower community ses.     
+;
+DATA:           	FILE IS ch7_ex2.txt;
+                	Format is 10f8.0,2f8.2;
+VARIABLE:  	        Names are schcode math1 math2 math3
+                	female lowses slep sped middle notrans cses 
+                    quality;
+                	Usevariables schcode math1 math2 math3
+                	female lowses quality ncses;
+                	within = female lowses;
+                	between = ncses quality;
+                	CLUSTER IS schcode;
+                	! We change direction of cses.
+define:		        ncses = cses*(-1);
+                    center ncses quality (grandmean);
+                
+ANALYSIS:           TYPE = twolevel;
+               	    Estimator is MLR;
+Model:
+                	%BETWEEN%
+               	  lb by math1 - math3@1;
+               	  sb by math1@0 math2* math3@1;
+                	[math1-math3@0 lb sb];
+                	lb on ncses;
+                	sb on ncses*4 quality; ! Set starting value for convergence
+               	    math1@0;
+               	    %WITHIN%
+                	lw sw |math1@0 math2* math3@1;
+                	lw sw on female lowses;
+                	math1@0;
+OUTPUT:	            sampstat standardized TECH1;
+
