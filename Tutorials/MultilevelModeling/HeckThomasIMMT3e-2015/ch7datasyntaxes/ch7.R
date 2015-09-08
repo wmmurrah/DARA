@@ -139,3 +139,5 @@ names(grad1) <- c("id", "grad1", "grad2", "grad3", "grad4",
 hist(grad1$grad1)
 identical(grad1, grad)
 plot(grad2 ~ grad1, data = grad1)
+
+
