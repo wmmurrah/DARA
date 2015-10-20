@@ -60,7 +60,7 @@ screenreg(mod0)
 # Calculate ICC.
 252.03/(252.03 + 112.75)
 
-mod1 <- lmer(graduate ~ growrate + (growrate | id), 
+mod1 <- lmer(graduate ~ growrate +  (growrate | id), 
              data = gradlong, REML = FALSE)
 screenreg(list(mod0, mod1))
 

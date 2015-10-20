@@ -1,0 +1,49 @@
+---
+title: "Missing Data Introduction"
+author: "William Murrah"
+date: "September 10, 2015"
+output: pdf_document
+---
+
+```{r}
+library(knitr)
+opts_knit$set(root.dir ="../../")
+opts_chunk$set(comment = NULL, message = FALSE, warning = FALSE, error = FALSE )
+library(stargazer)
+library(texreg)
+```
+
+```{r ,results='asis'}
+n <- 20
+set.seed(1234)
+# IQ <- sort(sample(x = 78:134,
+#                   size =  n, 
+#                   replace = TRUE))
+IQ <- sort(rnorm(n, 100, 15))
+math <- 10 + .63*IQ + rnorm(n, 0, 10)
+dat <- data.frame(IQ = round(IQ), math = round(math))
+stargazer(dat, type = "latex", summary = FALSE, header = FALSE, 
+          rownames = FALSE, title = "Data")
+stargazer(dat, type = "latex", style = "apsr", header = FALSE, 
+          title = "Descriptive Statistics")
+```
+
+
+```{r ,results='asis'}
+ctr <- function(x) scale(x, scale = FALSE)
+mod1 <- lm(math ~ ctr(IQ), dat)
+mod2 <- lm(math ~ I(IQ - 100), dat)
+texreg(list(mod1, mod2), caption = "Regression Model", caption.above = TRUE, custom.model.names = c("math", "math"))
+```
+
+
+```{r , results='asis'}
+logistic <- function(x) exp(x)/(1 + exp(x))
+set.seed(1234)
+r.mcar <- 1 - rbinom(n, 1, 0.5 )
+r.mar  <- 1 - rbinom(n, 1, logistic(IQ))
+r.mnar <- 1 - rbinom(n, 1, logistic(math))
+rmat <- cbind(r.mcar, r.mar, r.mnar)
+stargazer(rmat, summary = FALSE)
+```
+
