@@ -1,4 +1,4 @@
-totReg <- function(y=outcome,iv=instrument, tr=treatment, x=covariates, 
+totReg  <- function(y=outcome,iv=instrument, tr=treatment, x=covariates, 
                     data=df, ...){
   # Creates an treatment on the treated model with the ivreg function from 
   # the AER package.
